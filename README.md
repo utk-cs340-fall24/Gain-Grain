@@ -11,3 +11,5 @@ This project aims to streamline that process by creating a **fitness social medi
 - **Community-driven content**: Follow fitness influencers, connect with others, and stay motivated on your fitness journey.
 
 Whether you're trying to gain muscle, lose weight, or simply eat healthier, this app provides everything you need to plan, track, and succeed in your fitness journey — all in one place.
+
+Project contributers: Ethan Crall, Trevor Eisenbacher, Viewsh Gupta, Brodie Kovach, Peyton Pridemore
