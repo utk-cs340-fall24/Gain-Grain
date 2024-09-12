@@ -1,4 +1,4 @@
-# Fitness Social Media App
+# Gain & Grain
 
 **Getting in shape can be tough.** It requires hours of training, preparing healthy meals, and ensuring proper recovery. For beginners, navigating workouts, nutrition, and recovery can be overwhelming. While there are numerous resources online, finding a reliable and personalized approach is a challenge.
 
@@ -12,4 +12,4 @@ This project aims to streamline that process by creating a **fitness social medi
 
 Whether you're trying to gain muscle, lose weight, or simply eat healthier, this app provides everything you need to plan, track, and succeed in your fitness journey — all in one place.
 
-Project contributers: Ethan Crall, Trevor Eisenbacher, Viewsh Gupta, Brodie Kovach, Peyton Pridemore
+Project Contributers: Ethan Crall, Trevor Eisenbacher, Viewsh Gupta, Brodie Kovach, Peyton Pridemore
