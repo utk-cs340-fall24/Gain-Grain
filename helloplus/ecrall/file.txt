@@ -1,4 +1,0 @@
-Ideas for Helloplus:
-
-- "Add exercise" functionality. Add exercise to user's profile in MongoDB.
-- Login page. Make frontend and authenticate user's credentials using MongoDB.
