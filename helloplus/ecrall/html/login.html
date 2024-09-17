@@ -7,19 +7,26 @@
     <link rel="stylesheet" href="../css/login-style.css">
 </head>
 
+<div id="alert-container" class="alert hidden">
+  <span id="alert-message"></span>
+  <button id="alert-close">x</button>
+</div>
+
 <div class="wrapper">
     <form class="login">
       <p class="title">Log in</p>
-      <input type="text" placeholder="Username" autofocus/>
+      <input type="text" class="username" placeholder="Username" autofocus required />
       <i class="fa fa-user"></i>
-      <input type="password" placeholder="Password" />
+      <input type="password" class="password" placeholder="Password" required />
       <i class="fa fa-key"></i>
       <a href="#">Forgot your password?</a>
-      <button>
+      <button id="login">
         <i class="spinner"></i>
         <span class="state">Log in</span>
       </button>
     </form>
     </p>
   </div>
+
+  <script src="../login.js"></script>
 </html>  

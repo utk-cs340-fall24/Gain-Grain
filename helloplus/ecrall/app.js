@@ -1,7 +1,10 @@
 require('dotenv').config();
+const bcrypt = require('bcryptjs');
 let mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('Connection error', err));
 
 const userSchema = new mongoose.Schema ({
   name: { type: String, required: true},
@@ -11,23 +14,46 @@ const userSchema = new mongoose.Schema ({
 
 let User = mongoose.model("User", userSchema)
 
-const createAndSaveUser = (done) => {
-  var firstUser = new User({
-    name: "Ethan Crall",
-    username: "ecrall",
-    password: "cs340-g&g-test"
-  });
-  firstUser.save(function(err, data) {
-    if (err) return console.error(err);
-    done(null, data);
+const createAndSaveUser = (name, username, password, done) => {
+  bcrypt.hash(password, 10, (err, hashedPassword) => {
+    if(err) return done(err);
+
+    var newUser = new User({
+      name: name,
+      username: username,
+      password: hashedPassword
+    });
+
+    newUser.save()
+    .then(data => {
+      if(done) done(null, data);
+    })
+    .catch(err => {
+      console.error(err);
+      if(done) done(err);
+    });
   });
 };
 
-const findUser = (userName, userUsername, userPassword, done) => {
-  Person.find({"name": userName, "username": userUsername, "password": userPassword}, function(err, personFound) {
-    if(err) return console.log(err);
-    done(null, personFound)
-  })
+const findUser = async (username, password, res) => {
+  try {
+    const userFound = await User.findOne({ "username": username })
+
+    if(!userFound) {
+      return { success: false, message: "Username or password is incorrect." };
+    }
+
+    const isMatch = await bcrypt.compare(password, userFound.password)
+
+    if(!isMatch) {
+      return { success: false, message: "Username or password is incorrect." };
+    }
+
+    return { success: true, user: userFound};
+  } catch (err) {
+    res.send("Error finding user: " + err);
+    return { success: false, message: "Server error." };
+  }
 };
 
 exports.UserModel = User;
