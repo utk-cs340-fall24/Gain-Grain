@@ -1,0 +1,3 @@
+Reusable AI components used across pages:
+
+nav bar, display of a meal or workout, calendar, search bar, buttons, etc

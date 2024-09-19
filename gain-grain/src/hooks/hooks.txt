@@ -1,0 +1,3 @@
+Custom React hooks for managing state and effects:
+
+user auth, calendar state, managing post sharing, etc
