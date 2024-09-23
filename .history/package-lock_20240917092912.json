@@ -1,0 +1,10 @@
+{
+<<<<<<< HEAD
+  "name": "Vfit",
+=======
+  "name": "Gain & Grain",
+>>>>>>> 25bbb29dbcc89b6f569ea5e276ec20aeb211bfa8
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {}
+}
