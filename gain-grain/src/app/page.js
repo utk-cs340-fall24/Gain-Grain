@@ -13,6 +13,26 @@ export default function Home() {
       <Link href="/dashboard">
                 <button> Go to Dashboard</button>
       </Link>
+
+      <ul className='navbar'>
+                <li>
+                    <Link href='/dashboard/calendar'>
+                        <button>Calendar</button>
+                    </Link>
+                </li>
+                <li>
+                    <Link href='/dashboard/Nutrition'>
+                        <button>Nutrition</button>
+                    </Link>
+                </li>
+                <li>
+                    <Link href='/dashboard/Exercise'>
+                        <button>Exercise</button>
+                    </Link>
+                </li>
+                
+            </ul>
+
     </main>
     
   );
