@@ -7,8 +7,8 @@ export default function Page () {
             <h1>Welcome to the dashboard</h1>
             <ul>
                 <li>
-                    <Link href='/dashboard/calender'>
-                        <button>Calender</button>
+                    <Link href='/dashboard/calendar'>
+                        <button>Calendar</button>
                     </Link>
                 </li>
                 <li>
@@ -23,7 +23,7 @@ export default function Page () {
                 </li>
                 <li>
                     <Link href='/dashboard/settings'>
-                        <button>Go to Settings</button>
+                        <button>Settings</button>
                     </Link>
                 </li>
                 

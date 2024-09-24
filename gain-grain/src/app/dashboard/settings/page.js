@@ -18,7 +18,7 @@ export default function Settings() {
 
             <Link href='/'>
                     <button>GO back to home</button>
-                </Link>
+            </Link>
         </div>
     )
 }
