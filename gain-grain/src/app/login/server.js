@@ -3,7 +3,7 @@ const path = require("path");
 const { body, validationResult } = require('express-validator');
 const app = express();
 
-const { createAndSaveUser, findUser } = require('./app.js');
+const { createAndSaveUser, findUser } = require('../app.js/index.js');
 
 app.use(express.static(__dirname));
 app.use(express.json());
