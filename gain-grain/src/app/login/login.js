@@ -43,13 +43,13 @@ function showAlert(message) {
     const alertContainer = document.getElementById('alert-container');
     const alertMessage = document.getElementById('alert-message');
     alertMessage.textContent = message;
-    alertContainer.classList.remove('hidden');
+    alertContainer.classNameList.remove('hidden');
 
     setTimeout(() => {
-        alertContainer.classList.add('hidden');
+        alertContainer.classNameList.add('hidden');
     }, 20000);
 
     document.getElementById('alert-close').addEventListener('click', () => {
-        alertContainer.classList.add('hidden');
+        alertContainer.classNameList.add('hidden');
     });
 }

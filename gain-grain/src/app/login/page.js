@@ -1,36 +1,51 @@
 import Link from 'next/link';
+import styles from './login.module.css'
+export const metadata = {
+  title: 'Gain and Grain Login',
+  charset: 'UTF-8',
+  name: 'viewport',
+  content: 'width=device-width, initial-scale=1.0',
+}
 
 export default function Login() {
   return (
     <html lang="en">
-        <head>
-            <meta charset="UTF-8"></meta>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-            <title>Grain & Grain Login</title>
-            <link rel="stylesheet" href="../css/login-style.css"></link>
-        </head>
-    
-        <div id="alert-container" class="alert hidden">
-            <span id="alert-message"></span>
-            <button id="alert-close">x</button>
+      <body>
+        <div id="alert-container" className={`${styles.alert} ${styles.hidden}`}>
+          <span id="alert-message"></span>
+          <button id="alert-close">x</button>
         </div>
-    
-        <div class="wrapper">
-            <form class="login">
-            <p class="title">Log in</p>
-            <input type="text" class="username" placeholder="Username" autofocus required />
-            <i class="fa fa-user"></i>
-            <input type="password" class="password" placeholder="Password" required />
-            <i class="fa fa-key"></i>
-            <a href="#">Forgot your password?</a>
+
+        <div className={styles.wrapper}>
+          <form className={styles.login}>
+            <p className={styles.title}>Log in</p>
+            <input
+              type="text"
+              className={styles.username}
+              placeholder="Username"
+              autoFocus
+              required
+            />
+            <i className="fa fa-user"></i>
+            <input
+              type="password"
+              className={styles.password}
+              placeholder="Password"
+              required
+            />
+            <i className="fa fa-key"></i>
+            <a className={styles['forgot-password']} href="#">
+              Forgot your password?
+            </a>
             <button id="login">
-                <i class="spinner"></i>
-                <span class="state">Log in</span>
+              <i className={styles.spinner}></i>
+              <span className={styles.state}>Log in</span>
             </button>
-            </form>
+          </form>
         </div>
-    
-      <script src="login.js"></script>
+
+        <script src="./login.js"></script>
+      </body>
     </html>
   );
 }
