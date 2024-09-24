@@ -26,7 +26,11 @@ export default function Page () {
                         <button>Settings</button>
                     </Link>
                 </li>
-                
+                <li>
+                    <Link href='/dashboard/About'>
+                        <button>About</button>
+                    </Link>
+                </li>
             </ul>
         </div>
     );

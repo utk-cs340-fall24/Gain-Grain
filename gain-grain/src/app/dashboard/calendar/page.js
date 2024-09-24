@@ -1,14 +1,28 @@
-import Link from 'next/link';
+'use client';
 
-export default function Calendar() {
-  
+
+// pages/page.js
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css'; // Import the Calendar CSS
+import './custom_calendar.css'; // Importing custom CSS
+
+const Page = () => {
+  const [date, setDate] = useState(new Date());
+
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-orange-500 p-4 md:h-52">
-        <h1>Nutrition & Workout Calendar: </h1>
-      </div>
-      <h1>Plan a Meal</h1>
-      <h1>Plan a Workout</h1>
-    </main>
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">React Calendar</h1>
+      <Calendar
+        onChange={setDate}
+        value={date}
+        className="mx-auto" // Tailwind class to center the calendar
+      />
+      <p className="mt-4 text-center">
+        Selected date: <span className="font-semibold">{date.toDateString()}</span>
+      </p>
+    </div>
   );
-}
+};
+
+export default Page;

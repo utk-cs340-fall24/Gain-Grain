@@ -12,7 +12,7 @@ export default function Settings() {
                     View Profile
                 </li>
                 <li>
-                    Kill yourself
+                    Set Goals
                 </li>
             </ul>
 
