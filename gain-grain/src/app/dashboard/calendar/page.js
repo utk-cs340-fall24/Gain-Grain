@@ -1,7 +1,6 @@
 'use client';
 
 
-// pages/page.js
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // Import the Calendar CSS
