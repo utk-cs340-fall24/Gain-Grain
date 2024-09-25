@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useState } from 'react';
 import styles from './login.module.css'
 export const metadata = {
   title: 'Gain and Grain Login',
@@ -8,6 +9,37 @@ export const metadata = {
 }
 
 export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      setAlertMessage('Username and password fields are required.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        window.location.href = '/';
+      } else {
+        setAlertMessage(data.message || 'An error occurred. Please try again.');
+      }
+    } catch (error) {
+      setAlertMessage('An error occurred. Please try again.');
+    }
+  };
+
   return (
     <html lang="en">
       <body>
