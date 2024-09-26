@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
-import clientPromise from '../src/utils/mongodb.js'; // Adjust the path as necessary
-import exercises from '../src/data/exercises.json' assert { type: 'json' }; // Adjust the path as necessary
+import clientPromise from '../src/utils/mongodb.js';
+import exercises from '../src/data/exercises.json' assert { type: 'json' };
 
 async function loadExercises() {
   const client = await clientPromise;
