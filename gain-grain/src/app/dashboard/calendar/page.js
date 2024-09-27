@@ -1,48 +1,52 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import 'react-calendar/dist/Calendar.css'; 
 import './custom_calendar.css'; 
 import ExerciseSearch from './exerciseSearch';
 
 const Page = () => {
   const [date, setDate] = useState(new Date());
-  const [workouts, setWorkouts] = useState([]); // Ensure this is initialized as an empty array
-  const [showDayWindow, setShowDayWindow] = useState(false);
   const [selectedExercises, setSelectedExercises] = useState([]);
+  const [showDayWindow, setShowDayWindow] = useState(false);
   const [showExerciseSearch, setShowExerciseSearch] = useState(false);
+
+  // Load saved exercises from localStorage when the component mounts
+  useEffect(() => {
+    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+    const exercisesForDate = savedWorkouts[date.toDateString()]?.exercises || [];
+    setSelectedExercises(exercisesForDate);
+  }, [date]);
+
+  // Save exercises to localStorage
+  const saveExercisesToLocalStorage = (exercises) => {
+    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+    savedWorkouts[date.toDateString()] = { exercises };
+    localStorage.setItem('workouts', JSON.stringify(savedWorkouts));
+  };
 
   // Handle exercise selection
   const handleSelectExercises = (exercise) => {
-    setSelectedExercises((prev) => [...prev, {exercise, date}]);
+    const updatedExercises = [...selectedExercises, exercise];
+    setSelectedExercises(updatedExercises);
+    saveExercisesToLocalStorage(updatedExercises);
   };
 
   // Handle date selection on calendar
   const handleDateSelect = (date) => {
     setDate(date);
-    const selectedWorkouts = fetchWorkoutsForDate(date);
-    setWorkouts(selectedWorkouts);
     setShowDayWindow(true);
-  };
-
-  // Fetch workouts for selected date
-  const fetchWorkoutsForDate = (selectedDate) => {
-    // Return an empty array if there are no workouts
-    return [
-      { name: 'Bench Press', sets: 3, reps: 10 },
-      { name: 'Squats', sets: 4, reps: 8 },
-    ];
   };
 
   // Handle removing exercises from the day
   const handleRemoveExercise = (exerciseToRemove) => {
-    setSelectedExercises((prev) =>
-      prev.filter((item) => item.exercise._id !== exerciseToRemove._id)
-    );
+    const updatedExercises = selectedExercises.filter(item => item._id !== exerciseToRemove._id);
+    setSelectedExercises(updatedExercises);
+    saveExercisesToLocalStorage(updatedExercises);
   };
 
   const closeModal = () => setShowDayWindow(false);
-  const toggleExerciseSearch = () => setShowExerciseSearch((prev) => !prev);
+  const toggleExerciseSearch = () => setShowExerciseSearch(prev => !prev);
 
   return (
     <div className="p-8">
@@ -66,27 +70,16 @@ const Page = () => {
             {showExerciseSearch && (
               <ExerciseSearch onSelectExercise={handleSelectExercises} />
             )}
-            <h2>Workouts for {date.toDateString()}</h2>
-            <ul>
-              {workouts.map((workout, index) => (
+            <h2>Selected Exercises for {date.toDateString()}:</h2>
+            <ul className='exercise-list'>
+              {selectedExercises.map((item, index) => (
                 <li key={index}>
-                  {workout.name} - {workout.sets} sets of {workout.reps}
+                  {item.name}
+                  <button className='remove-btn' onClick={() => handleRemoveExercise(item)}>
+                    Remove
+                  </button>
                 </li>
               ))}
-            </ul>
-
-            <h3>Selected Exercises:</h3>
-            <ul className='exercise-list'>
-              {selectedExercises
-                .filter((item) => item.date.toDateString() === date.toDateString())
-                .map((item, index) => (
-                  <li key={index}>
-                    {item.exercise.name}
-                    <button className='remove-btn' onClick={() => handleRemoveExercise(item.exercise)}>
-                      Remove
-                    </button>
-                  </li>
-                ))}
             </ul>
 
             <button onClick={closeModal}>Close</button>
@@ -96,6 +89,5 @@ const Page = () => {
     </div>
   );
 };
-
 
 export default Page;
