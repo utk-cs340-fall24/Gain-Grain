@@ -11,8 +11,13 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
+<<<<<<< HEAD
     "bootstrap-icons": "^1.11.3",
+=======
+    "cheerio": "^1.0.0",
+>>>>>>> refs/remotes/origin/main
     "dotenv": "^16.4.5",
+    "express": "^4.21.0",
     "mongodb": "^6.9.0",
     "next": "14.2.10",
     "react": "^18",

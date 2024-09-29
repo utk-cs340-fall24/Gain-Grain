@@ -105,7 +105,6 @@
 .remove-btn {
     border-radius: 15px;
     border: 1px solid #ccc;
-    color: red;
     padding: 5px 10px;
     background-color: white;
     cursor: pointer;
@@ -118,12 +117,7 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
-.exercise-list {
-    padding: 0;
-    margin: 0;
-}
-
-.exercise-list li {
+.exercise-list li, .meal-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -132,6 +126,24 @@
     list-style-type: none;
 }
 
-.exercise-list li:not(:last-child) {
+.exercise-list li:not(:last-child), .meal-list li:not(:last) {
     margin-bottom: 0;
 }
+
+.exercise-list, .meal-list {
+    max-height: 150px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border for visibility */
+    padding: 0; /* Remove padding */
+    list-style-type: none; /* Remove default list styling */
+    margin: 0 0 20px 0; /* Remove default margin */
+  }
+  
+  .exercise-list li, .meal-list li {
+    padding: 8px; /* Add some padding for list items */
+    cursor: pointer; /* Change cursor on hover */
+  }
+  
+  .exercise-list li:hover, .meal-list li:hover {
+    background-color: #f0f0f0; /* Optional: Highlight on hover */
+  }

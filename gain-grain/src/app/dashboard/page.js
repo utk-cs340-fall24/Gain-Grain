@@ -12,13 +12,13 @@ export default function Page () {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/dashboard/Nutrition'>
-                        <button>Nutrition</button>
+                    <Link href='/dashboard/savedMeals'>
+                        <button>Saved Meals</button>
                     </Link>
                 </li>
                 <li>
-                    <Link href='/dashboard/Exercise'>
-                        <button>Exercise</button>
+                    <Link href='/dashboard/savedWorkouts'>
+                        <button>Saved Workouts</button>
                     </Link>
                 </li>
                 <li>

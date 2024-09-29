@@ -1,4 +1,4 @@
-.exercise-list {
+.exercise-list, .meal-list {
     max-height: 150px; /* Adjust the height as needed */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc; /* Optional: Add a border for visibility */
@@ -7,11 +7,11 @@
     margin: 0; /* Remove default margin */
   }
   
-  .exercise-list li {
+  .exercise-list li, .meal-list li {
     padding: 8px; /* Add some padding for list items */
     cursor: pointer; /* Change cursor on hover */
   }
   
-  .exercise-list li:hover {
+  .exercise-list li:hover, .meal-list li:hover {
     background-color: #f0f0f0; /* Optional: Highlight on hover */
   }
