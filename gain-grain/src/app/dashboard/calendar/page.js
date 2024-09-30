@@ -1,6 +1,5 @@
 'use client';
 
-
 import React, { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaPlus, FaTimes } from 'react-icons/fa';
 import './custom_calendar.css'; 
@@ -11,16 +10,18 @@ const CustomCalendar = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [eventsArr, setEventsArr] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showAddEvent, setShowAddEvent] = useState(false);
+    const [showAddOptions, setShowAddOptions] = useState(false); // New state for add options
     const [newEvent, setNewEvent] = useState({ name: '', from: '', to: '' });
     const [activeDay, setActiveDay] = useState(null);
     const [days, setDays] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
     const [selectedMeals, setSelectedMeals] = useState([]);
     const [showExerciseSearch, setShowExerciseSearch] = useState(false);
-    const [showMealForm, setShowMealForm] = useState(false);
     const [mealName, setMealName] = useState('');
     const [mealCalories, setMealCalories] = useState('');
+    const [addingType, setAddingType] = useState(''); // Track adding type ('exercise' or 'meal')
+    const [activeButton, setActiveButton] = useState('');
+
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -149,17 +150,28 @@ const CustomCalendar = () => {
             saveMealsToLocalStorage(updatedMeals);
             setMealName('');
             setMealCalories('');
-            setShowMealForm(false);
+            setShowAddOptions(false);
+            setAddingType(''); // Reset adding type
         }
     };
 
-    const toggleExerciseSearch = () => setShowExerciseSearch(prev => !prev);
-    const toggleMealForm = () => setShowMealForm(prev => !prev);
-
+    const toggleAddOptions = () => {
+        setShowAddOptions(prev => {
+            const newState = !prev; // Toggle the state
+            if (!newState) {
+                setShowExerciseSearch(false); // Close exercise search if options are closing
+                setAddingType('');
+                setActiveButton('');
+            }
+            return newState; // Return the new state
+        });
+    };
+    
     const handleSelectExercise = (exercise) => {
         setSelectedExercises(prev => [...prev, exercise]); // Add selected exercise
         saveExercisesToLocalStorage([...selectedExercises, exercise]); // Save to localStorage
         setShowExerciseSearch(false); // Close search after selection
+        setShowAddOptions(false); // Close options
     };
 
     const renderDays = () => {
@@ -201,37 +213,70 @@ const CustomCalendar = () => {
             </div>
             <div className="right">
                 <div className="today-date">
-                <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
+                    <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
                     <div className="event-date">{selectedDate.toLocaleDateString()}</div>
                 </div>
-                
+
                 <div className="exercise-section">
                     <h3>Exercises</h3>
-                    
-                    {/* Always show the toggle button to add/close Exercise Search */}
-                    <button onClick={toggleExerciseSearch}>
-                        {showExerciseSearch ? 'Close Exercise Search' : 'Add Exercises'}
-                    </button>
-
-                    {/* Conditionally render the ExerciseSearch component based on the state */}
-                    {showExerciseSearch && (
-                        <ExerciseSearch onSelectExercise={handleSelectExercise} />
-                    )}
-
                     <ul className="exercise-list">
                         {selectedExercises.map((exercise, index) => (
-                        <li key={index}>
-                            <span>{exercise.name}</span>
-                            <button className="remove-btn" onClick={() => handleRemoveExercise(exercise)}>Remove</button>
-                        </li>
+                            <li key={index}>
+                                <span>{exercise.name}</span>
+                                <button className="remove-btn" onClick={() => handleRemoveExercise(exercise)}>Remove</button>
+                            </li>
                         ))}
                     </ul>
                 </div>
 
                 <div className="meal-section">
                     <h3>Meals</h3>
-                    {showMealForm ? (
-                        <div>
+                    <ul className="meal-list">
+                        {selectedMeals.map((meal, index) => (
+                            <li key={index}>
+                                <span>{meal.name} ({meal.calories} cal)</span>
+                                <button className="remove-btn" onClick={() => handleRemoveMeal(meal)}>Remove</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="add-section">
+                    <button className="add-button" onClick={toggleAddOptions}>
+                        <FaPlus />
+                    </button>
+                    {showAddOptions && (
+                        <div className="add-options">
+                        <button
+                            onClick={() => {
+                                setAddingType('exercise');
+                                setShowExerciseSearch(true);
+                                setActiveButton('exercise'); // Set active button to 'exercise'
+                            }}
+                            className={activeButton === 'exercise' ? 'active' : ''}
+                        >
+                            Add Exercise
+                        </button>
+                        <button
+                            onClick={() => {
+                                setAddingType('meal');
+                                setActiveButton('meal'); // Set active button to 'meal'
+                            }}
+                            className={activeButton === 'meal' ? 'active' : ''}
+                        >
+                            Add Meal
+                        </button>
+                    </div>
+                    
+                    )}
+                </div>
+
+                {showExerciseSearch && addingType === 'exercise' && (
+                    <ExerciseSearch onSelectExercise={handleSelectExercise} />
+                )}
+
+                {addingType === 'meal' && (
+                    <div className="meal-form">
                         <input
                             type="text"
                             value={mealName}
@@ -245,23 +290,9 @@ const CustomCalendar = () => {
                             placeholder="Calories"
                         />
                         <button onClick={handleAddMeal}>Add Meal</button>
-                        <button onClick={toggleMealForm}>Close</button>
-                        </div>
-                    ) : (
-                        <button onClick={toggleMealForm}>
-                        {showMealForm ? 'Close Meal Form' : 'Add Meal'}
-                        </button>
-                    )}
-
-                    <ul className="meal-list">
-                        {selectedMeals.map((meal, index) => (
-                        <li key={index}>
-                            <span>{meal.name} ({meal.calories} cal)</span>
-                            <button className="remove-btn" onClick={() => handleRemoveMeal(meal)}>Remove</button>
-                        </li>
-                        ))}
-                    </ul>
-                </div>
+                        <button onClick={() => { setShowAddOptions(false); setAddingType(''); }}>Close</button>
+                    </div>
+                )}
 
             </div>
         </div>

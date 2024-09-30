@@ -148,13 +148,11 @@
     background-color: #130d68; /* Optional: Highlight on hover */
   }
 
-  .exercise-section button {
-    background-color: white;
+  .exercise-section button, .meal-section button {
     padding: 8px 12px;
     margin-bottom: 10px;
   }
 
-  .meal-section button {
-    padding: 8px 12px;
-    margin-bottom: 10px;
+  .add-options button.active {
+    border: 2px solid black; /* Black border for active button */
   }

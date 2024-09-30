@@ -281,6 +281,8 @@ body {
     width: 40%;
     min-height: 100%;
     padding: 20px 0;
+    padding-left: 15px;
+    padding-right: 7px;
 }
 
 .right .today-date {
@@ -306,7 +308,7 @@ body {
 .right .today-date .event-date {
     font-size: 1rem;
     font-weight: 400;
-    color: #878895;
+    color: #ffffff;
 }
 
 .events {
@@ -638,4 +640,32 @@ body {
 
 .credits a:hover {
     text-decoration: underline;
+}
+
+.add-section {
+    position: absolute; /* Position the add-section absolutely */
+    bottom: 20px; /* Adjust the distance from the bottom as needed */
+    right: 20px; /* Adjust the distance from the right as needed */
+}
+
+.add-button {
+    position: absolute; /* Position it relative to the parent container */
+    bottom: 60px; /* Distance from the bottom of the container */
+    right: 20px; /* Distance from the right of the container */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 50%; /* Make it circular */
+    width: 50px; /* Width of the button */
+    height: 50px; /* Height of the button */
+    font-size: 100px; /* Icon size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.add-button:hover {
+    background-color: #0056b3; /* Darken color on hover */
 }
