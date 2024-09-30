@@ -5,6 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 import './custom_calendar.css'; 
 import ExerciseSearch from './exerciseSearch';
 
+
 const Page = () => {
   // State variables to manage selected date, exercises, meals, and visibility of forms
   const [date, setDate] = useState(new Date()); // Current selected date

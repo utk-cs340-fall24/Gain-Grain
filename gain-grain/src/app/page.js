@@ -1,5 +1,3 @@
-
-
 import Link from 'next/link';
 import './app.css'
 
@@ -46,6 +44,11 @@ export default function Home() {
                 <li>
                     <Link href='/post'>
                         <button>Post</button>
+                    </Link>
+                </li>
+                <li>
+                    <Link href='/dashboard/newcalendar'>
+                        <button>New Calendar</button>
                     </Link>
                 </li>
             </ul>
