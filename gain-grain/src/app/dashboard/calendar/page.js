@@ -123,7 +123,10 @@ const Page = () => {
               {showExerciseSearch ? 'Close Exercise Search' : 'Add Exercises'}
             </button>
             {showExerciseSearch && (
-              <ExerciseSearch onSelectExercise={handleSelectExercises} /> // Render ExerciseSearch component
+              <div>
+                <ExerciseSearch onSelectExercise={handleSelectExercises} /> // Render ExerciseSearch component
+                <button className="cancel-btn" onClick={toggleExerciseSearch}>Cancel</button> {/* Cancel button to close search */}
+              </div>
             )}
             <h2>Selected Exercises for {date.toDateString()}:</h2>
             <ul className='exercise-list'>

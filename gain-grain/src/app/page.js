@@ -47,8 +47,8 @@ export default function Home() {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/dashboard/newcalendar'>
-                        <button>New Calendar</button>
+                    <Link href='/dashboard/testCalendar'>
+                        <button>test cal</button>
                     </Link>
                 </li>
             </ul>
