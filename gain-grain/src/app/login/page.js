@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './login.module.css'
+import { LockClosedIcon, UserIcon } from '@heroicons/react/solid';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -43,18 +44,22 @@ export default function Login() {
           <h1 className={styles['login-title']}>Login</h1>
           <div className={styles['input-box']}>
             <input type="text" placeholder="Username" required />
-            <i className='bx bxs-user'></i>
+            <i className='bx bxs-user'>
+              <UserIcon className="w-6 h-6" />
+            </i>
           </div>
           <div className={styles['input-box']}>
             <input type="password" placeholder="Password" required />
-            <i className='bx bxs-lock-alt'></i>
+            <i className='bx bxs-lock-alt'>
+              <LockClosedIcon className="w-6 h-6" />
+            </i>
           </div>
           <div className={styles['remember-forget']}>
             <label>
               <input type="checkbox" />
               Remember me
             </label>
-            <a href="/forgot"> Forgot password?</a>
+            <a href="/login/forgot"> Forgot password?</a>
           </div>
           <button type="submit" className={styles.btn}>Login</button>
           <div className={styles['register-link']}>

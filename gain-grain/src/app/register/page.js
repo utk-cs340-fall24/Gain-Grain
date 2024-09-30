@@ -9,10 +9,13 @@ export default function Register() {
                 <h2>Registration</h2>
                 <form action="#">
                     <div className={styles.inputBox}>
-                        <input type="text" placeholder="Enter your name" required />
+                        <input type="text" placeholder="Enter your full name" required />
                     </div>
                     <div className={styles.inputBox}>
                         <input type="text" placeholder="Enter your email" required />
+                    </div>
+                    <div className={styles.inputBox}>
+                        <input type="text" placeholder="Enter your username" required />
                     </div>
                     <div className={styles.inputBox}>
                         <input type="password" placeholder="Create password" required />
