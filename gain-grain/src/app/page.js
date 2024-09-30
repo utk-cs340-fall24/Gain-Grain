@@ -17,7 +17,7 @@ export default function Home() {
         <main className="flex min-h-screen flex-col p-6 bg-gray-50">
             <nav className="flex items-center justify-between h-16 bg-orange-500 p-4 rounded-lg">
                 <h1 className="text-white text-xl md:text-3xl font-bold">Gain & Grain</h1>
-
+                
                 {/* Search bar positioned in the center */}
                 <div className="flex-grow flex justify-center">
                     <input
@@ -59,21 +59,13 @@ export default function Home() {
                             Post
                         </button>
                     </Link>
-                </div>
-            </nav>
-
-            <section className="mt-8">
-                <div className="flex h-20 shrink-0 items-end justify-between rounded-lg bg-orange-500 p-4 md:h-52 md:items-center">
-                    <h2 className="text-white text-xl md:text-4xl font-bold">
-                        Welcome to the Gain & Grain Home Page
-                    </h2>
                     <Link href="/profile">
                         <button className="bg-white text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                             Profile
                         </button>
                     </Link>
                 </div>
-            </section>
+            </nav>
 
             {/* Feed Section */}
             <div className="flex justify-center mt-8 w-full">
