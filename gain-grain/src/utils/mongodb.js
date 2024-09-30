@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config({path: '.env.local' });
 
 // Define your MongoDB connection string
-const connectionString = process.env.MONGODB_URI; // Ensure this is set in your environment variables
+const connectionString = process.env.MONGO_URI; // Ensure this is set in your environment variables
 
 if (!connectionString) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
