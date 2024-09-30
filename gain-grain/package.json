@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.11.3",
@@ -29,6 +28,7 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
+    "@heroicons/react": "^2.1.5",
     "eslint": "^8",
     "eslint-config-next": "14.2.10",
     "postcss": "^8",

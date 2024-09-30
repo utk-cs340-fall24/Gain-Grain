@@ -1,4 +1,3 @@
-
 export default function profile() {
   return (
     <div>
@@ -10,6 +9,10 @@ export default function profile() {
         </svg>
         </div>
         <div>
+          <ul>
+            <p>Followers</p>
+            <p>Following</p>
+          </ul>
           <h1 className="text-2xl font-bold">User </h1>
           <p className="text-gray-600">User's Bio</p>
         </div>

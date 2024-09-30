@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import styles from './login.module.css'
-import { LockClosedIcon, UserIcon } from '@heroicons/react/solid';
+import { LockClosedIcon, UserIcon } from '@heroicons/react/24/solid';
 
 export default function Login() {
   const [username, setUsername] = useState('');
