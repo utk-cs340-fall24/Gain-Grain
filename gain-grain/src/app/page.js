@@ -44,7 +44,7 @@ export default function Home() {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/register'>
+                    <Link href='/post'>
                         <button>Post</button>
                     </Link>
                 </li>
