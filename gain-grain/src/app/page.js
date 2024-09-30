@@ -9,6 +9,9 @@ export default function Home() {
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-orange-500 p-4 md:h-52">
         <h1 className="text-white text-xl">Welcome to the  Gain & Grain Home Page: </h1>
+        <Link href="/profile">
+                <button>Profile</button>
+      </Link>
       </div>
       <Link href="/dashboard">
                 <button> Go to Dashboard</button>
@@ -30,7 +33,16 @@ export default function Home() {
                         <button>Exercise</button>
                     </Link>
                 </li>
-                
+                <li>
+                    <Link href='/login'>
+                        <button>Login</button>
+                    </Link>
+                </li>
+                <li>
+                    <Link href='/register'>
+                        <button>Register</button>
+                    </Link>
+                </li>
             </ul>
 
     </main>

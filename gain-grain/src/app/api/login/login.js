@@ -1,4 +1,4 @@
-import { findUser } from '../../utils/userModel.js';
+import { findUser } from '../../../utils/userModel.js';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {

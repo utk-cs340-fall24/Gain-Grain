@@ -1,12 +1,9 @@
+"use client";
+
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './login.module.css'
-export const metadata = {
-  title: 'Gain and Grain Login',
-  charset: 'UTF-8',
-  name: 'viewport',
-  content: 'width=device-width, initial-scale=1.0',
-}
+import { LockClosedIcon, UserIcon } from '@heroicons/react/solid';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -41,43 +38,35 @@ export default function Login() {
   };
 
   return (
-    <html lang="en">
-      <body>
-        <div id="alert-container" className={`${styles.alert} ${styles.hidden}`}>
-          <span id="alert-message"></span>
-          <button id="alert-close">x</button>
-        </div>
-
-        <div className={styles.wrapper}>
-          <form className={styles.login}>
-            <p className={styles.title}>Log in</p>
-            <input
-              type="text"
-              className={styles.username}
-              placeholder="Username"
-              autoFocus
-              required
-            />
-            <i className="fa fa-user"></i>
-            <input
-              type="password"
-              className={styles.password}
-              placeholder="Password"
-              required
-            />
-            <i className="fa fa-key"></i>
-            <a className={styles['forgot-password']} href="#">
-              Forgot your password?
-            </a>
-            <button id="login">
-              <i className={styles.spinner}></i>
-              <span className={styles.state}>Log in</span>
-            </button>
-          </form>
-        </div>
-
-        <script src="./login.js"></script>
-      </body>
-    </html>
+    <div className={styles.body}>
+      <div className={styles.wrapper}>
+        <form action="">
+          <h1 className={styles['login-title']}>Login</h1>
+          <div className={styles['input-box']}>
+            <input type="text" placeholder="Username" required />
+            <i className='bx bxs-user'>
+              <UserIcon className="w-6 h-6" />
+            </i>
+          </div>
+          <div className={styles['input-box']}>
+            <input type="password" placeholder="Password" required />
+            <i className='bx bxs-lock-alt'>
+              <LockClosedIcon className="w-6 h-6" />
+            </i>
+          </div>
+          <div className={styles['remember-forget']}>
+            <label>
+              <input type="checkbox" />
+              Remember me
+            </label>
+            <a href="/login/forgot"> Forgot password?</a>
+          </div>
+          <button type="submit" className={styles.btn}>Login</button>
+          <div className={styles['register-link']}>
+            <p>Don't have an account? <a href="/register">Register</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
