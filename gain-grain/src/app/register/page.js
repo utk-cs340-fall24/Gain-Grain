@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 import styles from './register.module.css'
+export const metadata = {
+    title: "G&G Register",
+    description: "Register an account with Gain & Grain",
+};
 
 export default function Register() {
     return(
