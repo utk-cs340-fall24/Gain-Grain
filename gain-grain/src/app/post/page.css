@@ -1,0 +1,46 @@
+.navbar li {
+    display: inline;
+    float: left;
+    padding: 50px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #FF8200, #FF8000);
+    /* Orange gradient */
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    /* Smooth transition */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+/* Hover effect */
+button:hover {
+    background: linear-gradient(135deg, #FF8000, #FF8200);
+    /* Reverse gradient on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    /* Larger shadow on hover */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
+}
+
+/* Focus effect for accessibility */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(255, 132, 0);
+    /* Outline for focus state */
+}
+
+/* Active effect when the button is clicked */
+button:active {
+    transform: translateY(0);
+    /* Reset lift on active click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Reduce shadow on active */
+}

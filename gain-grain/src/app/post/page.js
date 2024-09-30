@@ -1,3 +1,7 @@
+"use client";
+
+import "./page.css";
+
 import Link from 'next/link';
 import { FaDumbbell, FaCameraRetro, FaPencilAlt } from 'react-icons/fa';
 import { MdOutlineFastfood } from "react-icons/md";
