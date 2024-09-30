@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G&G - Fitness Social Platform</title>
+    <title>Gain & Grain</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-
         }
 
         body {
@@ -38,6 +37,14 @@
         header .search-bar {
             flex: 1;
             margin: 0 15px;
+            transition: all 0.3s ease-in-out;
+            max-width: 300px;
+            /* Initial width */
+        }
+
+        header .search-bar:hover {
+            max-width: 500px;
+            /* Expanded width on hover */
         }
 
         header .search-bar input {
@@ -45,18 +52,26 @@
             padding: 8px;
             border-radius: 25px;
             border: 1px solid #dbdbdb;
-        }
-
-        header nav {
-            display: flex;
-            align-items: center;
+            transition: width 0.3s ease-in-out;
         }
 
         header nav a {
             margin-left: 20px;
             text-decoration: none;
-            color: #262626;
+            color: white;
             font-size: 18px;
+            padding: 8px 16px;
+            background-color: #B0E0E6;
+            /* Powder blue background */
+            border-radius: 25px;
+            /* Oval shape */
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        header nav a:hover {
+            background-color: #ADD8E6;
         }
 
         main {
@@ -114,7 +129,6 @@
 
         .post-actions {
             display: flex;
-            padding: 10px;
             justify-content: space-around;
         }
 
@@ -123,6 +137,32 @@
             background-color: white;
             cursor: pointer;
             font-size: 16px;
+            padding: 5px;
+        }
+
+        .post-actions .comment-btn:hover {
+            text-decoration: underline;
+        }
+
+        .comments-section {
+            background-color: #f9f9f9;
+            border: 1px solid #dbdbdb;
+            padding: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            /* Scroll if comments exceed max height */
+            border-radius: 10px;
+        }
+
+        .comment {
+            padding: 5px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .comment strong {
+            color: #262626;
         }
 
         .sidebar {
@@ -150,10 +190,13 @@
     </style>
 </head>
 
+
 <body>
 
     <header>
-        <h1>Gain & Grain</h1>
+        <a href="website.html" style="text-decoration: none;">
+            <h1>Gain & Grain</h1>
+        </a>
         <div class="search-bar">
             <input type="text" placeholder="Search...">
         </div>
@@ -182,8 +225,19 @@
                 </div>
                 <div class="post-actions">
                     <button>Like</button>
-                    <button>Comment</button>
+                    <button class="comment-btn" onclick="toggleComments(this)">Comment</button>
                     <button>Share</button>
+                </div>
+                <!-- Comments section inside the post -->
+                <div class="comments-section" style="display: none;">
+                    <h4>Comments</h4>
+                    <div class="comment">
+                        <strong>@user456:</strong> Great workout! Definitely trying this out.
+                    </div>
+                    <div class="comment">
+                        <strong>@fitguru:</strong> Love this routine, been doing it for weeks now!
+                    </div>
+                    <!-- Additional comments can be added here -->
                 </div>
             </div>
 
@@ -201,8 +255,15 @@
                 </div>
                 <div class="post-actions">
                     <button>Like</button>
-                    <button>Comment</button>
+                    <button class="comment-btn" onclick="toggleComments(this)">Comment</button>
                     <button>Share</button>
+                </div>
+                <!-- Comments section inside the post -->
+                <div class="comments-section" style="display: none;">
+                    <h4>Comments</h4>
+                    <div class="comment">
+                        <strong>@healthnut:</strong> Love this recipe! Gonna try it.
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,6 +278,17 @@
         </aside>
     </main>
 
+
+    <script>
+        function toggleComments(button) {
+            // Find the nearest post and comments section
+            const post = button.closest('.post');
+            const commentsSection = post.querySelector('.comments-section');
+
+            // Toggle the visibility of the comments section
+            commentsSection.style.display = (commentsSection.style.display === 'none' || commentsSection.style.display === '') ? 'block' : 'none';
+        }
+    </script>
 </body>
 
 </html>
