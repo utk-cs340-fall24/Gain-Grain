@@ -643,7 +643,7 @@ body {
     border-radius: 50%; /* Make it circular */
     width: 50px; /* Width of the button */
     height: 50px; /* Height of the button */
-    font-size: 100px; /* Icon size */
+    font-size: 30px; /* Icon size */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -653,4 +653,13 @@ body {
 
 .add-button:hover {
     background-color: #0056b3; /* Darken color on hover */
+}
+
+.add-options button {
+    border: 2px solid transparent; /* Default border is transparent */
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    color: white;
+    background-color: var(--vol-orange); /* Example background */
 }

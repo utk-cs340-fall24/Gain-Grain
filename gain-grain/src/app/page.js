@@ -14,6 +14,7 @@ export default function Home() {
     };
 
     return (
+      <div>
         <main className="flex min-h-screen flex-col p-6 bg-gray-50">
             <nav className="flex items-center justify-between h-16 bg-orange-500 p-4 rounded-lg">
                 <h1 className="text-white text-xl md:text-3xl font-bold">Gain & Grain</h1>
@@ -106,5 +107,7 @@ export default function Home() {
                 </div>
             </div>
         </main>
+
+      </div>  
     );
 }
