@@ -1,0 +1,15 @@
+.hamburgerMenu {
+    width: 15vw;
+    background-color: lightgrey;
+    position: absolute;
+    right: 0;
+    top: 64px;
+    z-index: 1;
+}
+
+.hamburgerDropdown {
+    position: relative;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
