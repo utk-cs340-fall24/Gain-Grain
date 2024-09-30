@@ -22,12 +22,12 @@ export default function Home() {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/dashboard/Nutrition'>
+                    <Link href='/dashboard/savedMeals'>
                         <button>Nutrition</button>
                     </Link>
                 </li>
                 <li>
-                    <Link href='/dashboard/Exercise'>
+                    <Link href='/dashboard/savedWorkouts'>
                         <button>Exercise</button>
                     </Link>
                 </li>
@@ -44,11 +44,6 @@ export default function Home() {
                 <li>
                     <Link href='/post'>
                         <button>Post</button>
-                    </Link>
-                </li>
-                <li>
-                    <Link href='/dashboard/testCalendar'>
-                        <button>test cal</button>
                     </Link>
                 </li>
             </ul>

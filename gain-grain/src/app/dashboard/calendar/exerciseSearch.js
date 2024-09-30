@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-//import './exerciseSearchStyles.css'
+import './exerciseSearchStyles.css'
 
 const ExerciseSearch = ({ onSelectExercise }) => {
   const [query, setQuery] = useState('');
@@ -46,6 +46,7 @@ const ExerciseSearch = ({ onSelectExercise }) => {
   return (
     <div>
       <input
+        classname="search-exercises"
         type="text"
         value={query}
         onChange={handleSearch}
