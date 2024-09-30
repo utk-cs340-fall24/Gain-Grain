@@ -145,5 +145,16 @@
   }
   
   .exercise-list li:hover, .meal-list li:hover {
-    background-color: #f0f0f0; /* Optional: Highlight on hover */
+    background-color: #130d68; /* Optional: Highlight on hover */
+  }
+
+  .exercise-section button {
+    background-color: white;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+  }
+
+  .meal-section button {
+    padding: 8px 12px;
+    margin-bottom: 10px;
   }

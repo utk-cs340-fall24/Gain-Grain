@@ -1,184 +1,271 @@
 'use client';
+
+
 import React, { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; 
+import { FaAngleLeft, FaAngleRight, FaPlus, FaTimes } from 'react-icons/fa';
 import './custom_calendar.css'; 
-import ExerciseSearch from './exerciseSearch';
+import './style.css';
+import ExerciseSearch from './exerciseSearch'; // Import ExerciseSearch
 
+const CustomCalendar = () => {
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [eventsArr, setEventsArr] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [showAddEvent, setShowAddEvent] = useState(false);
+    const [newEvent, setNewEvent] = useState({ name: '', from: '', to: '' });
+    const [activeDay, setActiveDay] = useState(null);
+    const [days, setDays] = useState([]);
+    const [selectedExercises, setSelectedExercises] = useState([]);
+    const [selectedMeals, setSelectedMeals] = useState([]);
+    const [showExerciseSearch, setShowExerciseSearch] = useState(false);
+    const [showMealForm, setShowMealForm] = useState(false);
+    const [mealName, setMealName] = useState('');
+    const [mealCalories, setMealCalories] = useState('');
 
-const Page = () => {
-  // State variables to manage selected date, exercises, meals, and visibility of forms
-  const [date, setDate] = useState(new Date()); // Current selected date
-  const [selectedExercises, setSelectedExercises] = useState([]); // List of selected exercises for the date
-  const [selectedMeals, setSelectedMeals] = useState([]); // List of selected meals for the date
-  const [showDayWindow, setShowDayWindow] = useState(false); // Controls visibility of the day's details window
-  const [showExerciseSearch, setShowExerciseSearch] = useState(false); // Controls visibility of the exercise search component
-  const [showMealForm, setShowMealForm] = useState(false); // Controls visibility of the meal input form
-  const [mealName, setMealName] = useState(''); // State for meal name input
-  const [mealCalories, setMealCalories] = useState(''); // State for meal calories input
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
 
-  // Load saved exercises and meals when the date changes
-  useEffect(() => {
-    loadExercisesForDate(date); // Load exercises for the selected date
-    loadMealsForDate(date); // Load meals for the selected date
-  }, [date]);
+    useEffect(() => {
+        initCalendar();
+        loadExercisesForDate(selectedDate);
+        loadMealsForDate(selectedDate);
+    }, [currentMonth, selectedDate]);
 
-  // Function to load exercises from localStorage for the selected date
-  const loadExercisesForDate = (selectedDate) => {
-    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {}; // Retrieve saved workouts
-    const exercisesForDate = savedWorkouts[selectedDate.toDateString()]?.exercises || []; // Get exercises for the date
-    setSelectedExercises(exercisesForDate); // Update state with exercises
-  };
+    const initCalendar = () => {
+        const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+        const lastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+        const prevLastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0);
+        const prevDays = prevLastDay.getDate();
+        const lastDate = lastDay.getDate();
+        const dayOfWeek = firstDay.getDay();
+        const nextDays = 7 - lastDay.getDay() - 1;
 
-  // Function to save exercises to localStorage for the selected date
-  const saveExercisesToLocalStorage = (exercises) => {
-    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {}; // Retrieve saved workouts
-    savedWorkouts[date.toDateString()] = { ...savedWorkouts[date.toDateString()], exercises }; // Update the date entry with new exercises
-    localStorage.setItem('workouts', JSON.stringify(savedWorkouts)); // Save updated workouts back to localStorage
-  };
+        let calendarDays = [];
 
-  // Function to load meals from localStorage for the selected date
-  const loadMealsForDate = (selectedDate) => {
-    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {}; // Retrieve saved workouts
-    const mealsForDate = savedWorkouts[selectedDate.toDateString()]?.meals || []; // Get meals for the date
-    setSelectedMeals(mealsForDate); // Update state with meals
-  };
+        for (let x = dayOfWeek; x > 0; x--) {
+            calendarDays.push({ day: prevDays - x + 1, isPrevMonth: true });
+        }
 
-  // Function to save meals to localStorage for the selected date
-  const saveMealsToLocalStorage = (meals) => {
-    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {}; // Retrieve saved workouts
-    savedWorkouts[date.toDateString()] = { ...savedWorkouts[date.toDateString()], meals }; // Update the date entry with new meals
-    localStorage.setItem('workouts', JSON.stringify(savedWorkouts)); // Save updated workouts back to localStorage
-  };
+        for (let i = 1; i <= lastDate; i++) {
+            const hasEvent = eventsArr.some(event =>
+                event.day === i &&
+                event.month === currentMonth.getMonth() + 1 &&
+                event.year === currentMonth.getFullYear());
+            calendarDays.push({ day: i, isActive: i === activeDay, hasEvent });
+        }
 
-  // Function to handle selecting an exercise
-  const handleSelectExercises = (exercise) => {
-    const updatedExercises = [...selectedExercises, exercise]; // Add new exercise to the list
-    setSelectedExercises(updatedExercises); // Update state
-    saveExercisesToLocalStorage(updatedExercises); // Save updated exercises to localStorage
-  };
+        for (let j = 1; j <= nextDays; j++) {
+            calendarDays.push({ day: j, isNextMonth: true });
+        }
 
-  // Function to handle adding a new meal
-  const handleAddMeal = () => {
-    if (mealName && mealCalories) { // Ensure both fields are filled
-      const newMeal = { name: mealName, calories: mealCalories }; // Create new meal object
-      const updatedMeals = [...selectedMeals, newMeal]; // Add new meal to the list
-      setSelectedMeals(updatedMeals); // Update state
-      saveMealsToLocalStorage(updatedMeals); // Save updated meals to localStorage
-      setMealName(''); // Reset meal name input
-      setMealCalories(''); // Reset meal calories input
-      setShowMealForm(false); // Hide meal form
-    }
-  };
+        setDays(calendarDays);
+    };
 
-  // Function to handle date selection on the calendar
-  const handleDateSelect = (selectedDate) => {
-    setDate(selectedDate); // Update the selected date
-    setShowDayWindow(true); // Show the day's details window
-  };
+    const handleNextMonth = () => {
+        setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)));
+    };
 
-  // Function to handle removing an exercise from the list
-  const handleRemoveExercise = (exerciseToRemove) => {
-    const updatedExercises = selectedExercises.filter(item => item._id !== exerciseToRemove._id); // Filter out the removed exercise
-    setSelectedExercises(updatedExercises); // Update state
-    saveExercisesToLocalStorage(updatedExercises); // Save updated exercises to localStorage
-  };
+    const handlePrevMonth = () => {
+        setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)));
+    };
 
-  // Function to handle removing a meal from the list
-  const handleRemoveMeal = (mealToRemove) => {
-    const updatedMeals = selectedMeals.filter(item => item.name !== mealToRemove.name); // Filter out the removed meal
-    setSelectedMeals(updatedMeals); // Update state
-    saveMealsToLocalStorage(updatedMeals); // Save updated meals to localStorage
-  };
+    const handleAddEvent = () => {
+        if (activeDay) {
+            const dayEvents = eventsArr.find(event =>
+                event.day === activeDay &&
+                event.month === currentMonth.getMonth() + 1 &&
+                event.year === currentMonth.getFullYear());
 
-  // Function to toggle the exercise search window
-  const toggleExerciseSearch = () => setShowExerciseSearch(prev => !prev);
+            if (dayEvents) {
+                dayEvents.events.push(newEvent);
+            } else {
+                setEventsArr([...eventsArr, {
+                    day: activeDay,
+                    month: currentMonth.getMonth() + 1,
+                    year: currentMonth.getFullYear(),
+                    events: [newEvent],
+                }]);
+            }
 
-  // Function to toggle the meal input form
-  const toggleMealForm = () => setShowMealForm(prev => !prev);
+            setNewEvent({ name: '', from: '', to: '' });
+            setShowAddEvent(false);
+        }
+    };
 
-  // Function to close the day's details window
-  const closeModal = () => setShowDayWindow(false);
+    const loadExercisesForDate = (selectedDate) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        const exercisesForDate = savedWorkouts[selectedDate.toDateString()]?.exercises || [];
+        setSelectedExercises(exercisesForDate);
+    };
 
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Workout Calendar</h1>
-      
-      {/* Calendar Component */}
-      <Calendar
-        onChange={handleDateSelect} // Handle date selection
-        value={date} // Controlled component with selected date
-        className="mx-auto"
-      />
-      <p className="mt-4 text-center">
-        Selected date: <span className="font-semibold">{date.toDateString()}</span>
-      </p>
+    const loadMealsForDate = (selectedDate) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        const mealsForDate = savedWorkouts[selectedDate.toDateString()]?.meals || [];
+        setSelectedMeals(mealsForDate);
+    };
 
-      {/* Day Window for selected date's exercises and meals */}
-      {showDayWindow && (
-        <div className="day-window">
-          <div className="day-window-content">
-            {/* Exercise Section */}
-            <button onClick={toggleExerciseSearch} className="mb-4">
-              {showExerciseSearch ? 'Close Exercise Search' : 'Add Exercises'}
-            </button>
-            {showExerciseSearch && (
-              <div>
-                <ExerciseSearch onSelectExercise={handleSelectExercises} /> // Render ExerciseSearch component
-                <button className="cancel-btn" onClick={toggleExerciseSearch}>Cancel</button> {/* Cancel button to close search */}
-              </div>
-            )}
-            <h2>Selected Exercises for {date.toDateString()}:</h2>
-            <ul className='exercise-list'>
-              {selectedExercises.map((item, index) => (
-                <li key={index}>
-                  {item.name} {/* Display exercise name */}
-                  <button className='remove-btn' onClick={() => handleRemoveExercise(item)}>
-                    Remove {/* Button to remove the exercise */}
-                  </button>
-                </li>
-              ))}
-            </ul>
+    const handleDayClick = (day, isPrevMonth, isNextMonth) => {
+        if (isPrevMonth) {
+            handlePrevMonth();
+        } else if (isNextMonth) {
+            handleNextMonth();
+        } else {
+            setActiveDay(day);
+            setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
+        }
+    };
 
-            {/* Meal Section */}
-            <button onClick={toggleMealForm} className="mb-4">
-              {showMealForm ? 'Close Meal Form' : 'Add Meal'}
-            </button>
-            {showMealForm && (
-              <div className="meal-form">
-                <input 
-                  type="text" 
-                  placeholder="Meal Name" 
-                  value={mealName} 
-                  onChange={(e) => setMealName(e.target.value)} // Handle meal name input
-                />
-                <input 
-                  type="number" 
-                  placeholder="Calories" 
-                  value={mealCalories} 
-                  onChange={(e) => setMealCalories(e.target.value)} // Handle meal calories input
-                />
-                <button onClick={handleAddMeal}>Save Meal</button> {/* Button to save meal */}
-              </div>
-            )}
-            <h2>Selected Meals for {date.toDateString()}:</h2>
-            <ul className='meal-list'>
-              {selectedMeals.map((meal, index) => (
-                <li key={index}>
-                  {meal.name} - {meal.calories} Calories {/* Display meal name and calories */}
-                  <button className='remove-btn' onClick={() => handleRemoveMeal(meal)}>
-                    Remove {/* Button to remove the meal */}
-                  </button>
-                </li>
-              ))}
-            </ul>
+    const handleRemoveExercise = (exerciseToRemove) => {
+        const updatedExercises = selectedExercises.filter(item => item._id !== exerciseToRemove._id);
+        setSelectedExercises(updatedExercises);
+        saveExercisesToLocalStorage(updatedExercises);
+    };
 
-            <button onClick={closeModal}>Close</button> {/* Button to close the day window */}
-          </div>
+    const handleRemoveMeal = (mealToRemove) => {
+        const updatedMeals = selectedMeals.filter(item => item.name !== mealToRemove.name);
+        setSelectedMeals(updatedMeals);
+        saveMealsToLocalStorage(updatedMeals);
+    };
+
+    const saveExercisesToLocalStorage = (exercises) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        savedWorkouts[selectedDate.toDateString()] = { ...savedWorkouts[selectedDate.toDateString()], exercises };
+        localStorage.setItem('workouts', JSON.stringify(savedWorkouts));
+    };
+
+    const saveMealsToLocalStorage = (meals) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        savedWorkouts[selectedDate.toDateString()] = { ...savedWorkouts[selectedDate.toDateString()], meals };
+        localStorage.setItem('workouts', JSON.stringify(savedWorkouts));
+    };
+
+    const handleAddMeal = () => {
+        if (mealName && mealCalories) {
+            const newMeal = { name: mealName, calories: mealCalories };
+            const updatedMeals = [...selectedMeals, newMeal];
+            setSelectedMeals(updatedMeals);
+            saveMealsToLocalStorage(updatedMeals);
+            setMealName('');
+            setMealCalories('');
+            setShowMealForm(false);
+        }
+    };
+
+    const toggleExerciseSearch = () => setShowExerciseSearch(prev => !prev);
+    const toggleMealForm = () => setShowMealForm(prev => !prev);
+
+    const handleSelectExercise = (exercise) => {
+        setSelectedExercises(prev => [...prev, exercise]); // Add selected exercise
+        saveExercisesToLocalStorage([...selectedExercises, exercise]); // Save to localStorage
+        setShowExerciseSearch(false); // Close search after selection
+    };
+
+    const renderDays = () => {
+        return days.map((dayObj, index) => (
+            <div
+                key={index}
+                className={`day ${dayObj.isPrevMonth ? 'prev-date' : ''} ${dayObj.isNextMonth ? 'next-date' : ''} ${dayObj.isActive ? 'active' : ''} ${dayObj.hasEvent ? 'event' : ''}`}
+                onClick={() => handleDayClick(dayObj.day, dayObj.isPrevMonth, dayObj.isNextMonth)}
+            >
+                {dayObj.day}
+            </div>
+        ));
+    };
+
+    return (
+        <div className="container">
+            <div className="left">
+                <div className="calendar">
+                    <div className="month">
+                        <FaAngleLeft className="prev" onClick={handlePrevMonth} />
+                        <div className="date">
+                            {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                        </div>
+                        <FaAngleRight className="next" onClick={handleNextMonth} />
+                    </div>
+                    <div className="weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div className="days">
+                        {renderDays()}
+                    </div>
+                </div>
+            </div>
+            <div className="right">
+                <div className="today-date">
+                <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
+                    <div className="event-date">{selectedDate.toLocaleDateString()}</div>
+                </div>
+                
+                <div className="exercise-section">
+                    <h3>Exercises</h3>
+                    
+                    {/* Always show the toggle button to add/close Exercise Search */}
+                    <button onClick={toggleExerciseSearch}>
+                        {showExerciseSearch ? 'Close Exercise Search' : 'Add Exercises'}
+                    </button>
+
+                    {/* Conditionally render the ExerciseSearch component based on the state */}
+                    {showExerciseSearch && (
+                        <ExerciseSearch onSelectExercise={handleSelectExercise} />
+                    )}
+
+                    <ul className="exercise-list">
+                        {selectedExercises.map((exercise, index) => (
+                        <li key={index}>
+                            <span>{exercise.name}</span>
+                            <button className="remove-btn" onClick={() => handleRemoveExercise(exercise)}>Remove</button>
+                        </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="meal-section">
+                    <h3>Meals</h3>
+                    {showMealForm ? (
+                        <div>
+                        <input
+                            type="text"
+                            value={mealName}
+                            onChange={(e) => setMealName(e.target.value)}
+                            placeholder="Meal Name"
+                        />
+                        <input
+                            type="number"
+                            value={mealCalories}
+                            onChange={(e) => setMealCalories(e.target.value)}
+                            placeholder="Calories"
+                        />
+                        <button onClick={handleAddMeal}>Add Meal</button>
+                        <button onClick={toggleMealForm}>Close</button>
+                        </div>
+                    ) : (
+                        <button onClick={toggleMealForm}>
+                        {showMealForm ? 'Close Meal Form' : 'Add Meal'}
+                        </button>
+                    )}
+
+                    <ul className="meal-list">
+                        {selectedMeals.map((meal, index) => (
+                        <li key={index}>
+                            <span>{meal.name} ({meal.calories} cal)</span>
+                            <button className="remove-btn" onClick={() => handleRemoveMeal(meal)}>Remove</button>
+                        </li>
+                        ))}
+                    </ul>
+                </div>
+
+            </div>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
-export default Page;
+export default CustomCalendar;
