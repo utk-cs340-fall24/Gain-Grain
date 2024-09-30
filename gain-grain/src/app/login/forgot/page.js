@@ -2,6 +2,10 @@ import Link from 'next/link';
 import React from 'react';
 import styles from './forgot.module.css'
 import { LockClosedIcon } from '@heroicons/react/solid';
+export const metadata = {
+    title: "G&G Forgot Password",
+    description: "Recover your Gain & Grain account password",
+};
 
 export default function ForgotPassword() {
     return(
