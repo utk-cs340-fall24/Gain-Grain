@@ -45,6 +45,11 @@ export default function Home() {
                         <button>Register</button>
                     </Link>
                 </li>
+                <li>
+                    <Link href='/register'>
+                        <button>Post</button>
+                    </Link>
+                </li>
             </ul>
 
     </main>
