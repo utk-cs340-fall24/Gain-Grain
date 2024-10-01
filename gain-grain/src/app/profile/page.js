@@ -1,10 +1,14 @@
 
-import Profile from "@/components/profile"
+import Navbar from "@/components/Navbar";
+import Profile from "@/components/profile";
 
 export default function profile() {
-    return  (
-        <div className="h-screen pt-20 bg-gray-100">
-            <Profile  />
+    return (
+        <div>
+            <Navbar />
+            <div className="flex justify-center pt-20">
+                <Profile />
+            </div>
         </div>
-    )
+    );
 }
