@@ -1,6 +1,7 @@
 I am the student who met with Shayana and Prof. Reid about the git blame not working due to many changes 
 being overwritten later or files being deleted and code pasted to another file. All of the code I submitted
-was listed here manually by looking back through my commits
+was listed here manually by looking back through my commits. Please let me know if this needs to be
+formatted differently or changes need to be made for easier grading. Thank you!
 
 Non-code related progress:
 Watched 6 hour video to learn how to write html/css/js
