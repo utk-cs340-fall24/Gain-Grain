@@ -667,7 +667,7 @@ body {
 
 .add-button {
     position: absolute; /* Position it relative to the parent container */
-    bottom: 15px; /* Distance from the bottom of the container */
+    bottom: 65px; /* Distance from the bottom of the container */
     right: 15px; /* Distance from the right of the container */
     background-color: #007bff; /* Button background color */
     color: white; /* Text color */
