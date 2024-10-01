@@ -24,7 +24,9 @@ Gain-Grain
 
 ### Issues you worked on
 [gh-4](https://github.com/utk-cs340-fall24/Gain-Grain/issues/4)
+
 [gh-5](https://github.com/utk-cs340-fall24/Gain-Grain/issues/5)
+
 [gh-16](https://github.com/utk-cs340-fall24/Gain-Grain/issues/16)
 
 ### Files you worked on
