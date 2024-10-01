@@ -1,0 +1,689 @@
+**gain-grain/src/app/dashboard/calendar/page.js (before combining with new calendar):
+
+'use client';
+import React, { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css'; 
+import './custom_calendar.css'; 
+import ExerciseSearch from './exerciseSearch';
+
+const Page = () => {
+  const [date, setDate] = useState(new Date());
+  const [selectedExercises, setSelectedExercises] = useState([]);
+  const [showDayWindow, setShowDayWindow] = useState(false);
+  const [showExerciseSearch, setShowExerciseSearch] = useState(false);
+
+  // Load saved exercises from localStorage when the component mounts
+  useEffect(() => {
+    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+    const exercisesForDate = savedWorkouts[date.toDateString()]?.exercises || [];
+    setSelectedExercises(exercisesForDate);
+  }, [date]);
+
+  // Save exercises to localStorage
+  const saveExercisesToLocalStorage = (exercises) => {
+    const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+    savedWorkouts[date.toDateString()] = { exercises };
+    localStorage.setItem('workouts', JSON.stringify(savedWorkouts));
+  };
+
+  // Handle exercise selection
+  const handleSelectExercises = (exercise) => {
+    const updatedExercises = [...selectedExercises, exercise];
+    setSelectedExercises(updatedExercises);
+    saveExercisesToLocalStorage(updatedExercises);
+  };
+
+  // Handle date selection on calendar
+  const handleDateSelect = (date) => {
+    setDate(date);
+    setShowDayWindow(true);
+  };
+
+  // Handle removing exercises from the day
+  const handleRemoveExercise = (exerciseToRemove) => {
+    const updatedExercises = selectedExercises.filter(item => item._id !== exerciseToRemove._id);
+    setSelectedExercises(updatedExercises);
+    saveExercisesToLocalStorage(updatedExercises);
+  };
+
+  const closeModal = () => setShowDayWindow(false);
+  const toggleExerciseSearch = () => setShowExerciseSearch(prev => !prev);
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Workout Calendar</h1>
+      
+      <Calendar
+        onChange={handleDateSelect}
+        value={date}
+        className="mx-auto"
+      />
+      <p className="mt-4 text-center">
+        Selected date: <span className="font-semibold">{date.toDateString()}</span>
+      </p>
+
+      {showDayWindow && (
+        <div className="day-window">
+          <div className="day-window-content">
+            <button onClick={toggleExerciseSearch} className="mb-4">
+              {showExerciseSearch ? 'Close Exercise Search' : 'Add Exercises'}
+            </button>
+            {showExerciseSearch && (
+              <ExerciseSearch onSelectExercise={handleSelectExercises} />
+            )}
+            <h2>Selected Exercises for {date.toDateString()}:</h2>
+            <ul className='exercise-list'>
+              {selectedExercises.map((item, index) => (
+                <li key={index}>
+                  {item.name}
+                  <button className='remove-btn' onClick={() => handleRemoveExercise(item)}>
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Page;
+
+
+
+**gain-grain/src/app/dashboard/calendar/page.js (after combining with new calendar):
+(This was not entirely me. Trevor Eisenbacher made the calendar html and calendar 
+functions and I combined it with the calendar functionality I had above)
+
+'use client';
+import React, { useEffect, useState } from 'react';
+import { FaAngleLeft, FaAngleRight, FaPlus, FaTimes } from 'react-icons/fa';
+import './custom_calendar.css'; 
+import './style.css';
+import ExerciseSearch from './exerciseSearch'; // Import ExerciseSearch
+
+const CustomCalendar = () => {
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [eventsArr, setEventsArr] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [showAddEvent, setShowAddEvent] = useState(false);
+    const [newEvent, setNewEvent] = useState({ name: '', from: '', to: '' });
+    const [activeDay, setActiveDay] = useState(null);
+    const [days, setDays] = useState([]);
+    const [selectedExercises, setSelectedExercises] = useState([]);
+    const [selectedMeals, setSelectedMeals] = useState([]);
+    const [showExerciseSearch, setShowExerciseSearch] = useState(false);
+    const [showMealForm, setShowMealForm] = useState(false);
+    const [mealName, setMealName] = useState('');
+    const [mealCalories, setMealCalories] = useState('');
+
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    useEffect(() => {
+        initCalendar();
+        loadExercisesForDate(selectedDate);
+        loadMealsForDate(selectedDate);
+    }, [currentMonth, selectedDate]);
+
+    const initCalendar = () => {
+        const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+        const lastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+        const prevLastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0);
+        const prevDays = prevLastDay.getDate();
+        const lastDate = lastDay.getDate();
+        const dayOfWeek = firstDay.getDay();
+        const nextDays = 7 - lastDay.getDay() - 1;
+
+        let calendarDays = [];
+
+        for (let x = dayOfWeek; x > 0; x--) {
+            calendarDays.push({ day: prevDays - x + 1, isPrevMonth: true });
+        }
+
+        for (let i = 1; i <= lastDate; i++) {
+            const hasEvent = eventsArr.some(event =>
+                event.day === i &&
+                event.month === currentMonth.getMonth() + 1 &&
+                event.year === currentMonth.getFullYear());
+            calendarDays.push({ day: i, isActive: i === activeDay, hasEvent });
+        }
+
+        for (let j = 1; j <= nextDays; j++) {
+            calendarDays.push({ day: j, isNextMonth: true });
+        }
+
+        setDays(calendarDays);
+    };
+
+    const handleNextMonth = () => {
+        setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)));
+    };
+
+    const handlePrevMonth = () => {
+        setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)));
+    };
+
+    const handleAddEvent = () => {
+        if (activeDay) {
+            const dayEvents = eventsArr.find(event =>
+                event.day === activeDay &&
+                event.month === currentMonth.getMonth() + 1 &&
+                event.year === currentMonth.getFullYear());
+
+            if (dayEvents) {
+                dayEvents.events.push(newEvent);
+            } else {
+                setEventsArr([...eventsArr, {
+                    day: activeDay,
+                    month: currentMonth.getMonth() + 1,
+                    year: currentMonth.getFullYear(),
+                    events: [newEvent],
+                }]);
+            }
+
+            setNewEvent({ name: '', from: '', to: '' });
+            setShowAddEvent(false);
+        }
+    };
+
+    const loadExercisesForDate = (selectedDate) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        const exercisesForDate = savedWorkouts[selectedDate.toDateString()]?.exercises || [];
+        setSelectedExercises(exercisesForDate);
+    };
+
+    const loadMealsForDate = (selectedDate) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        const mealsForDate = savedWorkouts[selectedDate.toDateString()]?.meals || [];
+        setSelectedMeals(mealsForDate);
+    };
+
+    const handleDayClick = (day, isPrevMonth, isNextMonth) => {
+        if (isPrevMonth) {
+            handlePrevMonth();
+        } else if (isNextMonth) {
+            handleNextMonth();
+        } else {
+            setActiveDay(day);
+            setSelectedDate(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
+        }
+    };
+
+    const handleRemoveExercise = (exerciseToRemove) => {
+        const updatedExercises = selectedExercises.filter(item => item._id !== exerciseToRemove._id);
+        setSelectedExercises(updatedExercises);
+        saveExercisesToLocalStorage(updatedExercises);
+    };
+
+    const handleRemoveMeal = (mealToRemove) => {
+        const updatedMeals = selectedMeals.filter(item => item.name !== mealToRemove.name);
+        setSelectedMeals(updatedMeals);
+        saveMealsToLocalStorage(updatedMeals);
+    };
+
+    const saveExercisesToLocalStorage = (exercises) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        savedWorkouts[selectedDate.toDateString()] = { ...savedWorkouts[selectedDate.toDateString()], exercises };
+        localStorage.setItem('workouts', JSON.stringify(savedWorkouts));
+    };
+
+    const saveMealsToLocalStorage = (meals) => {
+        const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
+        savedWorkouts[selectedDate.toDateString()] = { ...savedWorkouts[selectedDate.toDateString()], meals };
+        localStorage.setItem('workouts', JSON.stringify(savedWorkouts));
+    };
+
+    const handleAddMeal = () => {
+        if (mealName && mealCalories) {
+            const newMeal = { name: mealName, calories: mealCalories };
+            const updatedMeals = [...selectedMeals, newMeal];
+            setSelectedMeals(updatedMeals);
+            saveMealsToLocalStorage(updatedMeals);
+            setMealName('');
+            setMealCalories('');
+            setShowMealForm(false);
+        }
+    };
+
+    const toggleExerciseSearch = () => setShowExerciseSearch(prev => !prev);
+    const toggleMealForm = () => setShowMealForm(prev => !prev);
+
+    const handleSelectExercise = (exercise) => {
+        setSelectedExercises(prev => [...prev, exercise]); // Add selected exercise
+        saveExercisesToLocalStorage([...selectedExercises, exercise]); // Save to localStorage
+        setShowExerciseSearch(false); // Close search after selection
+    };
+
+    const renderDays = () => {
+        return days.map((dayObj, index) => (
+            <div
+                key={index}
+                className={`day ${dayObj.isPrevMonth ? 'prev-date' : ''} ${dayObj.isNextMonth ? 'next-date' : ''} ${dayObj.isActive ? 'active' : ''} ${dayObj.hasEvent ? 'event' : ''}`}
+                onClick={() => handleDayClick(dayObj.day, dayObj.isPrevMonth, dayObj.isNextMonth)}
+            >
+                {dayObj.day}
+            </div>
+        ));
+    };
+
+    return (
+        <div className="container">
+            <div className="left">
+                <div className="calendar">
+                    <div className="month">
+                        <FaAngleLeft className="prev" onClick={handlePrevMonth} />
+                        <div className="date">
+                            {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                        </div>
+                        <FaAngleRight className="next" onClick={handleNextMonth} />
+                    </div>
+                    <div className="weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div className="days">
+                        {renderDays()}
+                    </div>
+                </div>
+            </div>
+            <div className="right">
+                <div className="today-date">
+                <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
+                    <div className="event-date">{selectedDate.toLocaleDateString()}</div>
+                </div>
+                
+                <div className="exercise-section">
+                    <h3>Exercises</h3>
+                    
+                    {/* Always show the toggle button to add/close Exercise Search */}
+                    <button onClick={toggleExerciseSearch}>
+                        {showExerciseSearch ? 'Close Exercise Search' : 'Add Exercises'}
+                    </button>
+
+                    {/* Conditionally render the ExerciseSearch component based on the state */}
+                    {showExerciseSearch && (
+                        <ExerciseSearch onSelectExercise={handleSelectExercise} />
+                    )}
+
+                    <ul className="exercise-list">
+                        {selectedExercises.map((exercise, index) => (
+                        <li key={index}>
+                            <span>{exercise.name}</span>
+                            <button className="remove-btn" onClick={() => handleRemoveExercise(exercise)}>Remove</button>
+                        </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="meal-section">
+                    <h3>Meals</h3>
+                    {showMealForm ? (
+                        <div>
+                        <input
+                            type="text"
+                            value={mealName}
+                            onChange={(e) => setMealName(e.target.value)}
+                            placeholder="Meal Name"
+                        />
+                        <input
+                            type="number"
+                            value={mealCalories}
+                            onChange={(e) => setMealCalories(e.target.value)}
+                            placeholder="Calories"
+                        />
+                        <button onClick={handleAddMeal}>Add Meal</button>
+                        <button onClick={toggleMealForm}>Close</button>
+                        </div>
+                    ) : (
+                        <button onClick={toggleMealForm}>
+                        {showMealForm ? 'Close Meal Form' : 'Add Meal'}
+                        </button>
+                    )}
+
+                    <ul className="meal-list">
+                        {selectedMeals.map((meal, index) => (
+                        <li key={index}>
+                            <span>{meal.name} ({meal.calories} cal)</span>
+                            <button className="remove-btn" onClick={() => handleRemoveMeal(meal)}>Remove</button>
+                        </li>
+                        ))}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    );
+};
+
+export default CustomCalendar;
+
+
+
+**gain-grain/src/app/dashboard/calendar/exerciseSearch.js: 
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './exerciseSearchStyles.css'
+
+const ExerciseSearch = ({ onSelectExercise }) => {
+  const [query, setQuery] = useState('');
+  const [exercises, setExercises] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (query.trim() === '') {
+        setExercises([]); // Clear exercises if the input is empty
+        return;
+      }
+
+      const fetchExercises = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(`/api/exercises/search?q=${query}`);
+          setExercises(response.data); // Set fetched exercises
+        } catch (error) {
+          console.error('Error fetching exercises:', error);
+          setExercises([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchExercises();
+    }, 300); // Adjust the debounce delay as needed 
+
+    return () => clearTimeout(delayDebounceFn); // Clean up
+  }, [query]); // Dependency array includes `query`
+
+  const handleSearch = (e) => {
+    setQuery(e.target.value); // Update the query on input change
+  };
+
+  const handleSelect = (exercise) => {
+    onSelectExercise(exercise); // Pass the selected exercise to the parent
+    setQuery(''); // Clear the input after selection
+    setExercises([]); // Clear the exercise list after selection
+  };
+
+  return (
+    <div>
+      <input
+        className="search-exercises"
+        type="text"
+        value={query}
+        onChange={handleSearch}
+        placeholder="Search exercises..."
+      />
+      {loading && <p>Loading...</p>}
+      <ul className='exercise-list'>
+        {exercises.length > 0 ? (
+          exercises.map((exercise) => (
+            <li key={exercise._id} onClick={() => handleSelect(exercise)}>
+              {exercise.name}
+            </li>
+          ))
+        ) : (
+          <li>No exercises found</li>
+        )}
+      </ul>
+    </div>
+  );
+};
+
+export default ExerciseSearch;
+
+
+**gain-grain/src/app/dashboard/calendar/custom_calendar.css:
+
+.day-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.day-window-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.remove-btn {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    background-color: var(--vol-orange);
+    cursor: pointer;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.remove-btn:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.exercise-list li, .meal-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    list-style-type: none;
+}
+
+.exercise-list li:not(:last-child), .meal-list li:not(:last) {
+    margin-bottom: 0;
+}
+
+.exercise-list, .meal-list {
+    max-height: 150px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border for visibility */
+    padding: 0; /* Remove padding */
+    list-style-type: none; /* Remove default list styling */
+    margin: 0 0 20px 0; /* Remove default margin */
+  }
+  
+  .exercise-list li, .meal-list li {
+    padding: 8px; /* Add some padding for list items */
+    cursor: pointer; /* Change cursor on hover */
+  }
+  
+  .exercise-list li:hover, .meal-list li:hover {
+    background-color: #130d68; /* Optional: Highlight on hover */
+  }
+
+  .exercise-section button, .meal-section button {
+    padding: 8px 12px;
+    margin-bottom: 10px;
+  }
+
+  .add-options button.active {
+    border: 2px solid black; /* Black border for active button */
+  }
+
+
+gain-grain/src/app/dashboard/calendar/style.css:
+
+.add-options button, .meal-form button {
+    border: 2px solid transparent; /* Default border is transparent */
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    color: white;
+    background-color: var(--vol-orange); /* Example background */
+}
+
+.meal-form input {
+    color: black;
+}
+
+
+**gain-grain/src/utils/userWorkout.js:
+
+import mongoose from 'mongoose';
+
+const workoutSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  exercises: [
+    {
+      name: { type: String, required: true },
+      Sets: { type: Number }, 
+      Reps: { type: Number },
+    }
+  ]
+});
+
+const Workout = mongoose.models.Workout || mongoose.model('Workout', workoutSchema);
+
+export default Workout;
+
+
+**gain-grain/src/utils/userMeal.js:
+
+import mongoose from 'mongoose';
+
+const mealSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  meals: [
+    {
+      name: { type: String, required: true },
+      ingredients: { type: [String], required: true },
+      calories: { type: Number, required: true }
+    }
+  ]
+});
+
+const Meal = mongoose.models.Meal || mongoose.model('Meal', mealSchema);
+
+export default Meal;
+
+
+**gain-grain/src/controllers/saveMealController.js:
+
+import Meal from '../utils/userMeal';
+
+export const saveMeal = async (req, res) => {
+    const {name, ingredients, calories, userId} = req.body;
+
+    try {
+        const NewMeal = new Meal({ name, ingredients, calories, userId});
+        await NewMeal.save();
+        res.status(201).json({ success: true, meal: newMeal });
+    } catch (error) {
+    res.status(500).json({ success: false, message: 'Error saving meal' });
+    }
+};
+
+
+
+**gain-grain/src/controllers/saveExerciseController.js:
+
+@@ -0,0 +1,15 @@
+import Exercise from '../utils/userWorkout'
+
+export const saveExercise = async (req, res) => {
+
+    const {name, sets, reps, userId} = req.body;
+    try {
+        const newExercise = new Exercise({ name, sets, reps, userId});
+
+        await newExercise.save();
+        res.status(201).json({ success: true, exercise: newExercise });
+    } catch (error) {
+        console.error('Error saving exercise:', error);
+        res.status(500).json({ success: false, message: 'Error saving exercise' });
+    }
+};
+
+
+**gain-grain/src/utils/mongodb.js:
+
+import { MongoClient } from 'mongodb';
+
+const uri = process.env.MONGO_URI; // Add your MongoDB connection string here
+const options = {};
+
+let client;
+let clientPromise;
+
+if (process.env.NODE_ENV === 'development') {
+  // In development mode, use a global variable so we don't create a new connection each time
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  // In production mode, create a new client for each request
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
+export default clientPromise;
+
+
+**gain-grain/src/app/api/meals/recipes/route.js:
+
+@@ -0,0 +1,39 @@
+// pages/api/recipes/parse.js
+import axios from 'axios';
+import cheerio from 'cheerio';
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ message: 'URL is required' });
+  }
+
+  try {
+    // Fetch the webpage content
+    const { data } = await axios.get(url);
+    const $ = cheerio.load(data);
+
+    // Extract the recipe details (update selectors based on the recipe page structure)
+    const name = $('h1.recipe-title').text().trim();
+    const ingredients = [];
+    $('ul.ingredients-list li').each((i, elem) => {
+      ingredients.push($(elem).text().trim());
+    });
+    const calories = $('span.calories').text().trim(); 
+    const macronutrients = {
+      protein: $('span.protein').text().trim(), 
+      carbs: $('span.carbs').text().trim(),     
+      fats: $('span.fats').text().trim(), 
+    };
+
+    res.status(200).json({ name, ingredients, calories, macronutrients });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to parse the recipe.' });
+  }
+}
