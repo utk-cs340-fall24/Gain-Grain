@@ -1,0 +1,361 @@
+###profile/page.js
+2 days ago
+
+Adding basic profile page
+
+yesterday
+
+making a navbar component to be implemented into other pages
+import Navbar from "@/components/Navbar";
+import Profile from "@/components/profile";
+2 days ago
+
+Adding basic profile page
+
+export default function profile() {
+yesterday
+
+making a navbar component to be implemented into other pages
+    return (
+        <div>
+yesterday
+
+committing same layout as home page
+            <main className="flex min-h-screen flex-col p-6 bg-gray-50">
+                <Navbar />
+                <div className="flex justify-center pt-20">
+                    <Profile />
+                </div>
+            </main>
+2 days ago
+
+Adding basic profile page
+        </div>
+yesterday
+
+making a navbar component to be implemented into other pages
+    );
+}
+__________________________________________________________________________________________
+###components/Navbar.js
+
+yesterday
+
+making a navbar component to be implemented into other pages
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+
+export default function Navbar() {
+
+    return (
+        <nav className="flex items-center justify-between h-16 bg-orange-500 p-4 rounded-lg">
+            <h1 className="text-white text-xl md:text-3xl font-bold">Gain & Grain</h1>
+            
+            <div className="flex-grow flex justify-center">
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    className="transition-width duration-500 ease-in-out h-10 px-2 rounded-lg w-96"
+                />
+            </div>
+
+            <div className="hidden md:flex space-x-4 md:space-x-8">
+                <Link href="/dashboard/calendar">
+                    <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                        Calendar
+                    </button>
+                </Link>
+                <Link href="/dashboard/savedMeals">
+                    <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                        Nutrition
+                    </button>
+                </Link>
+                <Link href="/dashboard/savedWorkouts">
+                    <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                        Exercise
+                    </button>
+                </Link>
+                <Link href="/login">
+                    <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                        Login
+                    </button>
+                </Link>
+                <Link href="/register">
+                    <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                        Register
+                    </button>
+                </Link>
+                <Link href="/post">
+                    <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                        Post
+                    </button>
+                </Link>
+                <Link href="/profile">
+                    <button className="bg-white text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+                        Profile
+                    </button>
+                </Link>
+            </div>
+
+                <div className="flex flex-col space-y-4 mt-4 md:hidden">
+                    <Link href="/dashboard/calendar">
+                        <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                            Calendar
+                        </button>
+                    </Link>
+                    <Link href="/dashboard/savedMeals">
+                        <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                            Nutrition
+                        </button>
+                    </Link>
+                    <Link href="/dashboard/savedWorkouts">
+                        <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                            Exercise
+                        </button>
+                    </Link>
+                    <Link href="/login">
+                        <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                            Login
+                        </button>
+                    </Link>
+                    <Link href="/register">
+                        <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                            Register
+                        </button>
+                    </Link>
+                    <Link href="/post">
+                        <button className="bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                            Post
+                        </button>
+                    </Link>
+                    <Link href="/profile">
+                        <button className="bg-white text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+                            Profile
+                        </button>
+                    </Link>
+                </div>
+        </nav>
+    );
+}
+
+__________________________________________________________________________________________
+###components/profile.js
+2 days ago
+
+Adding basic profile page
+
+export default function profile() {
+  return (
+    <div>
+      <div className="flex items-center space-x-6">
+        <div className="w-24 h-24">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+        </svg>
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold">User </h1>
+          <p className="text-gray-600">User's Bio</p>
+        </div>
+        <button> edit profile </button>
+
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-4">Saved Workouts</h2>
+      </div>
+      <div className="mt-8">
+        <h2 className="text-xl font-semibold mb-4">Saved Meals</h2>
+      </div>
+    </div>
+  );
+}
+
+__________________________________________________________________________________________
+###savedWorkouts/page.js
+
+last week
+
+adding some new pages
+import Link from 'next/link';
+
+5 days ago
+
+page look changes
+import React from 'react';
+
+const Clock = () =>  {
+  const d = new Date();
+  const [currentTime, setCurrentTime] = React.use
+}
+last week
+
+adding some new pages
+export default function Exercise() {
+  
+  return (
+5 days ago
+
+page look changes
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-orange-500 p-4 md:h-52">
+12 hours ago
+
+small commit
+        <h1 className="text-white text-xl">Saved Exercises </h1>
+5 days ago
+
+page look changes
+        
+last week
+
+adding some new pages
+      </div>
+  );
+}
+
+__________________________________________________________________________________________
+###savedMeals/page.js
+last week
+
+adding some changes to new pages
+import Link from 'next/link';
+
+export default function Nutrition() {
+  
+  return (
+    <main className="flex min-h-screen flex-col p-6">
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-orange-500 p-4 md:h-52">
+12 hours ago
+
+small commit
+        <h1 className="text-white text-xl">Saved Meals </h1>
+last week
+
+adding some changes to new pages
+      </div>
+5 days ago
+
+page look changes
+      <Link href='/'>
+         <button>GO back to home</button>
+       </Link>
+last week
+
+adding some changes to new pages
+    </main>
+5 days ago
+
+page look changes
+    
+last week
+
+adding some changes to new pages
+  );
+}
+
+__________________________________________________________________________________________
+###gain-grain/src/app/app.css
+
+
+5 days ago
+
+page look changes
+}
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #FF8200, #FF8000); /* Orange gradient */
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Smooth transition */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  /* Hover effect */
+  button:hover {
+    background: linear-gradient(135deg, #FF8000, #FF8200); /* Reverse gradient on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+  }
+  
+  /* Focus effect for accessibility */
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(255, 132, 0); /* Outline for focus state */
+  }
+  
+  /* Active effect when the button is clicked */
+  button:active {
+    transform: translateY(0); /* Reset lift on active click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reduce shadow on active */
+  }
+
+__________________________________________________________________________________________
+###gain-grain/src/app/dashboard
+
+  last week
+
+adding some new pages
+            <ul>
+                <li>
+last week
+
+added login folder
+                    <Link href='/dashboard/calendar'>
+                        <button>Calendar</button>
+last week
+
+adding some new pages
+                    </Link>
+                </li>
+                <li>
+2 days ago
+
+gh-12 simple manual adding meals + logic for URL parsing for meal rec…
+                    <Link href='/dashboard/savedMeals'>
+                        <button>Saved Meals</button>
+last week
+
+adding some new pages
+                    </Link>
+                </li>
+                <li>
+2 days ago
+
+gh-12 simple manual adding meals + logic for URL parsing for meal rec…
+                    <Link href='/dashboard/savedWorkouts'>
+                        <button>Saved Workouts</button>
+last week
+
+adding some new pages
+                    </Link>
+                </li>
+                <li>
+                    <Link href='/dashboard/settings'>
+last week
+
+added login folder
+                        <button>Settings</button>
+last week
+
+adding some new pages
+                    </Link>
+                </li>
+last week
+
+dont worry about it
+                <li>
+                    <Link href='/dashboard/About'>
+                        <button>About</button>
+                    </Link>
+                </li>
+last week
+
+adding some new pages
+            </ul>

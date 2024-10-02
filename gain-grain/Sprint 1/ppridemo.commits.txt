@@ -1,0 +1,301 @@
+## gain-grain/src/app/dashboard/calendar/custom_calendar.css
+/* custom-calendar.css */
+
+/* Set the calendar container to fill the screen */
+.react-calendar {
+    width: 100vw;
+    /* Full width of the viewport */
+    height: 100vh;
+    /* Full height of the viewport */
+    display: flex;
+    /* Use flexbox for alignment */
+    justify-content: center;
+    /* Center the calendar horizontally */
+    align-items: center;
+    /* Center the calendar vertically */
+    border: none;
+    /* Remove border */
+}
+
+/* Optional: Make the tiles larger for better visibility */
+.react-calendar__tile {
+    height: 80px;
+    /* Adjust height as needed */
+    width: 80px;
+    /* Adjust width as needed */
+}
+
+/* You can also style the title area if needed */
+.react-calendar__month-view__header {
+    font-size: 1.5rem;
+    /* Adjust header size */
+}
+
+/* Custom styles for active tile */
+.react-calendar__tile--active {
+    background-color: #3182ce;
+    /* Active tile color */
+    color: white;
+    /* Active text color */
+}
+
+/* Optional: Highlight today's date */
+.react-calendar__tile--now {
+    border: 2px solid #f56565;
+    /* Highlight today */
+}
+
+/* Change the text color of the month */
+.react-calendar__navigation__label {
+    color: #00040b;
+    /* Change this to your desired color */
+}
+
+/* Change the text color of the days in the month view */
+.react-calendar__month-view__days__day {
+    color: #000103;
+    /* Change this to your desired color */
+}
+
+/* Change the text color of the active tile */
+.react-calendar__tile--active {
+    background-color: #cec431;
+    /* Active tile color */
+    color: white;
+    /* Change active tile text color */
+}
+
+/* Change the text color of today's date */
+.react-calendar__tile--now {
+    color: #0b0101;
+    /* Change to your desired color for today */
+}
+
+/* Change the text color of disabled tiles */
+.react-calendar__tile--disabled {
+    color: #000408;
+    /* Change this to your desired color for disabled days */
+}
+
+/* Change the text color of the weekdays (day names) */
+.react-calendar__month-view__weekdays__weekday {
+    color: #2b6cb0;
+    /* Change this to your desired color */
+}
+
+## gain-grain/src/app/post/post-blog/page.js
+
+export default function PostBlog() {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+            <h1 className="text-3xl font-bold">Post Blog</h1>
+        </div>
+    );
+}
+
+## gain-grain/src/app/post/post-meals/page.js
+
+export default function PostMeals() {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+            <h1 className="text-3xl font-bold">Post Meals</h1>
+        </div>
+    );
+}
+
+## gain-grain/src/app/post/post-progress-pictures/page.js
+
+export default function PostProgressPictures() {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+            <h1 className="text-3xl font-bold">Post progress pictures</h1>
+        </div>
+    );
+}
+
+## gain-grain/src/app/post/post-workouts/page.js
+
+"use client";
+import { useState } from 'react';
+
+export default function PostWorkouts() {
+    const [exercises, setExercises] = useState([
+        { id: 1, name: '', repetitions: '', weight: '' },
+    ]);
+
+    const handleChange = (id, field, value) => {
+        setExercises((prev) =>
+            prev.map((exercise) =>
+                exercise.id === id ? { ...exercise, [field]: value } : exercise
+            )
+        );
+    };
+
+    const addExercise = () => {
+        setExercises((prev) => [
+            ...prev,
+            { id: prev.length + 1, name: '', repetitions: '', weight: '' },
+        ]);
+    };
+
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
+            <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-4xl">
+                <h1 className="text-3xl font-bold mb-6 text-center">Post Workouts</h1>
+
+                <table className="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr>
+                            <th className="border px-4 py-2">Exercise</th>
+                            <th className="border px-4 py-2">Repetitions</th>
+                            <th className="border px-4 py-2">Weight (lbs)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {exercises.map((exercise) => (
+                            <tr key={exercise.id}>
+                                <td className="border px-4 py-2">
+                                    <input
+                                        type="text"
+                                        value={exercise.name}
+                                        onChange={(e) => handleChange(exercise.id, 'name', e.target.value)}
+                                        className="border w-full px-2 py-1 rounded"
+                                        placeholder="Enter exercise"
+                                    />
+                                </td>
+                                <td className="border px-4 py-2">
+                                    <input
+                                        type="number"
+                                        value={exercise.repetitions}
+                                        onChange={(e) => handleChange(exercise.id, 'repetitions', e.target.value)}
+                                        className="border w-full px-2 py-1 rounded"
+                                        placeholder="Enter reps"
+                                    />
+                                </td>
+                                <td className="border px-4 py-2">
+                                    <input
+                                        type="number"
+                                        value={exercise.weight}
+                                        onChange={(e) => handleChange(exercise.id, 'weight', e.target.value)}
+                                        className="border w-full px-2 py-1 rounded"
+                                        placeholder="Enter weight"
+                                    />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                <button
+                    onClick={addExercise}
+                    className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                >
+                    Add Exercise
+                </button>
+            </div>
+        </div>
+    );
+}
+
+## gain-grain/src/app/post/page.css
+
+.navbar li {
+    display: inline;
+    float: left;
+    padding: 50px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #FF8200, #FF8000);
+    /* Orange gradient */
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    /* Smooth transition */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+/* Hover effect */
+button:hover {
+    background: linear-gradient(135deg, #FF8000, #FF8200);
+    /* Reverse gradient on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    /* Larger shadow on hover */
+    transform: translateY(-2px);
+    /* Slight lift on hover */
+}
+
+/* Focus effect for accessibility */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(255, 132, 0);
+    /* Outline for focus state */
+}
+
+/* Active effect when the button is clicked */
+button:active {
+    transform: translateY(0);
+    /* Reset lift on active click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Reduce shadow on active */
+}
+
+## gain-grain/src/app/post/page.js
+
+"use client";
+
+import "./page.css";
+
+import Link from 'next/link';
+import { FaDumbbell, FaCameraRetro, FaPencilAlt } from 'react-icons/fa';
+import { MdOutlineFastfood } from "react-icons/md";
+
+export default function PostPage() {
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
+            <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+                <h1 className="text-3xl font-bold mb-6 text-center">What would you like to post?</h1>
+
+                <div className="flex flex-col space-y-4">
+                    {/* Workouts */}
+                    <Link href="/post/post-workouts">
+                        <button className="bg-workout-color hover:bg-workout-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <FaDumbbell className="mr-2" />
+                            Workouts
+                        </button>
+                    </Link>
+
+                    {/* Meals */}
+                    <Link href="/post/post-meals">
+                        <button className="bg-meal-color hover:bg-meal-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <MdOutlineFastfood className="mr-2" />
+                            Meals
+                        </button>
+                    </Link>
+
+                    {/* Progress Pictures */}
+                    <Link href="/post/post-progress-pictures">
+                        <button className="bg-progress-color hover:bg-progress-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <FaCameraRetro className="mr-2" />
+                            Progress Pictures
+                        </button>
+                    </Link>
+
+                    {/* Blog */}
+                    <Link href="/post/post-blog">
+                        <button className="bg-blog-color hover:bg-blog-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <FaPencilAlt className="mr-2" />
+                            Blog
+                        </button>
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+}
