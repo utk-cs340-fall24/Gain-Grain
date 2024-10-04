@@ -135,3 +135,46 @@
 .register-link p a:hover{
   text-decoration: underline;
 }
+
+.hidden {
+  display: none;
+}
+
+.alert {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  padding: 20px;
+  font-size: 17px;
+  background-color: var(--login-primary);
+  border: 2px solid rgba(255, 140, 0, 0.8);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+.alert::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--vol-orange);
+  border-radius: 5px;
+  z-index: -1;
+}
+
+.alert.hidden {
+  display: none;
+}
+
+#alert-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding-right: 0px;
+}

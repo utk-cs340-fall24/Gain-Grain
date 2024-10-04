@@ -6,13 +6,12 @@ import { LockClosedIcon, UserIcon } from '@heroicons/react/solid';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!username || !password) {
-      setErrorMessage('Username and password are required.');
+      showAlert('Username and password are both required.');
       return;
     }
 
@@ -30,16 +29,40 @@ export default function Login() {
       if (res.ok && data.success) {
         window.location.href = '/';
       } else {
-        setErrorMessage(data.message);
+        showAlert(data.message);
       }
     } catch (error) {
       console.error('Error: ', error);
-      setErrorMessage('An error occurred. Please try again.');
+      showAlert('An error occurred. Please try again.');
     }
+  };
+
+  const showAlert = (message) => {
+    const alertContainer = document.getElementById('alert-container');
+    const alertMessage = document.getElementById('alert-message');
+
+    alertMessage.textContent = message;
+    alertContainer.classList.remove('hidden');
+
+    setTimeout(() => {
+      alertContainer.classList.add('hidden');
+    }, 10000);
+
+    document.getElementById('alert-close').addEventListener('click', () => {
+      alertContainer.classList.add('hidden');
+    });
   };
 
   return (
     <div className={styles.body}>
+      <div id="alert-container" className={`${styles.alert} hidden`}>
+        <span id="alert-message"></span>
+        <button id="alert-close">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button> {}
+      </div>
       <div className={styles.wrapper}>
         <form onSubmit={handleLogin}>
           <h1 className={styles['login-title']}>Login</h1>
@@ -49,7 +72,6 @@ export default function Login() {
               placeholder="Username" 
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required 
             />
             <i className='bx bxs-user'>
               <UserIcon className="w-6 h-6" />
@@ -61,7 +83,6 @@ export default function Login() {
               placeholder="Password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required 
             />
             <i className='bx bxs-lock-alt'>
               <LockClosedIcon className="w-6 h-6" />
@@ -75,7 +96,6 @@ export default function Login() {
             <a href="/login/forgot"> Forgot password?</a>
           </div>
           <button type="submit" className={styles.btn}>Login</button>
-          {errorMessage && <div className={styles.error}>{errorMessage}</div>}
           <div className={styles['register-link']}>
             <p>Don't have an account? <a href="/register">Register</a></p>
           </div>
