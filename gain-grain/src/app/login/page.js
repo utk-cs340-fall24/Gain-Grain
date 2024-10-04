@@ -1,11 +1,12 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './login.module.css'
 import { LockClosedIcon, UserIcon } from '@heroicons/react/solid';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -13,6 +14,14 @@ export default function Login() {
     if (!username || !password) {
       showAlert('Username and password are both required.');
       return;
+    }
+    
+    if(rememberMe) {
+      localStorage.setItem('username', username)
+      localStorage.setItem('password', password)
+    } else {
+      localStorage.removeItem('username', username)
+      localStorage.removeItem('password', password)
     }
 
     try {
@@ -36,6 +45,16 @@ export default function Login() {
       showAlert('An error occurred. Please try again.');
     }
   };
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    const storedPassword = localStorage.getItem('password');
+    if(storedUsername && storedPassword) {
+      setUsername(storedUsername);
+      setPassword(storedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const showAlert = (message) => {
     const alertContainer = document.getElementById('alert-container');
@@ -90,7 +109,11 @@ export default function Login() {
           </div>
           <div className={styles['remember-forget']}>
             <label>
-              <input type="checkbox" />
+              <input 
+                type="checkbox" 
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                />
               Remember me
             </label>
             <a href="/login/forgot"> Forgot password?</a>
