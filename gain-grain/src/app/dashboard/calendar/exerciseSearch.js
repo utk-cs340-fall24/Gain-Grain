@@ -44,9 +44,8 @@ const ExerciseSearch = ({ onSelectExercise }) => {
   };
 
   return (
-    <div>
+    <div className="search-exercises">
       <input
-        className="search-exercises"
         type="text"
         value={query}
         onChange={handleSearch}

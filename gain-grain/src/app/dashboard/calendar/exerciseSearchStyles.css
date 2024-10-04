@@ -1,23 +1,33 @@
 .exercise-list, .meal-list {
-    max-height: 150px; /* Adjust the height as needed */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ccc; /* Optional: Add a border for visibility */
-    padding: 0; /* Remove padding */
-    list-style-type: none; /* Remove default list styling */
-    margin: 0; /* Remove default margin */
-  }
-  
-  .exercise-list li, .meal-list li {
-    padding: 8px; /* Add some padding for list items */
-    cursor: pointer; /* Change cursor on hover */
-  }
-  
-  .exercise-list li:hover, .meal-list li:hover {
-    background-color: #130d68; /* Optional: Highlight on hover */
-  }
+  max-height: 150px; /* Adjust the height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Optional: Add a border for visibility */
+  padding: 0; /* Remove padding */
+  list-style-type: none; /* Remove default list styling */
+  margin: 0; /* Remove default margin */
+}
 
-  .search-exercises {
-    color: black;
-  }
+.exercise-list li, .meal-list li {
+  padding: 8px; /* Add some padding for list items */
+  cursor: pointer; /* Change cursor on hover */
+  color: black; /* Ensure font color is black */
+}
 
-  
+.exercise-list li:hover, .meal-list li:hover {
+  background-color: #130d68; /* Optional: Highlight on hover */
+  color: white; /* Change font color on hover */
+}
+
+.search-exercises {
+  color: black !important; /* Force font color to black */
+}
+
+.search-exercises input {
+  color: black !important; /* Ensure input font color is black */
+  background-color: white; /* Optional: Ensure input background is white */
+  border: 1px solid #ccc; /* Add a border around the input */
+  border-radius: 4px; /* Optional: add rounded corners */
+  padding: 8px; /* Optional: add some padding inside the input */
+  width: 100%; /* Ensure the input takes the full width of its container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
