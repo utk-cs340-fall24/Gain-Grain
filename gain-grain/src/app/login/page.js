@@ -6,6 +6,7 @@ import { LockClosedIcon, UserIcon } from '@heroicons/react/solid';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async (e) => {
@@ -98,14 +99,23 @@ export default function Login() {
           </div>
           <div className={styles['input-box']}>
             <input 
-              type="password" 
+              type={showPassword ? 'text' : 'password'} 
               placeholder="Password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
+            />  
             <i className='bx bxs-lock-alt'>
               <LockClosedIcon className="w-6 h-6" />
             </i>
+          </div>
+          <div className={styles.togglePasswordContainer}>
+            <button 
+              className={styles.togglePassword}
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? 'Hide Password' : 'Show Password'}  
+            </button>
           </div>
           <div className={styles['remember-forget']}>
             <label>

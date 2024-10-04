@@ -8,6 +8,7 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [confirmedPassword, setConfirmedPassword] = useState('');
 
     const handleRegistration = async(e) => {
@@ -115,19 +116,35 @@ export default function Register() {
                     </div>
                     <div className={styles.inputBox}>
                         <input 
-                            type="password" 
+                            className={styles.passwordInput} 
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Create password" 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            />
+                        />
+                        <button 
+                            className={styles.togglePassword}
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                            {showPassword ? 'Hide' : 'Show'}  
+                        </button>
                     </div>
                     <div className={styles.inputBox}>
                         <input 
-                            type="password" 
+                            className={styles.passwordInput}
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Confirm password" 
                             value={confirmedPassword}
                             onChange = {(e) => setConfirmedPassword(e.target.value)}
-                            />
+                        />
+                        <button 
+                            className={styles.togglePassword}
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                        >
+                            {showPassword ? 'Hide' : 'Show'}  
+                        </button>
                     </div>
                     <div className={`${styles.inputBox} ${styles.button}`}>
                         <input type="submit" value="Register Now" />

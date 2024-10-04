@@ -59,6 +59,30 @@
     margin: 18px 0;
 }
 
+.inputBox {
+    position: relative;
+    width: 100%;
+}
+
+.passwordInput {
+    width: 100%;
+    padding-right: 60px;
+    padding-left: 10px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+  
+.togglePassword {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    color: var(--vol-orange);
+    cursor: pointer;
+    margin-left: -60px;
+    bottom: 17px;
+}
+
 .inputBox input {
     height: 90%;
     width: 100%;
