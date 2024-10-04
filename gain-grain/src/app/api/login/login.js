@@ -1,4 +1,4 @@
-import { findUser } from '../../../utils/userModel.js';
+import { findUser } from '../../../utils/userModel';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -12,10 +12,9 @@ export default async function handler(req, res) {
         return res.status(401).json(userFound);
       }
     } catch (err) {
-      res.status(500).json({ success: false, message: 'Server error', error: err });
+      return res.status(500).json({ success: false, message: "Server error: " + err.message });
     }
   } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.status(405).json({ message: "Method not allowed" });
   }
 }

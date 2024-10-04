@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.11.3",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
