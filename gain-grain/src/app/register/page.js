@@ -35,6 +35,9 @@ export default function Register() {
         } else if(!(/[a-z]/.test(password) && /[A-Z]/.test(password))) {
             showAlert('Password must contain uppercase and lowercase letters');
             return;
+        } else if(!(/\d/.test(password))) {
+            showAlert('Password must contain numbers');
+            return;
         } else if(!(/[^A-Za-z0-9]/.test(password))) {
             showAlert('Password must contain a special character');
             return;
