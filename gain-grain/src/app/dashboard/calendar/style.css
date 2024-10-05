@@ -695,3 +695,10 @@ body {
     color: white;
     background-color: var(--vol-orange); /* Example background */
 }
+
+.exercise-details {
+    font-size: 1em;  /* Slightly smaller font size for the details */
+    margin-top: 4px;   /* Add a bit of space between the name and the details */
+    color: black;       /* Optional: a softer color for the text */
+    display: block;    /* Ensure it's on a new line */
+}

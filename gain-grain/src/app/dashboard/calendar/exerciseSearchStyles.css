@@ -31,3 +31,13 @@
   width: 100%; /* Ensure the input takes the full width of its container */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
+
+.add-btn {
+  border: 2px solid transparent; /* Default border is transparent */
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  color: white;
+  background-color: var(--vol-orange); /* Example background */
+}
+

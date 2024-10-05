@@ -124,11 +124,12 @@ const CustomCalendar = () => {
         }
     };
 
-    const handleRemoveExercise = (exerciseToRemove) => {
-        const updatedExercises = selectedExercises.filter(item => item._id !== exerciseToRemove._id);
+    const handleRemoveExercise = (exerciseIndex) => {
+        const updatedExercises = selectedExercises.filter((_, index) => index !== exerciseIndex);
         setSelectedExercises(updatedExercises);
         saveExercisesToLocalStorage(updatedExercises);
     };
+    
 
     const handleRemoveMeal = (mealToRemove) => {
         const updatedMeals = selectedMeals.filter(item => item.name !== mealToRemove.name);
@@ -165,8 +166,15 @@ const CustomCalendar = () => {
     };
 
     const handleSelectExercise = (exercise) => {
-        setSelectedExercises(prev => [...prev, exercise]); // Add selected exercise
-        saveExercisesToLocalStorage([...selectedExercises, exercise]); // Save to localStorage
+
+        const newExercise = {
+            name: exercise.name,
+            sets: exercise.sets,
+            reps: exercise.reps,
+        }
+
+        setSelectedExercises(prev => [...prev, newExercise]); // Add selected exercise
+        saveExercisesToLocalStorage([...selectedExercises, newExercise]); // Save to localStorage
         setShowExerciseSearch(false); // Close search after selection
         setShowModal(false); // Close modal
     };
@@ -214,18 +222,25 @@ const CustomCalendar = () => {
                     <div className="event-date">{selectedDate.toLocaleDateString()}</div>
                 </div>
 
+                {/*Display exercises*/}
                 <div className="exercise-section">
                     <h3>Exercises</h3>
                     <ul className="exercise-list">
                         {selectedExercises.map((exercise, index) => (
                             <li key={index}>
+                            <div>
                                 <span>{exercise.name}</span>
-                                <button className="remove-btn" onClick={() => handleRemoveExercise(exercise)}>Remove</button>
-                            </li>
+                                <div className="exercise-details">
+                                    {exercise.sets} sets x {exercise.reps} reps
+                                </div>
+                            </div>
+                            <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
+                        </li>
                         ))}
                     </ul>
                 </div>
-
+                
+                {/*Display meals*/}
                 <div className="meal-section">
                     <h3>Meals</h3>
                     <ul className="meal-list">
@@ -245,6 +260,7 @@ const CustomCalendar = () => {
                 </div>
             </div>
 
+            {/* Modal for adding exercises and meals to the day*/}
             <Modal show={showModal} onClose={toggleModal}>
                 <div className="modal-body">
                     <div className="add-options">
