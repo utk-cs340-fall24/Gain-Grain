@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
@@ -19,6 +20,22 @@
     width: 90%;
     max-width: 800px;
 }
+
+.modal-close {
+    background: transparent  ; /* Make the background transparent */
+    cursor: pointer; /* Change cursor to pointer */
+    position: absolute; /* Position it in the top right */
+    right: 15px; /* Distance from the right */
+    top: 15px; /* Distance from the top */
+    color: #333; /* Set the text color */
+    font-size: 20px;
+    z-index: 10; /* Ensure it's above other content */
+}
+
+.modal-close:hover {
+    color: var(--vol-orange); /* Change color on hover */
+}
+
 
 .close-btn {
     position: absolute;
