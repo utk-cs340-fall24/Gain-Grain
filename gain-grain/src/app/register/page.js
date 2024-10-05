@@ -29,6 +29,15 @@ export default function Register() {
         } else if (!password) {
             showAlert('Password is required.');
             return;
+        } else if(password.length < 12) {
+            showAlert('Password must be at least 12 characters.');
+            return;
+        } else if(!(/[a-z]/.test(password) && /[A-Z]/.test(password))) {
+            showAlert('Password must contain uppercase and lowercase letters');
+            return;
+        } else if(!(/[^A-Za-z0-9]/.test(password))) {
+            showAlert('Password must contain a special character');
+            return;
         } else if(!confirmedPassword) {
             showAlert('Please confirm your password.');
             return;
