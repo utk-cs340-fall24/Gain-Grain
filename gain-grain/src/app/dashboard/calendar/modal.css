@@ -1,4 +1,28 @@
 /* modal.css */
+@keyframes fadeInCenter {
+    0% {
+        opacity: 0;
+        transform: scale(0.9); /* Slightly smaller for a subtle zoom effect */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Full size */
+    }
+}
+
+/* Keyframes for fading out to the center */
+@keyframes fadeOutCenter {
+    0% {
+        opacity: 1;
+        transform: scale(1); /* Full size */
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9); /* Slightly smaller when fading out */
+    }
+}
+
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -19,10 +43,22 @@
     position: relative;
     width: 90%;
     max-width: 800px;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+}
+
+.modal-open-animation {
+    animation-name: fadeInCenter;
+}
+
+/* Close animation */
+.modal-close-animation {
+    animation-name: fadeOutCenter;
 }
 
 .modal-close {
     background: transparent  ; /* Make the background transparent */
+    border: none;
     cursor: pointer; /* Change cursor to pointer */
     position: absolute; /* Position it in the top right */
     right: 15px; /* Distance from the right */
@@ -35,7 +71,6 @@
 .modal-close:hover {
     color: var(--vol-orange); /* Change color on hover */
 }
-
 
 .close-btn {
     position: absolute;
