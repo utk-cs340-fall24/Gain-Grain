@@ -23,7 +23,7 @@ export const createAndSaveUser = async (name, email, username, password) => {
 
     const existingUser = await db.collection('users').findOne({ username });
     if (existingUser) {
-      return { success: false, message: 'Username already exists.' };
+      return { success: false, message: 'Username already in use.' };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
