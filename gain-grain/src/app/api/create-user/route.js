@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createAndSaveUser, findUser} from '../../../utils/userModel';
+import { createAndSaveUser } from '../../../utils/userModel';
 
 export async function POST(req) {
   try {
