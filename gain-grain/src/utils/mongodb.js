@@ -1,12 +1,9 @@
 import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv';
-
-dotenv.config({path: '.env.local' });
 
 const connectionString = process.env.MONGO_URI; 
 
 if (!connectionString) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+  throw new Error('Please define the MONGO_URI environment variable inside .env');
 }
 
 let client;
