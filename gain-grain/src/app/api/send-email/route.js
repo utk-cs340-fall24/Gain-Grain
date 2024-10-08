@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { generateToken } from '../../../utils/userModel'
 
 export async function POST(req) {
     const { email } = await req.json();
@@ -12,6 +13,14 @@ export async function POST(req) {
                 pass: process.env.EMAIL_APP_PASS,
             },
         });
+
+        const resetToken = await generateToken(email);
+
+        if(!resetToken.success) {
+            return NextResponse.json({ success: false, message: resetToken.message }, { status: 500 });
+        }
+
+        const resetLink = `http://localhost:3000/reset-password?token=${resetToken.token}`;
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -71,7 +80,7 @@ export async function POST(req) {
                     <p>Hi,</p>
                     <p>You recently requested to reset your password for your <strong>Gain & Grain</strong> account. Click the button below to reset it:</p>
 
-                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn" style="color: white; text-decoration: none;">Reset Password</a>
+                    <a href="${resetLink}" class="btn" style="color: white; text-decoration: none;">Reset Password</a>
 
                     <p>If you did not request a password reset, please ignore this email or contact support if you have any questions.</p>
 
@@ -85,7 +94,7 @@ export async function POST(req) {
 
         await transporter.sendMail(mailOptions);
 
-        return NextResponse.json({ success: false, message: 'Password reset email sent. If you don\'t see it, check your spam.' }, { status: 200 });
+        return NextResponse.json({ success: true, message: 'Password reset email sent. If you don\'t see it, check your spam.' }, { status: 200 });
     } catch (error) {
         console.error('Error sending email: ', error);
         return NextResponse.json({ success: false, message: 'Failed to send email' }, { status: 500});
