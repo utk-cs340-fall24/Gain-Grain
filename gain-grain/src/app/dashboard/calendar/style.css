@@ -702,3 +702,7 @@ body {
     color: black;       /* Optional: a softer color for the text */
     display: block;    /* Ensure it's on a new line */
 }
+
+.exercise-list li:hover .exercise-details {
+    color: white; /* Change the sets and reps text color on hover */
+  }
