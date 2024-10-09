@@ -170,3 +170,14 @@
     outline: none; /* Remove default outline */
 }
 
+.calories-input {
+    display: flex;
+    align-items: center; /* Aligns items vertically */
+}
+
+.calories-label {
+    margin-left: 5px; /* Space between the input and label */
+    font-weight: bold; /* Optional: makes the label bold */
+}
+
+

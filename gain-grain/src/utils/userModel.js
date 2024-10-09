@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import clientPromise from './mongodb'
 
 const userSchema = new mongoose.Schema({
@@ -9,7 +10,21 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true }
 });
 
+const tokenSchema = new mongoose.Schema({
+  email: { type: String, required: true },
+  reset_token: { type: String, rerquired: true },
+  token_expiry: { type: Date, required: true }
+});
+
+async function createTokenTTLIndex() {
+  const client = await clientPromise;
+  const db = client.db();
+  await db.collection('tokens').createIndex({ token_expiry: 1 }, { expireAfterSeconds: 0 });
+}
+
 const User = mongoose.models.User || mongoose.model("User", userSchema);
+
+const Token = mongoose.models.Token || mongoose.model("Token", tokenSchema);
 
 export const createAndSaveUser = async (name, email, username, password) => {
   try {
@@ -67,3 +82,37 @@ export const findUser = async (username, password) => {
     return { success: false, message: 'Server error' };
   }
 };
+
+export const generateToken = async (email) => {
+  const client = await clientPromise;
+  const db = client.db();
+
+  await createTokenTTLIndex();
+
+  try {
+    const reset_token = crypto.randomBytes(32).toString('hex');
+    const current_date = new Date();
+    const expiration_time = new Date(current_date.getTime() + 60 * 60 * 1000);
+
+    const newToken = new Token({
+      email: email,
+      reset_token: reset_token,
+      token_expiry: expiration_time
+    });
+
+    await db.collection('tokens').insertOne(newToken);
+
+    return {
+      success: true, 
+      message: 'Reset token generated successfully.',
+      token: reset_token
+    };
+  } catch (error) {
+    console.error('Error generating reset token: ', error);
+    return { success: false, message: 'Error generating reset token.' };
+  }
+};
+
+export const verifyToken = async (email) => {
+
+}

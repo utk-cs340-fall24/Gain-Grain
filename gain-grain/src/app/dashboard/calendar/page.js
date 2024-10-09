@@ -5,15 +5,14 @@ import React, { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaPlus } from 'react-icons/fa';
 import './custom_calendar.css'; 
 import './style.css';
-import ExerciseSearch from './exerciseSearch'; // Import ExerciseSearch
-import Modal from './modal'; // Import the Modal component
+import ExerciseSearch from './exerciseSearch';
+import Modal from './modal';
 
 const CustomCalendar = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [eventsArr, setEventsArr] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showModal, setShowModal] = useState(false); // State for modal visibility
-    const [newEvent, setNewEvent] = useState({ name: '', from: '', to: '' });
+    const [showModal, setShowModal] = useState(false);
     const [activeDay, setActiveDay] = useState(null);
     const [days, setDays] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -21,14 +20,15 @@ const CustomCalendar = () => {
     const [showExerciseSearch, setShowExerciseSearch] = useState(false);
     const [mealName, setMealName] = useState('');
     const [mealCalories, setMealCalories] = useState('');
-    const [addingType, setAddingType] = useState(''); // Track adding type ('exercise' or 'meal')
+    const [mealIngredients, setMealIngredients] = useState(''); // New state for ingredients
+    const [addingType, setAddingType] = useState('');
     const [activeButton, setActiveButton] = useState('');
-    const [showExerciseDropdown, setShowExerciseDropdown] = useState(false); // Track the dropdown visibility
-    const [exerciseOption, setExerciseOption] = useState(''); // Track which option is selected
+    const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
+    const [exerciseOption, setExerciseOption] = useState('');
     const [showMealDropdown, setShowMealDropdown] = useState(false);
-    const [mealOption, setMealOption] = useState(''); // Track which meal option is selected
-    const [showMealForm, setShowMealForm] = useState(false); // To toggle the meal form
-    
+    const [mealOption, setMealOption] = useState('');
+    const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
+
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -79,28 +79,6 @@ const CustomCalendar = () => {
         setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)));
     };
 
-    const handleAddEvent = () => {
-        if (activeDay) {
-            const dayEvents = eventsArr.find(event =>
-                event.day === activeDay &&
-                event.month === currentMonth.getMonth() + 1 &&
-                event.year === currentMonth.getFullYear());
-
-            if (dayEvents) {
-                dayEvents.events.push(newEvent);
-            } else {
-                setEventsArr([...eventsArr, {
-                    day: activeDay,
-                    month: currentMonth.getMonth() + 1,
-                    year: currentMonth.getFullYear(),
-                    events: [newEvent],
-                }]);
-            }
-
-            setNewEvent({ name: '', from: '', to: '' });
-        }
-    };
-
     const loadExercisesForDate = (selectedDate) => {
         const savedWorkouts = JSON.parse(localStorage.getItem('workouts')) || {};
         const exercisesForDate = savedWorkouts[selectedDate.toDateString()]?.exercises || [];
@@ -130,9 +108,8 @@ const CustomCalendar = () => {
         saveExercisesToLocalStorage(updatedExercises);
     };
     
-
-    const handleRemoveMeal = (mealToRemove) => {
-        const updatedMeals = selectedMeals.filter(item => item.name !== mealToRemove.name);
+    const handleRemoveMeal = (mealIndex) => {
+        const updatedMeals = selectedMeals.filter((_, index) => index !== mealIndex);
         setSelectedMeals(updatedMeals);
         saveMealsToLocalStorage(updatedMeals);
     };
@@ -150,19 +127,16 @@ const CustomCalendar = () => {
     };
 
     const handleAddMeal = () => {
-        if (mealName && mealCalories) {
-            const newMeal = { name: mealName, calories: mealCalories };
+        if (mealName && mealCalories && mealIngredients) {
+            const newMeal = { name: mealName, calories: mealCalories, ingredients: mealIngredients };
             const updatedMeals = [...selectedMeals, newMeal];
             setSelectedMeals(updatedMeals);
             saveMealsToLocalStorage(updatedMeals);
             setMealName('');
             setMealCalories('');
-            setShowModal(false); // Close modal
+            setMealIngredients('');
+            setShowModal(false);
         }
-    };
-
-    const toggleModal = () => {
-        setShowModal(!showModal);
     };
 
     const handleSelectExercise = (exercise) => {
@@ -178,6 +152,40 @@ const CustomCalendar = () => {
         setShowExerciseSearch(false); // Close search after selection
         setShowModal(false); // Close modal
     };
+
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    };
+
+    const handleImportUrl = async () => {
+        if (!mealUrl) return; // Ensure URL is entered
+    
+        try {
+            const response = await fetch('/api/meals/recipes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: mealUrl }), // Use the mealUrl state variable
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert(errorData.message);
+                return;
+            }
+    
+            const data = await response.json();
+            if (data.success) {
+                setMealName(data.name);
+                setMealCalories(data.calories);
+                setMealIngredients(data.ingredients);
+            }
+        } catch (error) {
+            console.error('Error fetching the recipe:', error);
+        }
+    };
+    
 
     const renderDays = () => {
         return days.map((dayObj, index) => (
@@ -219,10 +227,9 @@ const CustomCalendar = () => {
             <div className="right">
                 <div className="today-date">
                     <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
-                    <div className="event-date">{selectedDate.toLocaleDateString()}</div>
+                    <div className="event-date">{selectedDate.toDateString()}</div>
                 </div>
-
-                {/*Display exercises*/}
+                
                 <div className="exercise-section">
                     <h3>Exercises</h3>
                     <ul className="exercise-list">
@@ -239,20 +246,19 @@ const CustomCalendar = () => {
                         ))}
                     </ul>
                 </div>
-                
-                {/*Display meals*/}
+
                 <div className="meal-section">
                     <h3>Meals</h3>
                     <ul className="meal-list">
                         {selectedMeals.map((meal, index) => (
                             <li key={index}>
                                 <span>{meal.name} ({meal.calories} cal)</span>
-                                <button className="remove-btn" onClick={() => handleRemoveMeal(meal)}>Remove</button>
+                                <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
                             </li>
                         ))}
                     </ul>
                 </div>
-
+                
                 <div className="add-section">
                     <button className="add-button" onClick={toggleModal}>
                         <FaPlus />
@@ -260,28 +266,27 @@ const CustomCalendar = () => {
                 </div>
             </div>
 
-            {/* Modal for adding exercises and meals to the day*/}
             <Modal show={showModal} onClose={toggleModal}>
                 <div className="modal-body">
                     <div className="add-options">
-                        {/* Exercise Dropdown */}
                         <div className="dropdown">
                             <button
-                                onClick={() => setShowExerciseDropdown(!showExerciseDropdown)} // Toggle dropdown
+                                onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
                                 className={activeButton === 'exercise' ? 'active' : ''}
                             >
                                 Add Exercise
                             </button>
+                            {/* Exercise Dropdown */}
                             {showExerciseDropdown && (
                                 <div className="dropdown-options">
                                     <button
                                         onClick={() => {
                                             setExerciseOption('create-new');
-                                            setMealOption(''); // Reset meal option
+                                            setMealOption('');
                                             setAddingType('exercise');
                                             setShowExerciseSearch(true);
                                             setActiveButton('exercise');
-                                            setShowExerciseDropdown(false); // Close dropdown after selection
+                                            setShowExerciseDropdown(false);
                                         }}
                                     >
                                         Create New
@@ -289,11 +294,11 @@ const CustomCalendar = () => {
                                     <button
                                         onClick={() => {
                                             setExerciseOption('import-saved');
-                                            setMealOption(''); // Reset meal option
+                                            setMealOption('');
                                             setAddingType('exercise');
                                             setShowExerciseSearch(false);
                                             setActiveButton('exercise');
-                                            setShowExerciseDropdown(false); // Close dropdown after selection
+                                            setShowExerciseDropdown(false);
                                         }}
                                     >
                                         Import from Saved
@@ -305,7 +310,7 @@ const CustomCalendar = () => {
                         {/* Meal Dropdown */}
                         <div className="dropdown">
                             <button
-                                onClick={() => setShowMealDropdown(!showMealDropdown)} // Toggle dropdown
+                                onClick={() => setShowMealDropdown(!showMealDropdown)}
                                 className={activeButton === 'meal' ? 'active' : ''}
                             >
                                 Add Meal
@@ -315,10 +320,10 @@ const CustomCalendar = () => {
                                     <button
                                         onClick={() => {
                                             setMealOption('create-new');
-                                            setExerciseOption(''); // Reset exercise option
+                                            setExerciseOption('');
                                             setAddingType('meal');
                                             setActiveButton('meal');
-                                            setShowMealDropdown(false); // Close dropdown after selection
+                                            setShowMealDropdown(false);
                                         }}
                                     >
                                         Create New
@@ -326,17 +331,18 @@ const CustomCalendar = () => {
                                     <button
                                         onClick={() => {
                                             setMealOption('import-saved');
-                                            setExerciseOption(''); // Reset exercise option
-                                            setShowMealDropdown(false); // Close dropdown after selection
+                                            setExerciseOption('');
+                                            setShowMealDropdown(false);
                                         }}
                                     >
                                         Import from Saved
                                     </button>
                                     <button
                                         onClick={() => {
+                                            handleImportUrl();
                                             setMealOption('import-url');
-                                            setExerciseOption(''); // Reset exercise option
-                                            setShowMealDropdown(false); // Close dropdown after selection
+                                            setExerciseOption('');
+                                            setShowMealDropdown(false);
                                         }}
                                     >
                                         Import from URL
@@ -346,21 +352,19 @@ const CustomCalendar = () => {
                         </div>
                     </div>
 
-                    {/* Conditionally render content based on the selected options */}
                     <div className="add-forms">
-                        {/* Show exercise search form if 'Create New' is selected */}
+                        {/* create new exercise form */}
                         {exerciseOption === 'create-new' && addingType === 'exercise' && showExerciseSearch && (
-                            <ExerciseSearch onSelectExercise={handleSelectExercise} />
+                            <ExerciseSearch onSelectExercise={handleSelectExercise} /> 
                         )}
 
-                        {/* Show 'Coming Soon' message if 'Import from Saved' is selected */}
                         {exerciseOption === 'import-saved' && (
                             <div className="coming-soon">
                                 <p>Coming Soon: Import from Saved Exercises!</p>
                             </div>
                         )}
 
-                        {/* Show meal form when adding a meal */}
+                        {/* create new meal form */}
                         {addingType === 'meal' && mealOption === 'create-new' && (
                             <div className="meal-form">
                                 <input
@@ -380,18 +384,47 @@ const CustomCalendar = () => {
                             </div>
                         )}
 
-                        {/* Show 'Coming Soon' message for meal options */}
                         {mealOption === 'import-saved' && (
                             <div className="coming-soon">
                                 <p>Coming Soon: Import from Saved Meals!</p>
                             </div>
                         )}
 
+                        {/* URL import for meals */}
                         {mealOption === 'import-url' && (
-                            <div className="coming-soon">
-                                <p>Coming Soon: Import Meals from URL!</p>
+                            <div className="meal-form">
+                                <h3>Import Meal from URL</h3>
+                                <input
+                                    type="text"
+                                    value={mealUrl} // New state variable to hold the URL
+                                    onChange={(e) => setMealUrl(e.target.value)} // Update state on input change
+                                    placeholder="Enter Recipe URL"
+                                />
+                                <button onClick={handleImportUrl}>Fetch Meal Details</button>
+                                
+                                {/* Display fetched meal details */}
+                                {mealName && (
+                                    <>
+                                        <h3>Imported Meal Details</h3>
+                                        <input
+                                            type="text"
+                                            value={mealName}
+                                            onChange={(e) => setMealName(e.target.value)}
+                                            placeholder="Meal Name"
+                                        />
+                                        <input
+                                            className="meal-number"
+                                            type="number"
+                                            value={mealCalories}
+                                            onChange={(e) => setMealCalories(e.target.value)}
+                                            placeholder="Calories"
+                                        />
+                                        <button onClick={handleAddMeal}>Add Meal</button>
+                                    </>
+                                )}
                             </div>
                         )}
+
                     </div>
                 </div>
             </Modal>
