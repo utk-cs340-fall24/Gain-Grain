@@ -14,7 +14,13 @@ const tokenSchema = new mongoose.Schema({
   email: { type: String, required: true },
   reset_token: { type: String, rerquired: true },
   token_expiry: { type: Date, required: true }
-})
+});
+
+async function createTokenTTLIndex() {
+  const client = await clientPromise;
+  const db = client.db();
+  await db.collection('tokens').createIndex({ token_expiry: 1 }, { expireAfterSeconds: 0 });
+}
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
@@ -80,6 +86,8 @@ export const findUser = async (username, password) => {
 export const generateToken = async (email) => {
   const client = await clientPromise;
   const db = client.db();
+
+  await createTokenTTLIndex();
 
   try {
     const reset_token = crypto.randomBytes(32).toString('hex');
