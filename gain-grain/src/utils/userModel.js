@@ -202,13 +202,13 @@ export const getUserById = async (userId) => {
   const db  = client.db();
 
   try  {
-    const user = await  db.collection('users').findOne({ userId });
+    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
 
     if(!user)  {
-      return {success :  false, message : 'User not found.' };
+      return  {success: false, message: 'User not found.' };
     }
 
-    return {success : true, username};
+    return { success: true, user: user.username };
   }
   catch(error) {
     console.error('Error retrieving user: ', error);
