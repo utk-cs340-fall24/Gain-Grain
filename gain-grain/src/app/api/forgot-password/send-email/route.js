@@ -1,11 +1,16 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { generateToken } from '../../../utils/userModel'
+import { findUserWithEmail, generateToken } from '../../../../utils/userModel'
 
 export async function POST(req) {
     const { email } = await req.json();
 
     try {
+        const foundUser = await findUserWithEmail(email);
+        if(!foundUser.success) {
+            return NextResponse.json({ success: false });
+        }
+
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -94,7 +99,7 @@ export async function POST(req) {
 
         await transporter.sendMail(mailOptions);
 
-        return NextResponse.json({ success: true, message: 'Password reset email sent. If you don\'t see it, check your spam.' }, { status: 200 });
+        return NextResponse.json({ success: true, message: 'Password reset email sent. If you don\'t receive it, check your spam.' }, { status: 200 });
     } catch (error) {
         console.error('Error sending email: ', error);
         return NextResponse.json({ success: false, message: 'Failed to send email' }, { status: 500});

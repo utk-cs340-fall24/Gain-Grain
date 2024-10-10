@@ -20,7 +20,7 @@ export default function ForgotPassword() {
         }
 
         try {
-            const response = await fetch('/api/send-email', {
+            const response = await fetch('/api/forgot-password/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

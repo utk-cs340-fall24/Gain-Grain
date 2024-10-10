@@ -26,7 +26,7 @@ export default function Login() {
     }
 
     try {
-      const res = await fetch('/api/find-user', {
+      const res = await fetch('/api/login/find-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ export default function Login() {
                 />
               Remember me
             </label>
-            <a href="/login/forgot"> Forgot password?</a>
+            <a href="/login/forgot-password"> Forgot password?</a>
           </div>
           <button type="submit" className={styles.btn}>Login</button>
           <div className={styles['register-link']}>

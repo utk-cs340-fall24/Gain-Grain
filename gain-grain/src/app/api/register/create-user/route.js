@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createAndSaveUser } from '../../../utils/userModel';
+import { createAndSaveUser } from '../../../../utils/userModel';
 
 export async function POST(req) {
   try {
@@ -10,7 +10,7 @@ export async function POST(req) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error in find-user API:', error);
+    console.error('Error when creating user:', error);
     return NextResponse.json({ success: false, message: 'Server error.' }, { status: 500 });
   }
 }

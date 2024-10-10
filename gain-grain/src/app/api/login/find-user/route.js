@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { findUser } from '../../../utils/userModel';
+import { findUser } from '../../../../utils/userModel';
 
 export async function POST(req) {
     try {
@@ -15,6 +15,6 @@ export async function POST(req) {
     }
   }
   
-  export async function GET() {
-    return NextResponse.json({ success: false, message: 'Method GET not allowed' }, { status: 405 });
-  }
+export async function GET() {
+  return NextResponse.json({ success: false, message: 'Method GET not allowed' }, { status: 405 });
+}

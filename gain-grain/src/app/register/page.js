@@ -9,6 +9,7 @@ export default function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
     const [confirmedPassword, setConfirmedPassword] = useState('');
 
     const handleRegistration = async(e) => {
@@ -52,7 +53,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch('/api/create-user', {
+            const res = await fetch('/api/register/create-user', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +146,7 @@ export default function Register() {
                     <div className={styles.inputBox}>
                         <input 
                             className={styles.passwordInput}
-                            type={showPassword ? 'text' : 'password'}
+                            type={showConfirmedPassword ? 'text' : 'password'}
                             placeholder="Confirm password" 
                             value={confirmedPassword}
                             onChange = {(e) => setConfirmedPassword(e.target.value)}
@@ -153,9 +154,9 @@ export default function Register() {
                         <button 
                             className={styles.togglePassword}
                             type="button"
-                            onClick={() => setShowPassword((prev) => !prev)}
+                            onClick={() => setShowConfirmedPassword((prev) => !prev)}
                         >
-                            {showPassword ? 'Hide' : 'Show'}  
+                            {showConfirmedPassword ? 'Hide' : 'Show'}  
                         </button>
                     </div>
                     <div className={`${styles.inputBox} ${styles.button}`}>
