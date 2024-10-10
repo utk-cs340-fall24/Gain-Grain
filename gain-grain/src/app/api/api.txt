@@ -1,3 +1,0 @@
-API routes (Next.js serverless functions):
-
-look up routes for next.js

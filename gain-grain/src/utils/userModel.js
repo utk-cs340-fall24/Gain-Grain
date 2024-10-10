@@ -16,21 +16,21 @@ const tokenSchema = new mongoose.Schema({
   token_expiry: { type: Date, required: true }
 });
 
+const User = mongoose.models.User || mongoose.model("User", userSchema);
+
+const Token = mongoose.models.Token || mongoose.model("Token", tokenSchema);
+
 async function createTokenTTLIndex() {
   const client = await clientPromise;
   const db = client.db();
   await db.collection('tokens').createIndex({ token_expiry: 1 }, { expireAfterSeconds: 0 });
 }
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
-
-const Token = mongoose.models.Token || mongoose.model("Token", tokenSchema);
-
 export const createAndSaveUser = async (name, email, username, password) => {
-  try {
-    const client = await clientPromise;
-    const db = client.db();
+  const client = await clientPromise;
+  const db = client.db();
 
+  try {
     const existingEmail = await db.collection('users').findOne({ email });
     if (existingEmail) {
       return { success: false, message: 'Email already in use.' };
@@ -78,10 +78,53 @@ export const findUser = async (username, password) => {
 
     return { success: true, message: 'Login successful', user };
   } catch (error) {
-    console.error('Error in find-user API:', error);
-    return { success: false, message: 'Server error' };
+    console.error('Error when finding user: ', error);
+    return { success: false, message: 'Error when finding user' };
   }
 };
+
+export const findUserWithEmail = async (email) => {
+  const client = await clientPromise;
+  const db = client.db();
+
+  try {
+    const user = await db.collection('users').findOne({ email });
+
+    if (!user) {
+      return { success: false, message: 'Could not find a user with that email.' };
+    }
+
+    return { success: true, message: 'Found user with that email.'};
+  } catch (error) {
+    console.error('Error when finding user: ', error);
+    return { success: false, message: 'Error when finding user' };
+  }
+};
+
+export const resetPassword = async(email, newPassword) => {
+  const client = await clientPromise;
+  const db = client.db();
+
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await db.collection('users').updateOne(
+      { email: email },
+      { $set: { password: hashedPassword } },
+    );
+
+    if (updatedUser.matchedCount === 0) {
+      return { success: false, message: 'No user found with the provided email.' };
+    } else if (updatedUser.modifiedCount === 0) {
+      return { success: false, message: 'User found but password not changed.' };
+    }
+
+    return { success: true, message: 'Password updated successfully.' };
+  } catch(error) {
+    console.error('Error updating password:', error);
+    return { success: false, message: 'Error resetting password.' };
+  }
+}
 
 export const generateToken = async (email) => {
   const client = await clientPromise;
@@ -113,6 +156,43 @@ export const generateToken = async (email) => {
   }
 };
 
-export const verifyToken = async (email) => {
+export const validateToken = async (reset_token) => {
+  const client = await clientPromise;
+  const db = client.db();
 
+  try {
+    const token_db = await db.collection('tokens').findOne({ reset_token });
+
+    if (!token_db) {
+      return { success: false, message: 'Token not found or invalid.' };
+    }
+
+    const current_time = new Date();
+    if (token_db.token_expiry < current_time) {
+      return { success: false, message: 'Token has expired.' };
+    }
+
+    return { success: true, token: token_db }
+  } catch (error) {
+    console.error('Error finding token: ', error);
+    return { success: false, message: 'Server error during token verification.' };
+  }
+};
+
+export const removeToken = async (reset_token) => {
+  const client = await clientPromise;
+  const db = client.db();
+
+  try {
+    const deletedToken = await db.collection('tokens').deleteOne({ reset_token });
+
+    if(deletedToken.deletedCount === 0) {
+      return { success: false, message: 'Token not found.' };
+    }
+
+    return { success: true, message: 'Token deleted successfully' };
+  } catch(error) {
+    console.error('Error deleting token: ', error);
+    return { success: false, message: 'Error deleting token' };
+  }
 }
