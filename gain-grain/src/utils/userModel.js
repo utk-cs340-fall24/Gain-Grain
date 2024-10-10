@@ -196,3 +196,22 @@ export const removeToken = async (reset_token) => {
     return { success: false, message: 'Error deleting token' };
   }
 }
+
+export const getUserById = async (userId) => {
+  const client = await clientPromise;
+  const db  = client.db();
+
+  try  {
+    const user = await  db.collection('users').findOne({ userId });
+
+    if(!user)  {
+      return {success :  false, message : 'User not found.' };
+    }
+
+    return {success : true, username};
+  }
+  catch(error) {
+    console.error('Error retrieving user: ', error);
+    return { success: false, message: 'Error retrieving user.' };
+  }
+}
