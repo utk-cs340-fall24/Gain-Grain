@@ -83,7 +83,7 @@ export const findUser = async (username, password) => {
   }
 };
 
-export const findUserWithEmail = async (email) => {
+export const findUserByEmail = async (email) => {
   const client = await clientPromise;
   const db = client.db();
 

@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { findUserWithEmail, generateToken } from '../../../../utils/userModel'
+import { findUserByEmail, generateToken } from '../../../../utils/userModel'
 
 export async function POST(req) {
     const { email } = await req.json();
 
     try {
-        const foundUser = await findUserWithEmail(email);
+        const foundUser = await findUserByEmail(email);
         if(!foundUser.success) {
             return NextResponse.json({ success: false });
         }

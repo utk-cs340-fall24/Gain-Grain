@@ -1,7 +1,7 @@
-import { MongoClient } from 'mongodb';
+import { clientPromise } from 'mongodb';
 
 export default async function handler(req, res) {
-    const client = await MongoClient.connect('your-mongo-connection-string');
+    const client = await clientPromise;
     const db = client.db();
     const workoutsCollection = db.collection('workouts');
 
