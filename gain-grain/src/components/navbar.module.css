@@ -13,3 +13,18 @@
     display: flex;
     align-items: center;
 }
+
+.hamburgerMenu .hamburgerButton {
+    width: 100%; /* w-full */
+    background-color: #FF8200; /* bg-orange-500 */
+    color: #FF8200; /* text-orange-500 */
+    font-weight: 600; /* font-semibold */
+    padding: 0.5rem 1rem; /* py-2 px-4 */
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: background-color 0.3s ease, color 0.3s ease; /* transition-all */
+}
+
+.hamburgerMenu .hamburgerButton:hover {
+    background-color: #FF8200; /* hover:bg-orange-500 */
+    color: white; /* hover:text-white */
+}

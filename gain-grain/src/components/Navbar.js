@@ -32,37 +32,37 @@ export default function Navbar() {
                     <div className={styles.hamburgerMenu}>
                         <div className="flex flex-col space-y-1 my-1">
                             <Link href="/dashboard/calendar">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="styles.hamburgerButton">
                                     Calendar
                                 </button>
                             </Link>
                             <Link href="/dashboard/savedMeals">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-orange-500 font-semibold py-2 px-4 rounded-lg box-shadow:0 hover:bg-orange-500 hover:text-white transition-all">
                                     Nutrition
                                 </button>
                             </Link>
                             <Link href="/dashboard/savedWorkouts">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
                                     Exercise
                                 </button>
                             </Link>
                             <Link href="/login">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
                                     Login
                                 </button>
                             </Link>
                             <Link href="/register">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
                                     Register
                                 </button>
                             </Link>
                             <Link href="/post">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
                                     Post
                                 </button>
                             </Link>
                             <Link href="/profile">
-                                <button className="w-full bg-gray-100 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-orange-500 font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
                                     Profile
                                 </button>
                             </Link>
