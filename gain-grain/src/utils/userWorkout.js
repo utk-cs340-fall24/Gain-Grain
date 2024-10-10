@@ -14,37 +14,33 @@ const workoutSchema = new mongoose.Schema({
 
 const Workout = mongoose.models.Workout || mongoose.model('Workout', workoutSchema);
 
-// Function to create a workout
+// create a workout
 export const createWorkout = async (userId, exercises) => {
-  const client = await clientPromise; // Use the MongoDB client
-  const db = client.db(); // Access the database
-  const workoutsCollection = db.collection('workouts'); // Access the workouts collection
+  const client = await clientPromise;
+  const db = client.db();
+  const workoutsCollection = db.collection('workouts');
 
-  const result = await workoutsCollection.insertOne({ userId, exercises, date: new Date() }); // Insert the workout
-  return result; // Return the result of the insert operation
+  const result = await workoutsCollection.insertOne({ userId, exercises, date: new Date() });
+  return result;
 };
 
-
-
-
-// Function to find workouts by userId
+// find workouts by userId
 export const findWorkoutsByUserId = async (userId) => {
-  const client = await clientPromise; // Use the MongoDB client
-  const db = client.db(); // Access the database
-  const workoutsCollection = db.collection('workouts'); // Access the workouts collection
+  const client = await clientPromise;
+  const db = client.db();
+  const workoutsCollection = db.collection('workouts');
 
-  const workouts = await workoutsCollection.find({ userId }).toArray(); // Find workouts by userId
-  return workouts; // Return the list of workouts
+  const workouts = await workoutsCollection.find({ userId }).toArray();
+  return workouts;
 };
 
-// Function to delete a workout by ID
+// delete a workout by ID
 export const deleteWorkoutById = async (workoutId) => {
-  const client = await clientPromise; // Use the MongoDB client
-  const db = client.db(); // Access the database
-  const workoutsCollection = db.collection('workouts'); // Access the workouts collection
-
-  const result = await workoutsCollection.deleteOne({ _id: new mongoose.Types.ObjectId(workoutId) }); // Delete the workout by ID
-  return result; // Return the result of the delete operation
+  const client = await clientPromise;
+  const db = client.db();
+  const workoutsCollection = db.collection('workouts');
+  const result = await workoutsCollection.deleteOne({ _id: new mongoose.Types.ObjectId(workoutId) });
+  return result;
 };
 
 export default Workout;
