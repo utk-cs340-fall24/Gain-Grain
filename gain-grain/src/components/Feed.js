@@ -1,6 +1,3 @@
-// Feed.js
-import { useState } from "react";
-
 export default function Feed({ toggleComments, visibleComments }) {
     return (
         <div className="flex justify-center mt-8 w-full">

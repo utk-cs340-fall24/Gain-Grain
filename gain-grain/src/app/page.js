@@ -1,8 +1,7 @@
-// Home.js
 "use client";
 
 import { useState } from "react";
-import Navbar from "../components/Navbar"; // Adjust the path based on your file structure
+import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
 import Comments from "../components/Comments";
 

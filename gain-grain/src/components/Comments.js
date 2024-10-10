@@ -1,4 +1,3 @@
-// Comments.js
 export default function Comments({ visibleComments }) {
     return (
         <div className="comments-container flex flex-col ml-4">
