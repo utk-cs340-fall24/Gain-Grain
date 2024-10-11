@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import clientPromise from './mongodb';
-import { ObjectId } from 'mongoose.Types';
+import { ObjectId } from 'mongodb';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
