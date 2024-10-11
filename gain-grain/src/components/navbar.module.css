@@ -9,12 +9,12 @@
 }
 
 .logo {
-    width: 12rem; /* Adjust the size as needed */
-    height: 8rem; /* Adjust the size as needed */
-    background-image: url('/../public/images/logo.jpg'); /* Path to your image */
     background-size: contain; /* Ensures the image fits the div */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     background-position: center; /* Centers the image */
+    background-image: url('../public/images/logo.png');
+    height: 60px;
+    width: 60px;
 }
 
 .searchBar {

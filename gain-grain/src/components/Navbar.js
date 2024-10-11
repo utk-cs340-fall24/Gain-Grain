@@ -9,7 +9,6 @@ export default function Navbar() {
 
     const [showDropdown, setShowDropdown] = useState(false)
 
-    // functionality to make hamburger menu appear
     function toggleHamburgerDropdown(){
         setShowDropdown(!showDropdown)
     }
@@ -18,8 +17,13 @@ export default function Navbar() {
         // orange bar
         <nav className={styles.bigBar}>
             {/* gain & grain logo top left */}
-            <div className="flex flex-col justify-center items-center">
-                <div className={styles.logo}></div>
+            <div>
+                <img
+                    className={styles.logo} 
+                    height={50} 
+                    width={150}
+                    onClick={() => window.location.href = '/'}
+                ></img>
             </div>
             {/* search bar */}
             <div className="flex-grow w-full flex justify-center items-center">
