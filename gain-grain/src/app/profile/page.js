@@ -8,7 +8,7 @@ export default function profile() {
             <main className="flex min-h-screen flex-col p-6 bg-gray-50">
                 <Navbar />
                 <div className="flex justify-center pt-20">
-                    <Profile />
+                    <Profile/>
                 </div>
             </main>
         </div>

@@ -1,4 +1,48 @@
-export default function profile() {
+"use client";
+
+import React, { useEffect, useState} from "react";   
+import { getSession } from 'next-auth/react';     
+
+const profile = ({userId}) => {
+  const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!userId) {
+        setError('No user ID provided');
+        setLoading(false);
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/user/${userId}`);
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        const data = await response.json();
+        if (data.success) {
+          setUsername(data.user.username);
+        } else {
+          throw new Error(data.message || 'Failed to fetch user data');
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       <div className="flex items-center space-x-6">
@@ -13,7 +57,7 @@ export default function profile() {
             <p>Followers</p>
             <p>Following</p>
           </ul>
-          <h1 className="text-2xl font-bold">User </h1>
+          <h1 className="text-2xl font-bold">{username} </h1>
           <p className="text-gray-600">User's Bio</p>
         </div>
         <button> edit profile </button>
@@ -28,4 +72,25 @@ export default function profile() {
       </div>
     </div>
   );
+};
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session || !session.user) {
+    return {
+      redirect: {
+        destination: '../login', 
+        permanent: false,
+      },
+    };
+  }
+
+  const userId = session.user.id;
+  return {
+    props: {
+      userId,
+    },
+  };
 }
+export default profile;
