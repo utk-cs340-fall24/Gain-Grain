@@ -7,18 +7,16 @@ import { MdOutlineFastfood } from "react-icons/md";
 export default function PostPage() {
     return (
         <div className="flex flex-col items-center">
-            <Navbar/>
-        
-            <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 p-6">
-                
+            <Navbar />
 
+            <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 p-6">
                 <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
                     <h1 className="text-3xl font-bold mb-6 text-center">What would you like to post?</h1>
 
                     <div className="flex flex-col space-y-4">
                         {/* Workouts */}
                         <Link href="/post/post-workouts">
-                            <button className="bg-workout-color hover:bg-workout-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <button className="bg-[#4CAF50] hover:bg-[#45A049] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
                                 <FaDumbbell className="mr-2" />
                                 Workouts
                             </button>
@@ -26,7 +24,7 @@ export default function PostPage() {
 
                         {/* Meals */}
                         <Link href="/post/post-meals">
-                            <button className="bg-meal-color hover:bg-meal-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <button className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
                                 <MdOutlineFastfood className="mr-2" />
                                 Meals
                             </button>
@@ -34,7 +32,7 @@ export default function PostPage() {
 
                         {/* Progress Pictures */}
                         <Link href="/post/post-progress-pictures">
-                            <button className="bg-progress-color hover:bg-progress-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <button className="bg-[#3F51B5] hover:bg-[#303F9F] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
                                 <FaCameraRetro className="mr-2" />
                                 Progress Pictures
                             </button>
@@ -42,7 +40,7 @@ export default function PostPage() {
 
                         {/* Blog */}
                         <Link href="/post/post-blog">
-                            <button className="bg-blog-color hover:bg-blog-hover-color text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
+                            <button className="bg-[#FFC107] hover:bg-[#FFA000] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
                                 <FaPencilAlt className="mr-2" />
                                 Blog
                             </button>
