@@ -1,3 +1,4 @@
+// navbar.js
 "use client";
 
 import Link from "next/link";
@@ -14,7 +15,6 @@ export default function Navbar() {
     }
 
     return (
-        // orange bar
         <nav className={styles.bigBar}>
             {/* gain & grain logo top left */}
             <div>
@@ -26,27 +26,33 @@ export default function Navbar() {
                 ></img>
             </div>
             {/* search bar */}
-            <div className="flex-grow w-full flex justify-center items-center">
+            <div className={styles.centerContainer}>
                 <input
                     type="text"
                     placeholder="Search..."
                     className={styles.searchBar}
                 />
             </div>
+            <div className={styles.buttonContainer}>
+                <Link href="/dashboard/calendar">
+                    <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+                        Calendar
+                    </button>
+                </Link>
+                <Link href="/post">
+                    <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+                        Post
+                    </button>
+                </Link>
+            </div>
             {/* hamburger options menu */}
-            <div className={styles.hamburgerDropdown} onClick={toggleHamburgerDropdown}>
-                <Bars3Icon className="size-7 text-white"/>
-                {/* make the dropdown appear if it has been clicked */}
+            <div className={styles.hamburgerButton} onClick={toggleHamburgerDropdown}>
+                <Bars3Icon className="size-7 text-white rounded-lg hover:bg-orange-600"/>
                 {showDropdown ?
                     <div className={styles.hamburgerMenu}>
                         <div className="flex flex-col space-y-1 my-1">
-                            <Link href="/dashboard/calendar">
-                                <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-                                    Calendar
-                                </button>
-                            </Link>
                             <Link href="/dashboard/savedMeals">
-                                <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg box-shadow:0 hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
                                     Nutrition
                                 </button>
                             </Link>
@@ -55,19 +61,10 @@ export default function Navbar() {
                                     Exercise
                                 </button>
                             </Link>
+                            {/* Combined login/register button */}
                             <Link href="/login">
                                 <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-                                    Login
-                                </button>
-                            </Link>
-                            <Link href="/register">
-                                <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-                                    Register
-                                </button>
-                            </Link>
-                            <Link href="/post">
-                                <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-                                    Post
+                                    Login/Register
                                 </button>
                             </Link>
                             <Link href="/profile">
@@ -77,10 +74,8 @@ export default function Navbar() {
                             </Link>
                         </div>
                     </div>
-                    // if menu has not been clicked, show nothing
                     :<></>
-                } 
-
+                }
             </div>
         </nav>
     );

@@ -9,56 +9,67 @@
 }
 
 .logo {
-    background-size: contain; /* Ensures the image fits the div */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    background-position: center; /* Centers the image */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     background-image: url('../public/images/logo.png');
     height: 60px;
     width: 60px;
+    outline: none;
+    border: none;
+    background-color: transparent;
 }
 
 .searchBar {
     width: 20rem;
-    background-color: white; /* bg-gray-200 equivalent */
+    background-color: white; 
     padding: 0.5rem;
     border-radius: 0.5rem;
     transition: width 0.3s ease-in-out;
-    outline: none; /* Removes the default focus outline */
-    border: 1px solid transparent; /* Initial transparent border */
+    outline: none;
+    border: 1px solid transparent;
 }
-  
+
 .searchBar:hover,
 .searchBar:focus {
     width: 30rem;
 }
 
-.hamburgerDropdown {
+/* Centering the search bar container */
+.centerContainer {
+    flex: 1; /* Make it take available space */
+    display: flex;
+    justify-content: center; /* Center the search bar */
+    align-items: center; /* Center vertically */
+}
+
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+}
+
+.hamburgerButton {
     position: relative;
     height: 64px;
     display: flex;
     align-items: center;
+    padding-left: 20px;
+    padding-right: 10px;
+    cursor: pointer;
 }
 
-.hamburgerDropdown .hamburgerMenu {
-    width: 15vw;
+.hamburgerButton:hover {
+    background-color: #F97316;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hamburgerMenu {
+    width: 10vw;
     background-color: lightgrey;
     position: absolute;
     right: 0;
     top: 64px;
     z-index: 1;
-}
-
-.hamburgerMenu .hamburgerButton {
-    width: 100%; /* w-full */
-    background-color: #FF8200; /* bg-orange-500 */
-    color: #FF8200; /* text-orange-500 */
-    font-weight: 600; /* font-semibold */
-    padding: 0.5rem 1rem; /* py-2 px-4 */
-    border-radius: 0.5rem; /* rounded-lg */
-    transition: background-color 0.3s ease, color 0.3s ease; /* transition-all */
-}
-
-.hamburgerMenu .hamburgerButton:hover {
-    background-color: #FF8200; /* hover:bg-orange-500 */
-    color: white; /* hover:text-white */
 }
