@@ -9,25 +9,30 @@ export default function Navbar() {
 
     const [showDropdown, setShowDropdown] = useState(false)
 
+    // functionality to make hamburger menu appear
     function toggleHamburgerDropdown(){
         setShowDropdown(!showDropdown)
     }
 
     return (
-        <nav className="flex w-full items-center justify-between h-16 bg-orange-500 p-4 rounded-lg">
-            <h1 className="text-white text-xl md:text-3xl font-bold">Gain & Grain</h1>
-            {/* Search bar */}
-            <div className="flex-grow flex justify-center">
+        // orange bar
+        <nav className={styles.bigBar}>
+            {/* gain & grain logo top left */}
+            <div className="flex flex-col justify-center items-center">
+                <div className={styles.logo}></div>
+            </div>
+            {/* search bar */}
+            <div className="flex-grow w-full flex justify-center items-center">
                 <input
                     type="text"
                     placeholder="Search..."
-                    className="transition-width duration-500 ease-in-out h-10 px-2 rounded-lg w-96"
+                    className={styles.searchBar}
                 />
             </div>
-
+            {/* hamburger options menu */}
             <div className={styles.hamburgerDropdown} onClick={toggleHamburgerDropdown}>
                 <Bars3Icon className="size-7 text-white"/>
-
+                {/* make the dropdown appear if it has been clicked */}
                 {showDropdown ?
                     <div className={styles.hamburgerMenu}>
                         <div className="flex flex-col space-y-1 my-1">
@@ -68,6 +73,7 @@ export default function Navbar() {
                             </Link>
                         </div>
                     </div>
+                    // if menu has not been clicked, show nothing
                     :<></>
                 } 
 
