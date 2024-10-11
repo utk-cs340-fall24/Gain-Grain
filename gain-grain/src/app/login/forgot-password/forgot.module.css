@@ -45,6 +45,10 @@
     color: #949494;
 }
 
+.lock-icon {
+    color: var(--smokey-gray);
+}
+
 
 .wrapper .input-box{
     position: relative;
