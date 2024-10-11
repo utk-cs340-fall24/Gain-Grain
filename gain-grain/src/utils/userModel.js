@@ -1,13 +1,17 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import clientPromise from './mongodb'
+import clientPromise from './mongodb';
+import { ObjectId } from 'mongodb';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true},
   username: { type: String, required: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  numFollowers: {type: Number, required: true},
+  numFollowing: {type: Number, required: true},
+  bio: { type: String }
 });
 
 const tokenSchema = new mongoose.Schema({
@@ -47,7 +51,10 @@ export const createAndSaveUser = async (name, email, username, password) => {
       name: name,
       email: email,
       username: username,
-      password: hashedPassword
+      password: hashedPassword,
+      numFollowers: 0,
+      numFollowing: 0,
+      bio: "",
     });
 
     const result = await db.collection('users').insertOne(newUser);
@@ -128,7 +135,6 @@ export const resetPassword = async(email, newPassword) => {
 
 export const generateToken = async (email) => {
   const client = await clientPromise;
-  const db = client.db();
 
   await createTokenTTLIndex();
 
@@ -143,7 +149,7 @@ export const generateToken = async (email) => {
       token_expiry: expiration_time
     });
 
-    await db.collection('tokens').insertOne(newToken);
+    await newToken.save();
 
     return {
       success: true, 
@@ -201,14 +207,14 @@ export const getUserById = async (userId) => {
   const client = await clientPromise;
   const db  = client.db();
 
-  try  {
+  try {
     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
 
     if(!user)  {
       return  {success: false, message: 'User not found.' };
     }
 
-    return { success: true, user: user.username };
+    return { success: true, user };
   }
   catch(error) {
     console.error('Error retrieving user: ', error);
