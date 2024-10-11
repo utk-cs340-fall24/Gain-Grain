@@ -8,13 +8,13 @@ export default function PostPage() {
     return (
         <div className="flex flex-col items-center">
             <Navbar/>
-        
+            {/* background grey */}
             <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 p-6">
                 
-
+                {/* white pane in center screen */}
                 <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
                     <h1 className="text-3xl font-bold mb-6 text-center">What would you like to post?</h1>
-
+                    
                     <div className="flex flex-col space-y-4">
                         {/* Workouts */}
                         <Link href="/post/post-workouts">
