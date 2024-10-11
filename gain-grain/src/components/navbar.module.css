@@ -1,10 +1,35 @@
-.hamburgerMenu {
-    width: 15vw;
-    background-color: lightgrey;
-    position: absolute;
-    right: 0;
-    top: 64px;
-    z-index: 1;
+.bigBar {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem; /* or 64px */
+    background-color: #F97316; /* Tailwind's orange-500 */
+    padding: 1rem; /* or 16px */
+}
+
+.logo {
+    width: 12rem; /* Adjust the size as needed */
+    height: 8rem; /* Adjust the size as needed */
+    background-image: url('/../public/images/logo.jpg'); /* Path to your image */
+    background-size: contain; /* Ensures the image fits the div */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; /* Centers the image */
+}
+
+.searchBar {
+    width: 20rem;
+    background-color: white; /* bg-gray-200 equivalent */
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: width 0.3s ease-in-out;
+    outline: none; /* Removes the default focus outline */
+    border: 1px solid transparent; /* Initial transparent border */
+}
+  
+.searchBar:hover,
+.searchBar:focus {
+    width: 30rem;
 }
 
 .hamburgerDropdown {
@@ -12,6 +37,15 @@
     height: 64px;
     display: flex;
     align-items: center;
+}
+
+.hamburgerDropdown .hamburgerMenu {
+    width: 15vw;
+    background-color: lightgrey;
+    position: absolute;
+    right: 0;
+    top: 64px;
+    z-index: 1;
 }
 
 .hamburgerMenu .hamburgerButton {
