@@ -7,17 +7,11 @@ import { MdOutlineFastfood } from "react-icons/md";
 export default function PostPage() {
     return (
         <div className="flex flex-col items-center">
-<<<<<<< HEAD
             <Navbar/>
             {/* background grey */}
             <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 p-6">
                 
                 {/* white pane in center screen */}
-=======
-            <Navbar />
-
-            <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-100 p-6">
->>>>>>> 73bdb7acd6017aed4d4c602777b095a3d086de5f
                 <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
                     <h1 className="text-3xl font-bold mb-6 text-center">What would you like to post?</h1>
                     
