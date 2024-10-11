@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from 'react';
 import styles from './forgot.module.css'
-import { LockClosedIcon } from '@heroicons/react/solid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -69,7 +70,7 @@ export default function ForgotPassword() {
             <div className={styles.wrapper}>
                 <form onSubmit={handlePasswordReset}>
                 <div className={styles['icon-circle']}>
-                    <LockClosedIcon className="w-6 h-6" />
+                    <FontAwesomeIcon className={styles['lock-icon']} icon={faLock} style={{ width: '46px', }} />
                 </div>
                 <div className={styles['forgot']}>
                     <p className={styles['forgot-title']}>Having trouble logging in?</p>
