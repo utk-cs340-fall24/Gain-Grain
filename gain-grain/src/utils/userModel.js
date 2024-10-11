@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import clientPromise from './mongodb'
+import clientPromise from './mongodb';
+import { ObjectId } from 'mongoose.Types';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -201,14 +202,14 @@ export const getUserById = async (userId) => {
   const client = await clientPromise;
   const db  = client.db();
 
-  try  {
+  try {
     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
 
     if(!user)  {
       return  {success: false, message: 'User not found.' };
     }
 
-    return { success: true, user: user.username };
+    return { success: true, username: user.username };
   }
   catch(error) {
     console.error('Error retrieving user: ', error);
