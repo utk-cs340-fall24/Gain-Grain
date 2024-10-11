@@ -12,12 +12,24 @@ let clientPromise;
 if (process.env.NODE_ENV === 'development') {
   if (!global._mongoClientPromise) {
     client = new MongoClient(connectionString);
-    global._mongoClientPromise = client.connect();
+    try {
+      global._mongoClientPromise = await client.connect();
+    } catch (error) {
+      console.error("Error connecting to MongoDB: ", error);
+      throw error;
+    }
   }
   clientPromise = global._mongoClientPromise;
 } else {
   client = new MongoClient(connectionString);
-  clientPromise = client.connect();
+  try {
+    clientPromise = await client.connect();
+  } catch (error) {
+    console.error("Error connecting to MongoDB: ", error);
+    throw error;
+  }
 }
+
+
 
 export default clientPromise;
