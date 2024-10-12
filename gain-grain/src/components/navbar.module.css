@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     height: 4rem; /* or 64px */
-    background-color: #F97316; /* Tailwind's orange-500 */
+    background-color: var(--vol-orange); /* Tailwind's orange-500 */
     padding: 1rem; /* or 16px */
 }
 
@@ -59,13 +59,7 @@
     cursor: pointer;
 }
 
-.hamburgerButton:hover {
-    background-color: #F97316;
-    border-radius: 0.5rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.hamburgerMenu {
+.hamburgerButton .hamburgerMenu {
     width: 10vw;
     background-color: lightgrey;
     position: absolute;
