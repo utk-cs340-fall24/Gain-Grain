@@ -662,7 +662,7 @@ body {
 }
 
 .add-button:hover {
-    background-color: #0056b3; /* Darken color on hover */
+    background-color: var(--powder-blue); /* Darken color on hover */
 }
 
 .add-options button, .meal-form button {
