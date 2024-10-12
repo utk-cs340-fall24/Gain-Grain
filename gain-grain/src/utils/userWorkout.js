@@ -43,7 +43,10 @@ export const deleteWorkoutById = async (workoutId) => {
   const db = client.db(); // Access the database
   const workoutsCollection = db.collection('workouts'); // Access the workouts collection
 
-  const result = await workoutsCollection.deleteOne({ _id: new mongoose.Types.ObjectId(workoutId) }); // Delete the workout by ID
+  // if workoutID is number, convert to ObjectId
+  const objectId = Number.isInteger(workoutId) ? mongoose.Types.ObjectId.createFromTime(workoutId) : new mongoose.Types.ObjectId(workoutId);
+
+  const result = await workoutsCollection.deleteOne({ _id: objectId}); // Delete the workout by ID
   return result; // Return the result of the delete operation
 };
 

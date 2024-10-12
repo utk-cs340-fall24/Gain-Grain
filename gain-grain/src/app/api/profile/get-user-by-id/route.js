@@ -8,9 +8,13 @@ export async function POST(req) {
 
     const result = await getUserById(userId);
 
-    return NextResponse.json(result);
+    if(result.success) {
+      return NextResponse.json({ success: true, user: result.user })
+    } else {
+      return NextResponse.json(result, { status: 400 });
+    }
   } catch (error) {
-    console.error('Error when creating user:', error);
+    console.error('Error when searching for user:', error);
     return NextResponse.json({ success: false, message: 'Server error.' }, { status: 500 });
   }
 }
