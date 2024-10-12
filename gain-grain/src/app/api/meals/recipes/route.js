@@ -16,7 +16,6 @@ export async function POST(req) {
     // Extracting the recipe name
     const name = $('h1').text() || $('.recipe-title').text() || $('meta[property="og:title"]').attr('content');
 
-    // Enhanced ingredient extraction
     const ingredients = [];
     /*
     // Try various selectors for ingredients
@@ -34,18 +33,25 @@ export async function POST(req) {
       $(selector).each((i, elem) => {
         // Extract the ingredient text, removing extra spaces
         const ingredientText = $(elem).text().trim();
-
-        // Extract the amount and name separately if possible
-        const amount = $(elem).find('.Amount, .ingredient-amount').text().trim();
-        const ingredientName = ingredientText.replace(amount, '').trim() || ingredientText;
-
+    
+        // Define a regex pattern for the amount
+        const amountPattern = /^(\d+\s*\/?\d*\.?\d*\s*(cup|tbsp|tsp|oz|ounce|g|gram|kg|kilogram|ml|liter|pinch|dash|whole|clove|can|slice|lb|pound|piece|pieces|dozen|handful)?)?/i;
+        
+        // Extract the amount and ingredient name using the regex
+        const match = ingredientText.match(amountPattern);
+        let amount = match ? match[0].trim() : '';
+        let ingredientName = ingredientText.replace(amount, '').trim();
+    
+        // Remove unnecessary characters like price in parentheses
+        ingredientName = ingredientName.replace(/\(\$[0-9.]+\)/g, '').trim();
+    
         // Add only non-empty ingredients to the array
         if (ingredientText) {
           ingredients.push({ amount, name: ingredientName });
         }
       });
     });
-
+    
     // If no ingredients were found with the specified selectors, try a broader search
     if (ingredients.length === 0) {
       $('li').each((i, elem) => {

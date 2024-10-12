@@ -20,7 +20,7 @@ const CustomCalendar = () => {
     const [showExerciseSearch, setShowExerciseSearch] = useState(false);
     const [mealName, setMealName] = useState('');
     const [mealCalories, setMealCalories] = useState('');
-    const [mealIngredients, setMealIngredients] = useState(''); // New state for ingredients
+    const [mealIngredients, setMealIngredients] = useState([]); // New state for ingredients
     const [addingType, setAddingType] = useState('');
     const [activeButton, setActiveButton] = useState('');
     const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
@@ -134,7 +134,7 @@ const CustomCalendar = () => {
             saveMealsToLocalStorage(updatedMeals);
             setMealName('');
             setMealCalories('');
-            setMealIngredients('');
+            setMealIngredients([]);
             setShowModal(false);
         }
     };
@@ -246,7 +246,7 @@ const CustomCalendar = () => {
                         ))}
                     </ul>
                 </div>
-
+                
                 <div className="meal-section">
                     <h3>Meals</h3>
                     <ul className="meal-list">
@@ -258,7 +258,7 @@ const CustomCalendar = () => {
                         ))}
                     </ul>
                 </div>
-                
+
                 <div className="add-section">
                     <button className="add-button" onClick={toggleModal}>
                         <FaPlus />
@@ -276,7 +276,6 @@ const CustomCalendar = () => {
                             >
                                 Add Exercise
                             </button>
-                            {/* Exercise Dropdown */}
                             {showExerciseDropdown && (
                                 <div className="dropdown-options">
                                     <button
@@ -307,7 +306,6 @@ const CustomCalendar = () => {
                             )}
                         </div>
 
-                        {/* Meal Dropdown */}
                         <div className="dropdown">
                             <button
                                 onClick={() => setShowMealDropdown(!showMealDropdown)}
@@ -353,9 +351,8 @@ const CustomCalendar = () => {
                     </div>
 
                     <div className="add-forms">
-                        {/* create new exercise form */}
                         {exerciseOption === 'create-new' && addingType === 'exercise' && showExerciseSearch && (
-                            <ExerciseSearch onSelectExercise={handleSelectExercise} /> 
+                            <ExerciseSearch onSelectExercise={handleSelectExercise} />
                         )}
 
                         {exerciseOption === 'import-saved' && (
@@ -364,7 +361,6 @@ const CustomCalendar = () => {
                             </div>
                         )}
 
-                        {/* create new meal form */}
                         {addingType === 'meal' && mealOption === 'create-new' && (
                             <div className="meal-form">
                                 <input
@@ -380,6 +376,12 @@ const CustomCalendar = () => {
                                     onChange={(e) => setMealCalories(e.target.value)}
                                     placeholder="Calories"
                                 />
+                                <input
+                                    type="text"
+                                    value={mealIngredients}
+                                    onChange={(e) => setMealIngredients(e.target.value)}
+                                    placeholder="Ingredients (optional)"
+                                />
                                 <button onClick={handleAddMeal}>Add Meal</button>
                             </div>
                         )}
@@ -390,7 +392,6 @@ const CustomCalendar = () => {
                             </div>
                         )}
 
-                        {/* URL import for meals */}
                         {mealOption === 'import-url' && (
                             <div className="meal-form">
                                 <h3>Import Meal from URL</h3>
@@ -400,9 +401,9 @@ const CustomCalendar = () => {
                                     onChange={(e) => setMealUrl(e.target.value)} // Update state on input change
                                     placeholder="Enter Recipe URL"
                                 />
-                                <button onClick={handleImportUrl}>Fetch Meal Details</button>
+                                <button onClick={handleImportUrl}>Fetch Meal Details</button> {/* Button to fetch meal details */}
                                 
-                                {/* Display fetched meal details */}
+                                {/* Display fetched meal details after the URL is processed */}
                                 {mealName && (
                                     <>
                                         <h3>Imported Meal Details</h3>
