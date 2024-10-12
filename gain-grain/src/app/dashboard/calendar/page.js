@@ -36,6 +36,14 @@ const CustomCalendar = () => {
     ];
 
     useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          // If the user is not logged in, redirect them to the login page
+          window.location.href = '/login';
+        }
+      }, []);      
+
+    useEffect(() => {
         initCalendar();
         loadExercisesForDate(selectedDate);
         loadMealsForDate(selectedDate);
@@ -185,8 +193,42 @@ const CustomCalendar = () => {
             console.error('Error fetching the recipe:', error);
         }
     };
-    
 
+    const saveWorkoutToProfile = async () => {
+        const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
+
+        if (!userId) {
+            alert('User not logged in');
+            return;
+        }
+
+        console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
+
+        try {
+            const response = await fetch('/api/workouts/saveToProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    userId, 
+                    exercises: selectedExercises,
+                    date: selectedDate,   
+                }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert('Workout saved successfully!');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Error saving workout:', error);
+            alert('Failed to save workout');
+        }
+    };
+    
     const renderDays = () => {
         return days.map((dayObj, index) => (
             <div
@@ -241,6 +283,7 @@ const CustomCalendar = () => {
                                     {exercise.sets} sets x {exercise.reps} reps
                                 </div>
                             </div>
+                            <button className='remove-btn' onClick={saveWorkoutToProfile}>Save Workout</button>
                             <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
                         </li>
                         ))}
