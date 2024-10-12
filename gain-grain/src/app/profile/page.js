@@ -4,6 +4,9 @@ import React, { useEffect, useState} from "react";
 // import { getSession } from 'next-auth/react';    
 import styles from './profile.module.css'
 import { useSearchParams } from 'next/navigation';
+import Navbar from "@/components/Navbar";
+import Link from "next/link";
+
 
 export default function profile() {
   const [user, setUser] = useState('');
@@ -49,7 +52,8 @@ export default function profile() {
   }, [userId]);
 
   return (
-    <div>
+    <div className={styles.wrapper}>
+      <Navbar />
       {validId ? (
         <>
           <div className="flex items-center space-x-6">
@@ -60,16 +64,18 @@ export default function profile() {
             </svg>
             </div>
             <div>
+              
+              <h1 className="text-2xl font-bold">{user.username} </h1>
               <ul>
                 <p>Followers: {user.numFollowers}</p>
                 <p>Following: {user.numFollowing}</p>
               </ul>
-              <h1 className="text-2xl font-bold">{user.username} </h1>
-              <p className="text-gray-600">User's Bio:
+              <p className="text-white-600">User's Bio:
                 <p>{user.bio}</p>
               </p>
-            </div>
             <button>Edit profile</button>
+
+            </div>
 
           </div>
 
@@ -83,28 +89,13 @@ export default function profile() {
       ) : (
         <div className={styles.wrapper}>
           <p className={styles.errorMessage}>{error}</p>
+          <Link href="/login">
+            <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+            Login/Register
+            </button>
+          </Link>
         </div>
       )}
     </div>
   );
 };
-
-// export async function getServerSideProps(context) {
-//   const session = await getSession(context);
-
-//   if (!session || !session.user) {
-//     return {
-//       redirect: {
-//         destination: '../login', 
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   const userId = session.user.id;
-//   return {
-//     props: {
-//       userId,
-//     },
-//   };
-// }
