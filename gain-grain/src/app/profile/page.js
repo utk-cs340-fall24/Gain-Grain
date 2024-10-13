@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState} from "react";   
-// import { getSession } from 'next-auth/react';    
+import React, { useEffect, useState} from "react"; 
 import styles from './profile.module.css'
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
@@ -58,10 +57,14 @@ export default function profile() {
         <>
           <div className="flex items-center space-x-6">
             <div className="w-24 h-24">
+              {user.profilePic ? (
+                <img src={user.profilePicture} alt="Profile" className="rounded-full w-full h-full object-cover"/>
+              ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-            </svg>
+                </svg>
+              )}
             </div>
             <div>
               
@@ -73,7 +76,11 @@ export default function profile() {
               <p className="text-white-600">User's Bio:
                 <p>{user.bio}</p>
               </p>
-            <button>Edit profile</button>
+              <Link href="/EditProfile">
+
+              <button>Edit profile</button>
+              </Link>
+
 
             </div>
 

@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   numFollowers: {type: Number, required: true},
   numFollowing: {type: Number, required: true},
-  bio: { type: String }
+  bio: { type: String, default: "" },
+  profilePic: {type: String, default: ""}
 });
 
 const tokenSchema = new mongoose.Schema({
@@ -55,6 +56,7 @@ export const createAndSaveUser = async (name, email, username, password) => {
       numFollowers: 0,
       numFollowing: 0,
       bio: "",
+      profilePic: "",
     });
 
     const result = await db.collection('users').insertOne(newUser);
