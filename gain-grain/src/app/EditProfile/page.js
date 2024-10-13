@@ -73,7 +73,7 @@ export default function EditProfile() {
             </div>
 
             <div className="flex flex-col mt-4">
-              <label className="text-lg">Profile Picture URL</label>
+              <label className="text-lg">Profile Picture: </label>
               <input
                   type="file"
                   accept="image/*"
