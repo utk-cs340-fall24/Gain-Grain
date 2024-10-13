@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import clientPromise from './mongodb';
 
 const mealSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -6,11 +7,44 @@ const mealSchema = new mongoose.Schema({
     {
       name: { type: String, required: true },
       ingredients: { type: [String], required: true },
-      calories: { type: Number, required: true }
+      calories: { type: Number, required: true },
     }
   ]
 });
 
 const Meal = mongoose.models.Meal || mongoose.model('Meal', mealSchema);
+
+// Function to create a meal
+export const createMeal = async (userId, meals) => {
+  const client = await clientPromise; // Use the MongoDB client
+  const db = client.db(); // Access the database
+  const mealsCollection = db.collection('meals'); // Access the meals collection
+
+  const result = await mealsCollection.insertOne({ userId, meals }); // Insert the meal
+  return result; // Return the result of the insert operation
+};
+
+// Function to find meals by userId
+export const findMealsByUserId = async (userId) => {
+  const client = await clientPromise; // Use the MongoDB client
+  const db = client.db(); // Access the database
+  const mealsCollection = db.collection('meals'); // Access the meals collection
+
+  const meals = await mealsCollection.find({ userId }).toArray(); // Find meals by userId
+  return meals; // Return the list of meals
+};
+
+// Function to delete a meal by ID
+export const deleteMealById = async (mealId) => {
+  const client = await clientPromise; // Use the MongoDB client
+  const db = client.db(); // Access the database
+  const mealsCollection = db.collection('meals'); // Access the meals collection
+
+  // if mealID is number, convert to ObjectId
+  const objectId = Number.isInteger(mealId) ? mongoose.Types.ObjectId.createFromTime(mealId) : new mongoose.Types.ObjectId(mealId);
+
+  const result = await workoutsCollection.deleteOne({ _id: objectId}); // Delete the workout by ID
+  return result; // Return the result of the delete operation
+};
 
 export default Meal;

@@ -28,7 +28,7 @@ const CustomCalendar = () => {
     const [showMealDropdown, setShowMealDropdown] = useState(false);
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
-
+    
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -147,6 +147,11 @@ const CustomCalendar = () => {
         }
     };
 
+    const handleIngredientsChange = (e) => {
+        const value = e.target.value;
+        setMealIngredients(value.split(',').map(ingredient => ingredient.trim())); // Split by comma and trim spaces
+    };
+
     const handleSelectExercise = (exercise) => {
 
         const newExercise = {
@@ -162,6 +167,12 @@ const CustomCalendar = () => {
     };
 
     const toggleModal = () => {
+        if (showModal) {
+            setMealName('');
+            setMealCalories('');
+            setMealIngredients([]);
+            setMealUrl('');
+        }
         setShowModal(!showModal);
     };
 
@@ -228,6 +239,48 @@ const CustomCalendar = () => {
             alert('Failed to save workout');
         }
     };
+
+    const saveMealToProfile = async (meal) => {
+        const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
+    
+        if (!userId) {
+            alert('User not logged in');
+            return;
+        }
+    
+        console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
+    
+        try {
+            const MealData = {
+                name: meal.name,
+                ingredients: meal.ingredients,
+                calories: meal.calories,
+            };
+    
+            const response = await fetch('/api/meals/saveToProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    userId, 
+                    meal: MealData, 
+                    date: selectedDate // Ensure selectedDate is defined in the scope
+                }),
+            });
+    
+            const data = await response.json();
+            if (data.success) {
+                alert('Meal saved successfully!');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Error saving meal:', error);
+            alert('Failed to save meal');
+        }
+    };
+    
     
     const renderDays = () => {
         return days.map((dayObj, index) => (
@@ -274,6 +327,7 @@ const CustomCalendar = () => {
                 
                 <div className="exercise-section">
                     <h3>Exercises</h3>
+                    <button className='remove-btn' onClick={saveWorkoutToProfile}>Save Workout To Profile</button>
                     <ul className="exercise-list">
                         {selectedExercises.map((exercise, index) => (
                             <li key={index}>
@@ -283,7 +337,6 @@ const CustomCalendar = () => {
                                     {exercise.sets} sets x {exercise.reps} reps
                                 </div>
                             </div>
-                            <button className='remove-btn' onClick={saveWorkoutToProfile}>Save Workout</button>
                             <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
                         </li>
                         ))}
@@ -296,6 +349,12 @@ const CustomCalendar = () => {
                         {selectedMeals.map((meal, index) => (
                             <li key={index}>
                                 <span>{meal.name} ({meal.calories} cal)</span>
+                                <button 
+                                    className='remove-btn' 
+                                    onClick={() => saveMealToProfile(meal)} // Pass the specific meal
+                                >
+                                    Save Meal To Profile
+                                </button>
                                 <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
                             </li>
                         ))}
@@ -421,8 +480,8 @@ const CustomCalendar = () => {
                                 />
                                 <input
                                     type="text"
-                                    value={mealIngredients}
-                                    onChange={(e) => setMealIngredients(e.target.value)}
+                                    value={mealIngredients.join(', ')}
+                                    onChange={handleIngredientsChange}
                                     placeholder="Ingredients (optional)"
                                 />
                                 <button onClick={handleAddMeal}>Add Meal</button>
