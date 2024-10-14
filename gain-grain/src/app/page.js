@@ -5,6 +5,7 @@ import Link from "next/link"; // Import Link
 import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
 import Comments from "../components/Comments";
+import './homepage.css'
 
 export default function Home() {
   // State for managing comments visibility
@@ -15,7 +16,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col bg-gray-50">
+    <main className="homepage-main flex min-h-screen flex-col bg-gray-50">
 
       {/* Main content */}
       <div>

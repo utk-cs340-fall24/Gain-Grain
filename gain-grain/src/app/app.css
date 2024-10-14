@@ -3,6 +3,11 @@
     float: left;
     padding: 50px;
 }
+
+.homepage-main {
+  width: 100%;
+}
+
 button {
     padding: 12px 20px;
     font-size: 16px;
@@ -34,4 +39,6 @@ button {
     transform: translateY(0); /* Reset lift on active click */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reduce shadow on active */
   }
+
+
   
