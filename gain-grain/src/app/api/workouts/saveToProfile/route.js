@@ -7,8 +7,6 @@ export async function POST(req) {
         const body = await req.json();
         const { userId, title, exercises, date } = body;
 
-        console.log('Request Body:', req.body);
-
         if (!userId || !exercises || !date) {
             return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
         }

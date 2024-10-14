@@ -318,6 +318,14 @@ const CustomCalendar = () => {
                     
                     <div className="exercise-section">
                         <h3>Exercises</h3>
+                        <button onClick={() => setShowTitleForSaving(true)}>Save Workout to Profile</button>
+                        <TitleModal
+                            show={showTitleForSaving}
+                            onClose={() => setShowTitleForSaving(false)}
+                            onSave={handleSaveWorkout} // Pass the save function
+                            title={workoutTitle}
+                            setTitle={setWorkoutTitle} // Pass the state setter
+                        />
                         <ul className="exercise-list">
                             {selectedExercises.map((exercise, index) => (
                                 <li key={index}>
