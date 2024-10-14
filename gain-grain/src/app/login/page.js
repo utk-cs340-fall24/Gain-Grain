@@ -37,6 +37,8 @@ export default function Login() {
       const data = await res.json();
 
       if (res.ok && data.success) {
+        localStorage.setItem('userId', data.userId);
+        console.log('UserId set in localStorage:', data.userId); // Log userId after setting it
         window.location.href = '/';
       } else {
         showAlert(data.message);

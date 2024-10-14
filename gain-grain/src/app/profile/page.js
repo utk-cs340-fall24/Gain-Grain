@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useEffect, useState} from "react";   
-// import { getSession } from 'next-auth/react';    
+import React, { useEffect, useState} from "react"; 
 import styles from './profile.module.css'
 import { useSearchParams } from 'next/navigation';
+import Navbar from "@/components/Navbar";
+import Link from "next/link";
+
 
 export default function profile() {
   const [user, setUser] = useState('');
@@ -49,27 +51,38 @@ export default function profile() {
   }, [userId]);
 
   return (
-    <div>
+    <div className={styles.wrapper}>
+      <Navbar />
       {validId ? (
         <>
           <div className="flex items-center space-x-6">
             <div className="w-24 h-24">
+              {user.profilePic ? (
+                <img src={user.profilePicture} alt="Profile" className="rounded-full w-full h-full object-cover"/>
+              ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-            </svg>
+                </svg>
+              )}
             </div>
             <div>
+              
+              <h1 className="text-2xl font-bold">{user.username} </h1>
               <ul>
                 <p>Followers: {user.numFollowers}</p>
                 <p>Following: {user.numFollowing}</p>
               </ul>
-              <h1 className="text-2xl font-bold">{user.username} </h1>
-              <p className="text-gray-600">User's Bio:
+              <p className="text-white-600">User's Bio:
                 <p>{user.bio}</p>
               </p>
+              <Link href="/EditProfile">
+
+              <button>Edit profile</button>
+              </Link>
+
+
             </div>
-            <button>Edit profile</button>
 
           </div>
 
@@ -83,28 +96,13 @@ export default function profile() {
       ) : (
         <div className={styles.wrapper}>
           <p className={styles.errorMessage}>{error}</p>
+          <Link href="/login">
+            <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+            Login/Register
+            </button>
+          </Link>
         </div>
       )}
     </div>
   );
 };
-
-// export async function getServerSideProps(context) {
-//   const session = await getSession(context);
-
-//   if (!session || !session.user) {
-//     return {
-//       redirect: {
-//         destination: '../login', 
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   const userId = session.user.id;
-//   return {
-//     props: {
-//       userId,
-//     },
-//   };
-// }

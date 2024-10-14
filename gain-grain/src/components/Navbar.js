@@ -6,6 +6,7 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import styles from './navbar.module.css'
 import { useState } from "react";
 
+
 export default function Navbar() {
 
     const [showDropdown, setShowDropdown] = useState(false)
