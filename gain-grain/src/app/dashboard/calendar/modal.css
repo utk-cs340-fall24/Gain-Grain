@@ -180,4 +180,14 @@
     font-weight: bold; /* Optional: makes the label bold */
 }
 
+.title-container input {
+    color: black;
+    border: solid var(--smokey-gray) 2px;
+    border-radius: 5px;
+}
+
+.title-btn {
+    background-color: var(--vol-orange);
+    margin: 2%;
+}
 

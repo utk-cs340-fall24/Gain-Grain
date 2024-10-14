@@ -7,12 +7,14 @@ import './custom_calendar.css';
 import './style.css';
 import ExerciseSearch from './exerciseSearch';
 import Modal from './modal';
+import TitleModal from './titleModal';
 
 const CustomCalendar = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [eventsArr, setEventsArr] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showModal, setShowModal] = useState(false);
+    const [showTitleForSaving, setShowTitleForSaving] = useState(false);
     const [activeDay, setActiveDay] = useState(null);
     const [days, setDays] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -28,7 +30,7 @@ const CustomCalendar = () => {
     const [showMealDropdown, setShowMealDropdown] = useState(false);
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
-    
+    const [workoutTitle, setWorkoutTitle] = useState('');
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -176,6 +178,12 @@ const CustomCalendar = () => {
         setShowModal(!showModal);
     };
 
+    const handleSaveWorkout = (title) => {
+        saveWorkoutToProfile(title);
+        setWorkoutTitle('');
+        setShowTitleForSaving(false);
+    }
+
     const handleImportUrl = async () => {
         if (!mealUrl) return; // Ensure URL is entered
     
@@ -205,15 +213,13 @@ const CustomCalendar = () => {
         }
     };
 
-    const saveWorkoutToProfile = async () => {
-        const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
+    const saveWorkoutToProfile = async (title) => {
+        const userId = localStorage.getItem('userId');
 
         if (!userId) {
             alert('User not logged in');
             return;
         }
-
-        console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
 
         try {
             const response = await fetch('/api/workouts/saveToProfile', {
@@ -222,9 +228,10 @@ const CustomCalendar = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    userId, 
+                    userId,
                     exercises: selectedExercises,
-                    date: selectedDate,   
+                    date: selectedDate,
+                    title,
                 }),
             });
 
@@ -239,7 +246,7 @@ const CustomCalendar = () => {
             alert('Failed to save workout');
         }
     };
-
+    
     const saveMealToProfile = async (meal) => {
         const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
     
@@ -280,7 +287,6 @@ const CustomCalendar = () => {
             alert('Failed to save meal');
         }
     };
-    
     
     const renderDays = () => {
         return days.map((dayObj, index) => (
@@ -327,7 +333,14 @@ const CustomCalendar = () => {
                 
                 <div className="exercise-section">
                     <h3>Exercises</h3>
-                    <button className='remove-btn' onClick={saveWorkoutToProfile}>Save Workout To Profile</button>
+                    <button onClick={() => setShowTitleForSaving(true)}>Save Workout to Profile</button>
+                    <TitleModal
+                        show={showTitleForSaving}
+                        onClose={() => setShowTitleForSaving(false)}
+                        onSave={handleSaveWorkout} // Pass the save function
+                        title={workoutTitle}
+                        setTitle={setWorkoutTitle} // Pass the state setter
+                    />
                     <ul className="exercise-list">
                         {selectedExercises.map((exercise, index) => (
                             <li key={index}>
