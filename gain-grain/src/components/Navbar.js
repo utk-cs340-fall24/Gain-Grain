@@ -29,7 +29,6 @@ export default function Navbar() {
         }
     }
 
-
     return (
         <nav className={styles.bigBar}>
             {/* gain & grain logo top left */}
@@ -71,25 +70,25 @@ export default function Navbar() {
                         <div className="flex flex-col space-y-1 my-1">
                             <Link href="/login" className="w-full flex justify-center">
                                 {/* combined login/register button */}
-                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Login/Register
                                 </button>
                             </Link>
                             <Link href="/profile" className="w-full flex justify-center">
-                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Profile
                                 </button>
                             </Link>
                             <Link href="/dashboard/savedMeals" className="w-full flex justify-center">
                                 {/* nutrition button */}
-                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Nutrition
                                 </button>
                             </Link>
                             
                             <Link href="/dashboard/savedWorkouts" className="w-full flex justify-center">
                                 {/* exercise button*/}
-                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
+                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Exercise
                                 </button>
                             </Link>
