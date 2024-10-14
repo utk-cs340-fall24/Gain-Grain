@@ -200,8 +200,8 @@ const CustomCalendar = () => {
     };
 
     return (
-        <>
-            {/* <Navbar/> */}
+        <main className="calendar-main">
+            <Navbar/>
             <div className="container">
                 
                 <div className="left">
@@ -433,7 +433,7 @@ const CustomCalendar = () => {
                     </div>
                 </Modal>
             </div>
-        </>
+        </main>
     );
 };
 

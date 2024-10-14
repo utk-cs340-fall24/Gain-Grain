@@ -27,7 +27,7 @@ body {
     /* Change to flex-start */
     justify-content: center;
     /* Center horizontally */
-    padding: 30px 0;
+    /* padding: 30px; */
     /* Add padding to the top and bottom */
     background-color: #e2e1dc;
 }
@@ -45,6 +45,10 @@ body {
     background-color: #489FDF;
     margin-top: 30px;
     /* Add margin at the top */
+}
+
+.calendar-main {
+    width: 100%;
 }
 
 /* Media query adjustments for smaller screens */
