@@ -7,6 +7,7 @@ import './custom_calendar.css';
 import './style.css';
 import ExerciseSearch from './exerciseSearch';
 import Modal from './modal';
+import TitleModal from './titleModal';
 import Navbar from "../../../components/Navbar";
 
 const CustomCalendar = () => {
@@ -14,6 +15,7 @@ const CustomCalendar = () => {
     const [eventsArr, setEventsArr] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showModal, setShowModal] = useState(false);
+    const [showTitleForSaving, setShowTitleForSaving] = useState(false);
     const [activeDay, setActiveDay] = useState(null);
     const [days, setDays] = useState([]);
     const [selectedExercises, setSelectedExercises] = useState([]);
@@ -29,6 +31,7 @@ const CustomCalendar = () => {
     const [showMealDropdown, setShowMealDropdown] = useState(false);
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
+    const [workoutTitle, setWorkoutTitle] = useState('');
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -157,6 +160,12 @@ const CustomCalendar = () => {
         setShowModal(!showModal);
     };
 
+    const handleSaveWorkout = (title) => {
+        saveWorkoutToProfile(title);
+        setWorkoutTitle('');
+        setShowTitleForSaving(false);
+    }
+
     const handleImportUrl = async () => {
         if (!mealUrl) return; // Ensure URL is entered
     
@@ -185,8 +194,82 @@ const CustomCalendar = () => {
             console.error('Error fetching the recipe:', error);
         }
     };
-    
 
+    const saveWorkoutToProfile = async (title) => {
+        const userId = localStorage.getItem('userId');
+
+        if (!userId) {
+            alert('User not logged in');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/workouts/saveToProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    userId,
+                    exercises: selectedExercises,
+                    date: selectedDate,
+                    title,
+                }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert('Workout saved successfully!');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Error saving workout:', error);
+            alert('Failed to save workout');
+        }
+    };
+    
+    const saveMealToProfile = async (meal) => {
+        const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
+    
+        if (!userId) {
+            alert('User not logged in');
+            return;
+        }
+    
+        console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
+    
+        try {
+            const MealData = {
+                name: meal.name,
+                ingredients: meal.ingredients,
+                calories: meal.calories,
+            };
+    
+            const response = await fetch('/api/meals/saveToProfile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    userId, 
+                    meal: MealData, 
+                    date: selectedDate // Ensure selectedDate is defined in the scope
+                }),
+            });
+    
+            const data = await response.json();
+            if (data.success) {
+                alert('Meal saved successfully!');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Error saving meal:', error);
+            alert('Failed to save meal');
+        }
+    };
+    
     const renderDays = () => {
         return days.map((dayObj, index) => (
             <div
@@ -235,6 +318,14 @@ const CustomCalendar = () => {
                     
                     <div className="exercise-section">
                         <h3>Exercises</h3>
+                        <button onClick={() => setShowTitleForSaving(true)}>Save Workout to Profile</button>
+                        <TitleModal
+                            show={showTitleForSaving}
+                            onClose={() => setShowTitleForSaving(false)}
+                            onSave={handleSaveWorkout} // Pass the save function
+                            title={workoutTitle}
+                            setTitle={setWorkoutTitle} // Pass the state setter
+                        />
                         <ul className="exercise-list">
                             {selectedExercises.map((exercise, index) => (
                                 <li key={index}>
