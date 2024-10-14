@@ -5,7 +5,7 @@ import clientPromise from '@/utils/mongodb';
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { userId, exercises, date } = body;
+        const { userId, title, exercises, date } = body;
 
         if (!userId || !exercises || !date) {
             return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
@@ -15,8 +15,9 @@ export async function POST(req) {
         const db = client.db();
         const result = await db.collection('workouts').insertOne({
             userId, // This should now store the actual ObjectId
+            title,
             exercises,
-            date,
+            date: new Date(date),
         });
 
         return NextResponse.json({ success: true, data: result });
