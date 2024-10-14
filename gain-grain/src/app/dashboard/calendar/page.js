@@ -29,18 +29,11 @@ const CustomCalendar = () => {
     const [showMealDropdown, setShowMealDropdown] = useState(false);
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
+
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-          // If the user is not logged in, redirect them to the login page
-          window.location.href = '/login';
-        }
-      }, []);      
 
     useEffect(() => {
         initCalendar();
@@ -146,11 +139,6 @@ const CustomCalendar = () => {
         }
     };
 
-    const handleIngredientsChange = (e) => {
-        const value = e.target.value;
-        setMealIngredients(value.split(',').map(ingredient => ingredient.trim())); // Split by comma and trim spaces
-    };
-
     const handleSelectExercise = (exercise) => {
 
         const newExercise = {
@@ -166,12 +154,6 @@ const CustomCalendar = () => {
     };
 
     const toggleModal = () => {
-        if (showModal) {
-            setMealName('');
-            setMealCalories('');
-            setMealIngredients([]);
-            setMealUrl('');
-        }
         setShowModal(!showModal);
     };
 
@@ -203,84 +185,8 @@ const CustomCalendar = () => {
             console.error('Error fetching the recipe:', error);
         }
     };
+    
 
-    const saveWorkoutToProfile = async () => {
-        const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
-
-        if (!userId) {
-            alert('User not logged in');
-            return;
-        }
-
-        console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
-
-        try {
-            const response = await fetch('/api/workouts/saveToProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    userId, 
-                    exercises: selectedExercises,
-                    date: selectedDate,   
-                }),
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                alert('Workout saved successfully!');
-            } else {
-                alert(`Error: ${data.message}`);
-            }
-        } catch (error) {
-            console.error('Error saving workout:', error);
-            alert('Failed to save workout');
-        }
-    };
-
-    const saveMealToProfile = async (meal) => {
-        const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
-    
-        if (!userId) {
-            alert('User not logged in');
-            return;
-        }
-    
-        console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
-    
-        try {
-            const MealData = {
-                name: meal.name,
-                ingredients: meal.ingredients,
-                calories: meal.calories,
-            };
-    
-            const response = await fetch('/api/meals/saveToProfile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    userId, 
-                    meal: MealData, 
-                    date: selectedDate // Ensure selectedDate is defined in the scope
-                }),
-            });
-    
-            const data = await response.json();
-            if (data.success) {
-                alert('Meal saved successfully!');
-            } else {
-                alert(`Error: ${data.message}`);
-            }
-        } catch (error) {
-            console.error('Error saving meal:', error);
-            alert('Failed to save meal');
-        }
-    };
-    
-    
     const renderDays = () => {
         return days.map((dayObj, index) => (
             <div
@@ -298,26 +204,12 @@ const CustomCalendar = () => {
             {/* <Navbar/> */}
             <div className="container">
                 
-<<<<<<< HEAD
                 <div className="left">
                     <div className="calendar">
                         <div className="month">
                             <FaAngleLeft className="prev" onClick={handlePrevMonth} />
                             <div className="date">
                                 {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-=======
-                <div className="exercise-section">
-                    <h3>Exercises</h3>
-                    <button className='remove-btn' onClick={saveWorkoutToProfile}>Save Workout To Profile</button>
-                    <ul className="exercise-list">
-                        {selectedExercises.map((exercise, index) => (
-                            <li key={index}>
-                            <div>
-                                <span>{exercise.name}</span>
-                                <div className="exercise-details">
-                                    {exercise.sets} sets x {exercise.reps} reps
-                                </div>
->>>>>>> b4c17058cc8b3b9fa6f48414f3395134569f674a
                             </div>
                             <FaAngleRight className="next" onClick={handleNextMonth} />
                         </div>
@@ -335,7 +227,6 @@ const CustomCalendar = () => {
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
                 <div className="right">
                     <div className="today-date">
                         <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
@@ -354,22 +245,6 @@ const CustomCalendar = () => {
                                     </div>
                                 </div>
                                 <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
-=======
-                
-                <div className="meal-section">
-                    <h3>Meals</h3>
-                    <ul className="meal-list">
-                        {selectedMeals.map((meal, index) => (
-                            <li key={index}>
-                                <span>{meal.name} ({meal.calories} cal)</span>
-                                <button 
-                                    className='remove-btn' 
-                                    onClick={() => saveMealToProfile(meal)} // Pass the specific meal
-                                >
-                                    Save Meal To Profile
-                                </button>
-                                <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
->>>>>>> b4c17058cc8b3b9fa6f48414f3395134569f674a
                             </li>
                             ))}
                         </ul>
@@ -394,7 +269,6 @@ const CustomCalendar = () => {
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <Modal show={showModal} onClose={toggleModal}>
                     <div className="modal-body">
                         <div className="add-options">
@@ -432,75 +306,6 @@ const CustomCalendar = () => {
                                             Import from Saved
                                         </button>
                                     </div>
-=======
-                        {exerciseOption === 'import-saved' && (
-                            <div className="coming-soon">
-                                <p>Coming Soon: Import from Saved Exercises!</p>
-                            </div>
-                        )}
-
-                        {addingType === 'meal' && mealOption === 'create-new' && (
-                            <div className="meal-form">
-                                <input
-                                    type="text"
-                                    value={mealName}
-                                    onChange={(e) => setMealName(e.target.value)}
-                                    placeholder="Meal Name"
-                                />
-                                <input
-                                    className="meal-number"
-                                    type="number"
-                                    value={mealCalories}
-                                    onChange={(e) => setMealCalories(e.target.value)}
-                                    placeholder="Calories"
-                                />
-                                <input
-                                    type="text"
-                                    value={mealIngredients.join(', ')}
-                                    onChange={handleIngredientsChange}
-                                    placeholder="Ingredients (optional)"
-                                />
-                                <button onClick={handleAddMeal}>Add Meal</button>
-                            </div>
-                        )}
-
-                        {mealOption === 'import-saved' && (
-                            <div className="coming-soon">
-                                <p>Coming Soon: Import from Saved Meals!</p>
-                            </div>
-                        )}
-
-                        {mealOption === 'import-url' && (
-                            <div className="meal-form">
-                                <h3>Import Meal from URL</h3>
-                                <input
-                                    type="text"
-                                    value={mealUrl} // New state variable to hold the URL
-                                    onChange={(e) => setMealUrl(e.target.value)} // Update state on input change
-                                    placeholder="Enter Recipe URL"
-                                />
-                                <button onClick={handleImportUrl}>Fetch Meal Details</button> {/* Button to fetch meal details */}
-                                
-                                {/* Display fetched meal details after the URL is processed */}
-                                {mealName && (
-                                    <>
-                                        <h3>Imported Meal Details</h3>
-                                        <input
-                                            type="text"
-                                            value={mealName}
-                                            onChange={(e) => setMealName(e.target.value)}
-                                            placeholder="Meal Name"
-                                        />
-                                        <input
-                                            className="meal-number"
-                                            type="number"
-                                            value={mealCalories}
-                                            onChange={(e) => setMealCalories(e.target.value)}
-                                            placeholder="Calories"
-                                        />
-                                        <button onClick={handleAddMeal}>Add Meal</button>
-                                    </>
->>>>>>> b4c17058cc8b3b9fa6f48414f3395134569f674a
                                 )}
                             </div>
 
