@@ -29,11 +29,6 @@ const CustomCalendar = () => {
     const [showMealDropdown, setShowMealDropdown] = useState(false);
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
-<<<<<<< HEAD
-=======
-    
->>>>>>> b4c17058cc8b3b9fa6f48414f3395134569f674a
-
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
