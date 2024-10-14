@@ -688,3 +688,13 @@ body {
 .exercise-list li:hover .exercise-details {
     color: white; /* Change the sets and reps text color on hover */
   }
+
+.save-btn {
+    background-color: #130d68;
+    border-radius: 10px;
+}
+
+.save-btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+}
+

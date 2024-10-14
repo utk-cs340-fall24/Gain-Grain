@@ -20,7 +20,7 @@ export async function POST(req) {
                 ingredients: meal.ingredients,
                 calories: meal.calories,
             },
-            date,
+            date: new Date(date),
         });
 
         return NextResponse.json({ success: true, data: result });

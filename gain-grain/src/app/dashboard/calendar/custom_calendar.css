@@ -108,7 +108,6 @@
     padding: 5px 10px;
     background-color: var(--vol-orange);
     cursor: pointer;
-
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: box-shadow 0.2s ease-in-out;
 }
@@ -141,7 +140,6 @@
   
   .exercise-list li, .meal-list li {
     padding: 8px; /* Add some padding for list items */
-    cursor: pointer; /* Change cursor on hover */
   }
   
   .exercise-list li:hover, .meal-list li:hover {
