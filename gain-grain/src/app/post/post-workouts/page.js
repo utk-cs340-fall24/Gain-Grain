@@ -2,7 +2,7 @@
 import { useState } from 'react';
 export default function PostWorkouts() {
     const [exercises, setExercises] = useState([
-        { id: 1, name: '', repetitions: '', weight: '' },
+        { id: 1, name: '', repetitions: '', set: '' },
     ]);
     const handleChange = (id, field, value) => {
         setExercises((prev) =>
@@ -14,7 +14,7 @@ export default function PostWorkouts() {
     const addExercise = () => {
         setExercises((prev) => [
             ...prev,
-            { id: prev.length + 1, name: '', repetitions: '', weight: '' },
+            { id: prev.length + 1, name: '', repetitions: '', set: '' },
         ]);
     };
     return (
@@ -25,8 +25,8 @@ export default function PostWorkouts() {
                     <thead>
                         <tr>
                             <th className="border px-4 py-2">Exercise</th>
+                            <th className="border px-4 py-2">Sets</th>
                             <th className="border px-4 py-2">Repetitions</th>
-                            <th className="border px-4 py-2">Weight (lbs)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,16 +47,16 @@ export default function PostWorkouts() {
                                         value={exercise.repetitions}
                                         onChange={(e) => handleChange(exercise.id, 'repetitions', e.target.value)}
                                         className="border w-full px-2 py-1 rounded"
-                                        placeholder="Enter reps"
+                                        placeholder="Enter sets"
                                     />
                                 </td>
                                 <td className="border px-4 py-2">
                                     <input
                                         type="number"
-                                        value={exercise.weight}
-                                        onChange={(e) => handleChange(exercise.id, 'weight', e.target.value)}
+                                        value={exercise.set}
+                                        onChange={(e) => handleChange(exercise.id, 'set', e.target.value)}
                                         className="border w-full px-2 py-1 rounded"
-                                        placeholder="Enter weight"
+                                        placeholder="Enter reps"
                                     />
                                 </td>
                             </tr>
