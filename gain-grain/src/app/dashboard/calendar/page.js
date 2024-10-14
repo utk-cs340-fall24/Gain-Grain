@@ -318,7 +318,7 @@ const CustomCalendar = () => {
                     
                     <div className="exercise-section">
                         <h3>Exercises</h3>
-                        <button onClick={() => setShowTitleForSaving(true)}>Save Workout to Profile</button>
+                        <button className='save-btn' onClick={() => setShowTitleForSaving(true)}>Save Workout to Profile</button>
                         <TitleModal
                             show={showTitleForSaving}
                             onClose={() => setShowTitleForSaving(false)}
@@ -348,6 +348,7 @@ const CustomCalendar = () => {
                                 <li key={index}>
                                     <span>{meal.name} ({meal.calories} cal)</span>
                                     <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
+                                    <button className='remove-btn' onClick={() => saveMealToProfile(meal)}>Save Meal to Profile</button>
                                 </li>
                             ))}
                         </ul>
