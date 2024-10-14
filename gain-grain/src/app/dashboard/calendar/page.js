@@ -7,6 +7,7 @@ import './custom_calendar.css';
 import './style.css';
 import ExerciseSearch from './exerciseSearch';
 import Modal from './modal';
+import Navbar from "../../../components/Navbar";
 
 const CustomCalendar = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -28,7 +29,6 @@ const CustomCalendar = () => {
     const [showMealDropdown, setShowMealDropdown] = useState(false);
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
-
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -200,236 +200,240 @@ const CustomCalendar = () => {
     };
 
     return (
-        <div className="container">
-            <div className="left">
-                <div className="calendar">
-                    <div className="month">
-                        <FaAngleLeft className="prev" onClick={handlePrevMonth} />
-                        <div className="date">
-                            {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-                        </div>
-                        <FaAngleRight className="next" onClick={handleNextMonth} />
-                    </div>
-                    <div className="weekdays">
-                        <div>Sun</div>
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
-                    </div>
-                    <div className="days">
-                        {renderDays()}
-                    </div>
-                </div>
-            </div>
-            <div className="right">
-                <div className="today-date">
-                    <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
-                    <div className="event-date">{selectedDate.toDateString()}</div>
-                </div>
+        <>
+            {/* <Navbar/> */}
+            <div className="container">
                 
-                <div className="exercise-section">
-                    <h3>Exercises</h3>
-                    <ul className="exercise-list">
-                        {selectedExercises.map((exercise, index) => (
-                            <li key={index}>
-                            <div>
-                                <span>{exercise.name}</span>
-                                <div className="exercise-details">
-                                    {exercise.sets} sets x {exercise.reps} reps
-                                </div>
+                <div className="left">
+                    <div className="calendar">
+                        <div className="month">
+                            <FaAngleLeft className="prev" onClick={handlePrevMonth} />
+                            <div className="date">
+                                {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                             </div>
-                            <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
-                        </li>
-                        ))}
-                    </ul>
+                            <FaAngleRight className="next" onClick={handleNextMonth} />
+                        </div>
+                        <div className="weekdays">
+                            <div>Sun</div>
+                            <div>Mon</div>
+                            <div>Tue</div>
+                            <div>Wed</div>
+                            <div>Thu</div>
+                            <div>Fri</div>
+                            <div>Sat</div>
+                        </div>
+                        <div className="days">
+                            {renderDays()}
+                        </div>
+                    </div>
                 </div>
-                
-                <div className="meal-section">
-                    <h3>Meals</h3>
-                    <ul className="meal-list">
-                        {selectedMeals.map((meal, index) => (
-                            <li key={index}>
-                                <span>{meal.name} ({meal.calories} cal)</span>
-                                <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
+                <div className="right">
+                    <div className="today-date">
+                        <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
+                        <div className="event-date">{selectedDate.toDateString()}</div>
+                    </div>
+                    
+                    <div className="exercise-section">
+                        <h3>Exercises</h3>
+                        <ul className="exercise-list">
+                            {selectedExercises.map((exercise, index) => (
+                                <li key={index}>
+                                <div>
+                                    <span>{exercise.name}</span>
+                                    <div className="exercise-details">
+                                        {exercise.sets} sets x {exercise.reps} reps
+                                    </div>
+                                </div>
+                                <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
                             </li>
-                        ))}
-                    </ul>
-                </div>
-
-                <div className="add-section">
-                    <button className="add-button" onClick={toggleModal}>
-                        <FaPlus />
-                    </button>
-                </div>
-            </div>
-
-            <Modal show={showModal} onClose={toggleModal}>
-                <div className="modal-body">
-                    <div className="add-options">
-                        <div className="dropdown">
-                            <button
-                                onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
-                                className={activeButton === 'exercise' ? 'active' : ''}
-                            >
-                                Add Exercise
-                            </button>
-                            {showExerciseDropdown && (
-                                <div className="dropdown-options">
-                                    <button
-                                        onClick={() => {
-                                            setExerciseOption('create-new');
-                                            setMealOption('');
-                                            setAddingType('exercise');
-                                            setShowExerciseSearch(true);
-                                            setActiveButton('exercise');
-                                            setShowExerciseDropdown(false);
-                                        }}
-                                    >
-                                        Create New
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setExerciseOption('import-saved');
-                                            setMealOption('');
-                                            setAddingType('exercise');
-                                            setShowExerciseSearch(false);
-                                            setActiveButton('exercise');
-                                            setShowExerciseDropdown(false);
-                                        }}
-                                    >
-                                        Import from Saved
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="dropdown">
-                            <button
-                                onClick={() => setShowMealDropdown(!showMealDropdown)}
-                                className={activeButton === 'meal' ? 'active' : ''}
-                            >
-                                Add Meal
-                            </button>
-                            {showMealDropdown && (
-                                <div className="dropdown-options">
-                                    <button
-                                        onClick={() => {
-                                            setMealOption('create-new');
-                                            setExerciseOption('');
-                                            setAddingType('meal');
-                                            setActiveButton('meal');
-                                            setShowMealDropdown(false);
-                                        }}
-                                    >
-                                        Create New
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setMealOption('import-saved');
-                                            setExerciseOption('');
-                                            setShowMealDropdown(false);
-                                        }}
-                                    >
-                                        Import from Saved
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            handleImportUrl();
-                                            setMealOption('import-url');
-                                            setExerciseOption('');
-                                            setShowMealDropdown(false);
-                                        }}
-                                    >
-                                        Import from URL
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+                            ))}
+                        </ul>
+                    </div>
+                    
+                    <div className="meal-section">
+                        <h3>Meals</h3>
+                        <ul className="meal-list">
+                            {selectedMeals.map((meal, index) => (
+                                <li key={index}>
+                                    <span>{meal.name} ({meal.calories} cal)</span>
+                                    <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
-                    <div className="add-forms">
-                        {exerciseOption === 'create-new' && addingType === 'exercise' && showExerciseSearch && (
-                            <ExerciseSearch onSelectExercise={handleSelectExercise} />
-                        )}
+                    <div className="add-section">
+                        <button className="add-button" onClick={toggleModal}>
+                            <FaPlus />
+                        </button>
+                    </div>
+                </div>
 
-                        {exerciseOption === 'import-saved' && (
-                            <div className="coming-soon">
-                                <p>Coming Soon: Import from Saved Exercises!</p>
-                            </div>
-                        )}
-
-                        {addingType === 'meal' && mealOption === 'create-new' && (
-                            <div className="meal-form">
-                                <input
-                                    type="text"
-                                    value={mealName}
-                                    onChange={(e) => setMealName(e.target.value)}
-                                    placeholder="Meal Name"
-                                />
-                                <input
-                                    className="meal-number"
-                                    type="number"
-                                    value={mealCalories}
-                                    onChange={(e) => setMealCalories(e.target.value)}
-                                    placeholder="Calories"
-                                />
-                                <input
-                                    type="text"
-                                    value={mealIngredients}
-                                    onChange={(e) => setMealIngredients(e.target.value)}
-                                    placeholder="Ingredients (optional)"
-                                />
-                                <button onClick={handleAddMeal}>Add Meal</button>
-                            </div>
-                        )}
-
-                        {mealOption === 'import-saved' && (
-                            <div className="coming-soon">
-                                <p>Coming Soon: Import from Saved Meals!</p>
-                            </div>
-                        )}
-
-                        {mealOption === 'import-url' && (
-                            <div className="meal-form">
-                                <h3>Import Meal from URL</h3>
-                                <input
-                                    type="text"
-                                    value={mealUrl} // New state variable to hold the URL
-                                    onChange={(e) => setMealUrl(e.target.value)} // Update state on input change
-                                    placeholder="Enter Recipe URL"
-                                />
-                                <button onClick={handleImportUrl}>Fetch Meal Details</button> {/* Button to fetch meal details */}
-                                
-                                {/* Display fetched meal details after the URL is processed */}
-                                {mealName && (
-                                    <>
-                                        <h3>Imported Meal Details</h3>
-                                        <input
-                                            type="text"
-                                            value={mealName}
-                                            onChange={(e) => setMealName(e.target.value)}
-                                            placeholder="Meal Name"
-                                        />
-                                        <input
-                                            className="meal-number"
-                                            type="number"
-                                            value={mealCalories}
-                                            onChange={(e) => setMealCalories(e.target.value)}
-                                            placeholder="Calories"
-                                        />
-                                        <button onClick={handleAddMeal}>Add Meal</button>
-                                    </>
+                <Modal show={showModal} onClose={toggleModal}>
+                    <div className="modal-body">
+                        <div className="add-options">
+                            <div className="dropdown">
+                                <button
+                                    onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
+                                    className={activeButton === 'exercise' ? 'active' : ''}
+                                >
+                                    Add Exercise
+                                </button>
+                                {showExerciseDropdown && (
+                                    <div className="dropdown-options">
+                                        <button
+                                            onClick={() => {
+                                                setExerciseOption('create-new');
+                                                setMealOption('');
+                                                setAddingType('exercise');
+                                                setShowExerciseSearch(true);
+                                                setActiveButton('exercise');
+                                                setShowExerciseDropdown(false);
+                                            }}
+                                        >
+                                            Create New
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setExerciseOption('import-saved');
+                                                setMealOption('');
+                                                setAddingType('exercise');
+                                                setShowExerciseSearch(false);
+                                                setActiveButton('exercise');
+                                                setShowExerciseDropdown(false);
+                                            }}
+                                        >
+                                            Import from Saved
+                                        </button>
+                                    </div>
                                 )}
                             </div>
-                        )}
 
+                            <div className="dropdown">
+                                <button
+                                    onClick={() => setShowMealDropdown(!showMealDropdown)}
+                                    className={activeButton === 'meal' ? 'active' : ''}
+                                >
+                                    Add Meal
+                                </button>
+                                {showMealDropdown && (
+                                    <div className="dropdown-options">
+                                        <button
+                                            onClick={() => {
+                                                setMealOption('create-new');
+                                                setExerciseOption('');
+                                                setAddingType('meal');
+                                                setActiveButton('meal');
+                                                setShowMealDropdown(false);
+                                            }}
+                                        >
+                                            Create New
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setMealOption('import-saved');
+                                                setExerciseOption('');
+                                                setShowMealDropdown(false);
+                                            }}
+                                        >
+                                            Import from Saved
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                handleImportUrl();
+                                                setMealOption('import-url');
+                                                setExerciseOption('');
+                                                setShowMealDropdown(false);
+                                            }}
+                                        >
+                                            Import from URL
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="add-forms">
+                            {exerciseOption === 'create-new' && addingType === 'exercise' && showExerciseSearch && (
+                                <ExerciseSearch onSelectExercise={handleSelectExercise} />
+                            )}
+
+                            {exerciseOption === 'import-saved' && (
+                                <div className="coming-soon">
+                                    <p>Coming Soon: Import from Saved Exercises!</p>
+                                </div>
+                            )}
+
+                            {addingType === 'meal' && mealOption === 'create-new' && (
+                                <div className="meal-form">
+                                    <input
+                                        type="text"
+                                        value={mealName}
+                                        onChange={(e) => setMealName(e.target.value)}
+                                        placeholder="Meal Name"
+                                    />
+                                    <input
+                                        className="meal-number"
+                                        type="number"
+                                        value={mealCalories}
+                                        onChange={(e) => setMealCalories(e.target.value)}
+                                        placeholder="Calories"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={mealIngredients}
+                                        onChange={(e) => setMealIngredients(e.target.value)}
+                                        placeholder="Ingredients (optional)"
+                                    />
+                                    <button onClick={handleAddMeal}>Add Meal</button>
+                                </div>
+                            )}
+
+                            {mealOption === 'import-saved' && (
+                                <div className="coming-soon">
+                                    <p>Coming Soon: Import from Saved Meals!</p>
+                                </div>
+                            )}
+
+                            {mealOption === 'import-url' && (
+                                <div className="meal-form">
+                                    <h3>Import Meal from URL</h3>
+                                    <input
+                                        type="text"
+                                        value={mealUrl} // New state variable to hold the URL
+                                        onChange={(e) => setMealUrl(e.target.value)} // Update state on input change
+                                        placeholder="Enter Recipe URL"
+                                    />
+                                    <button onClick={handleImportUrl}>Fetch Meal Details</button> {/* Button to fetch meal details */}
+                                    
+                                    {/* Display fetched meal details after the URL is processed */}
+                                    {mealName && (
+                                        <>
+                                            <h3>Imported Meal Details</h3>
+                                            <input
+                                                type="text"
+                                                value={mealName}
+                                                onChange={(e) => setMealName(e.target.value)}
+                                                placeholder="Meal Name"
+                                            />
+                                            <input
+                                                className="meal-number"
+                                                type="number"
+                                                value={mealCalories}
+                                                onChange={(e) => setMealCalories(e.target.value)}
+                                                placeholder="Calories"
+                                            />
+                                            <button onClick={handleAddMeal}>Add Meal</button>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+
+                        </div>
                     </div>
-                </div>
-            </Modal>
-        </div>
+                </Modal>
+            </div>
+        </>
     );
 };
 

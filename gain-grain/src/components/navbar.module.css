@@ -2,9 +2,10 @@
     display: flex;
     width: 100%;
     align-items: center;
+    top: 0;
     justify-content: space-between;
     height: 4rem; /* or 64px */
-    background-color: var(--vol-orange); /* Tailwind's orange-500 */
+    background-color: var(--vol-orange);
     padding: 1rem; /* or 16px */
 }
 
