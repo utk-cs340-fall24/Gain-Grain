@@ -1,0 +1,922 @@
+src/app/dashboard/calendar/page.js
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400   1) // CustomCalendar.js
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400   5) import { FaAngleLeft, FaAngleRight, FaPlus } from 'react-icons/fa';
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400   8) import ExerciseSearch from './exerciseSearch';
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400   9) import Modal from './modal';
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400  10) import TitleModal from './titleModal';
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400  17)     const [showModal, setShowModal] = useState(false);
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400  18)     const [showTitleForSaving, setShowTitleForSaving] = useState(false);
+393c28a8 (brodiekovach     2024-10-11 20:29:16 -0400  26)     const [mealIngredients, setMealIngredients] = useState([]); // New state for ingredients
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400  27)     const [addingType, setAddingType] = useState('');
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400  29)     const [showExerciseDropdown, setShowExerciseDropdown] = useState(false);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400  30)     const [exerciseOption, setExerciseOption] = useState('');
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400  31)     const [showMealDropdown, setShowMealDropdown] = useState(false);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400  32)     const [mealOption, setMealOption] = useState('');
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400  33)     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400  34)     const [workoutTitle, setWorkoutTitle] = useState('');
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400  35)     const [savedWorkouts, setSavedWorkouts] = useState([]);
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400  36)     const [loadingWorkouts, setLoadingWorkouts] = useState(false);
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400  37)     const [savedMeals, setSavedMeals] = useState([]);
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400  38)     const [loadingMeals, setLoadingMeals] = useState(false);
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400  39)     
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 112)     const handleRemoveExercise = (exerciseIndex) => {
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 113)         const updatedExercises = selectedExercises.filter((_, index) => index !== exerciseIndex);
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 117)     
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 118)     const handleRemoveMeal = (mealIndex) => {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 119)         const updatedMeals = selectedMeals.filter((_, index) => index !== mealIndex);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 137)         if (mealName && mealCalories && mealIngredients) {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 138)             const newMeal = { name: mealName, calories: mealCalories, ingredients: mealIngredients };
+393c28a8 (brodiekovach     2024-10-11 20:29:16 -0400 144)             setMealIngredients([]);
+91a5b15b (brodiekovach     2024-10-15 07:33:12 -0400 145)             setMealOption('');
+91a5b15b (brodiekovach     2024-10-15 07:33:12 -0400 146)             setAddingType('');
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 147)             setShowModal(false);
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 152) 
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 153)         const newExercise = {
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 154)             name: exercise.name,
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 155)             sets: exercise.sets,
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 156)             reps: exercise.reps,
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 157)         }
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 158) 
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 159)         setSelectedExercises(prev => [...prev, newExercise]); // Add selected exercise
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 160)         saveExercisesToLocalStorage([...selectedExercises, newExercise]); // Save to localStorage
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 162)         setShowModal(false); // Close modal
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 165)     const toggleModal = () => {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 166)         setShowModal(!showModal);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 167)     };
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 168) 
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 169)     const handleSaveWorkout = (title) => {
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 170)         saveWorkoutToProfile(title);
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 171)         setWorkoutTitle('');
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 172)         setShowTitleForSaving(false);
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 173)     }
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 174) 
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 175)     const handleImportUrl = async () => {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 176)         if (!mealUrl) return; // Ensure URL is entered
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 177)     
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 178)         try {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 179)             const response = await fetch('/api/meals/recipes', {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 180)                 method: 'POST',
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 181)                 headers: {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 182)                     'Content-Type': 'application/json',
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 183)                 },
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 184)                 body: JSON.stringify({ url: mealUrl }), // Use the mealUrl state variable
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 185)             });
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 186)     
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 187)             if (!response.ok) {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 188)                 const errorData = await response.json();
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 189)                 alert(errorData.message);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 190)                 return;
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 191)             }
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 192)     
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 193)             const data = await response.json();
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 194)             if (data.success) {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 195)                 setMealName(data.name);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 196)                 setMealCalories(data.calories);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 197)                 setMealIngredients(data.ingredients);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 198)             }
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 199)         } catch (error) {
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 200)             console.error('Error fetching the recipe:', error);
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 201)         }
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 202)     };
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 203) 
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 204)     const saveWorkoutToProfile = async (title) => {
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 205)         const userId = localStorage.getItem('userId');
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 206) 
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 207)         if (!userId) {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 208)             alert('User not logged in');
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 209)             return;
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 210)         }
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 211) 
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 212)         try {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 213)             const response = await fetch('/api/workouts/saveToProfile', {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 214)                 method: 'POST',
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 215)                 headers: {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 216)                     'Content-Type': 'application/json',
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 217)                 },
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 218)                 body: JSON.stringify({ 
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 219)                     userId,
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 220)                     exercises: selectedExercises,
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 221)                     date: selectedDate,
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 222)                     title,
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 223)                 }),
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 224)             });
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 225) 
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 226)             const data = await response.json();
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 227)             if (data.success) {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 228)                 alert('Workout saved successfully!');
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 229)             } else {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 230)                 alert(`Error: ${data.message}`);
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 231)             }
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 232)         } catch (error) {
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 233)             console.error('Error saving workout:', error);
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 234)             alert('Failed to save workout');
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 235)         }
+d78e9f17 (brodiekovach     2024-10-12 18:50:24 -0400 236)     };
+b4b61753 (brodiekovach     2024-10-14 18:41:49 -0400 237)     
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 238)     const saveMealToProfile = async (meal) => {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 239)         const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 240)     
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 241)         if (!userId) {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 242)             alert('User not logged in');
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 243)             return;
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 244)         }
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 245)     
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 246)         console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 247)     
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 248)         try {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 249)             const MealData = {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 250)                 name: meal.name,
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 251)                 ingredients: meal.ingredients,
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 252)                 calories: meal.calories,
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 253)             };
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 254)     
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 255)             const response = await fetch('/api/meals/saveToProfile', {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 256)                 method: 'POST',
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 257)                 headers: {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 258)                     'Content-Type': 'application/json',
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 259)                 },
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 260)                 body: JSON.stringify({ 
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 261)                     userId, 
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 262)                     meal: MealData, 
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 263)                     date: selectedDate // Ensure selectedDate is defined in the scope
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 264)                 }),
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 265)             });
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 266)     
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 267)             const data = await response.json();
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 268)             if (data.success) {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 269)                 alert('Meal saved successfully!');
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 270)             } else {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 271)                 alert(`Error: ${data.message}`);
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 272)             }
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 273)         } catch (error) {
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 274)             console.error('Error saving meal:', error);
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 275)             alert('Failed to save meal');
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 276)         }
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 277)     };
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 278) 
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 279)     // Function to fetch workouts by userId
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 280)     const fetchUserWorkouts = async () => {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 281)         const userId = localStorage.getItem('userId'); // Retrieve userId from local storage
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 282)     
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 283)         if (!userId) {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 284)             console.error('User ID not found in local storage');
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 285)             return []; // Handle this scenario appropriately
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 286)         }
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 287)     
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 288)         try {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 289)             const response = await fetch('/api/workouts/getSavedWorkouts', {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 290)                 method: 'POST', // Change to POST
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 291)                 headers: {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 292)                     'Content-Type': 'application/json',
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 293)                 },
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 294)                 body: JSON.stringify({ userId }), // Send userId in the body
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 295)             });
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 296)     
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 297)             if (response.ok) {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 298)                 const data = await response.json();
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 299)                 if (data.success) {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 300)                     setSavedWorkouts(data.workouts); // Set savedWorkouts to the workouts array
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 301)                     console.log("Fetched Workouts:", data.workouts); // Log fetched workouts
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 302)                 } else {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 303)                     console.error('Failed to fetch workouts:', data.message);
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 304)                     setSavedWorkouts([]); // Set to empty array if not successful
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 305)                 }
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 306)             } else {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 307)                 console.error('Failed to fetch workouts:', response.statusText);
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 308)                 setSavedWorkouts([]); // Handle response error
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 309)             }
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 310)         } catch (error) {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 311)             console.error('Error fetching workouts:', error);
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 312)             setSavedWorkouts([]); // Handle fetch error
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 313)         }
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 314)     };
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 315) 
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 316)     const fetchUserMeals = async () => {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 317)         const userId = localStorage.getItem('userId'); // Retrieve userId from local storage
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 318)     
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 319)         if (!userId) {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 320)             console.error('User ID not found in local storage');
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 321)             return []; // Handle this scenario appropriately
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 322)         }
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 323)     
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 324)         try {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 325)             const response = await fetch('/api/meals/getSavedMeals', {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 326)                 method: 'POST', // Change to POST
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 327)                 headers: {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 328)                     'Content-Type': 'application/json',
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 329)                 },
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 330)                 body: JSON.stringify({ userId }), // Send userId in the body
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 331)             });
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 332)     
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 333)             if (response.ok) {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 334)                 const data = await response.json();
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 335)                 if (data.success) {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 336)                     setSavedMeals(data.meals); // Set savedWorkouts to the workouts array
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 337)                 } else {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 338)                     console.error('Failed to fetch meals:', data.message);
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 339)                     setSavedMeals([]); // Set to empty array if not successful
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 340)                 }
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 341)             } else {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 342)                 console.error('Failed to fetch meals:', response.statusText);
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 343)                 setSavedMeals([]); // Handle response error
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 344)             }
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 345)         } catch (error) {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 346)             console.error('Error fetching meals:', error);
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 347)             setSavedMeals([]); // Handle fetch error
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 348)         }
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 349)     }
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 350)     
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 351) 
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 352)     const handleSelectWorkout = (workout) => {
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 353)         // Assuming workout.exercises is an array of exercise objects
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 354)         const exercisesToAdd = workout.exercises.map((exercise) => ({
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 355)             name: exercise.name,
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 356)             sets: exercise.sets,
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 357)             reps: exercise.reps,
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 358)         }));
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 359)     
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 360)         setSelectedExercises((prevExercises) => [...prevExercises, ...exercisesToAdd]);
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 361)         setExerciseOption('');
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 362)         toggleModal(); // Close the modal after adding
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 363)     };
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 364)     
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 365)     const handleSelectMeal = (meal) => {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 366) 
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 367)         const mealToAdd = {
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 368)             name: meal.meal.name,
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 369)             ingredients: meal.ingredients,
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 370)             calories: meal.meal.calories,
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 371)         };
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 372) 
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 373)         setSelectedMeals((prevMeals) => [...prevMeals, mealToAdd]);
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 374)         setMealOption('');
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 375)         toggleModal();
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 376)     }
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 377)     
+66196504 (brodiekovach     2024-10-14 19:20:54 -0400 426)                         <button className='save-btn' onClick={() => setShowTitleForSaving(true)}>Save Workout to Profile</button>
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 427)                         <TitleModal
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 428)                             show={showTitleForSaving}
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 429)                             onClose={() => setShowTitleForSaving(false)}
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 430)                             onSave={handleSaveWorkout} // Pass the save function
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 431)                             title={workoutTitle}
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 432)                             setTitle={setWorkoutTitle} // Pass the state setter
+6bbad160 (brodiekovach     2024-10-14 18:49:44 -0400 433)                         />
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 442)                                 </div>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 455)                                     <div className='meal-btn-container'>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 456)                                         <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 457)                                         <button className='remove-btn' onClick={() => saveMealToProfile(meal)}>Save Meal to Profile</button>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 458)                                     </div>    
+393c28a8 (brodiekovach     2024-10-11 20:29:16 -0400 463) 
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 501)                                                 fetchUserWorkouts();
+bedaf471 (brodiekovach     2024-10-05 17:28:20 -0400 510)                             </div>
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 516)                                 >
+50613d9d (brodiekovach     2024-10-12 22:53:21 -0400 518)                                 </button>
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 535)                                                 setActiveButton('meal');
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 536)                                                 setAddingType('meal');
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 537)                                                 fetchUserMeals();
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 557)                         </div>
+393c28a8 (brodiekovach     2024-10-11 20:29:16 -0400 558) 
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 564)                             {addingType === 'exercise' && exerciseOption === 'import-saved' && (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 565)                                 <div className="import-workout-list">
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 566)                                     {loadingWorkouts ? (
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 567)                                         <p>Loading workouts...</p>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 568)                                     ) : !Array.isArray(savedWorkouts) || savedWorkouts.length === 0 ? (
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 569)                                         <p>No saved workouts available.</p>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 570)                                     ) : (
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 571)                                         savedWorkouts.map((workout) => (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 572)                                             <div key={workout._id} className="import-workout-item">
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 573)                                                 <span>{workout.title}</span>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 574)                                                 <button onClick={() => handleSelectWorkout(workout)}>Add to Day</button>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 575)                                             </div>
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 576)                                         ))
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 577)                                     )}
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 578)                                 </div>
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 579)                             )}
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 580) 
+6536aa47 (brodiekovach     2024-10-14 20:41:58 -0400 581) 
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 604)                                 </div>
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 605)                             )}
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 606) 
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 607)                             {addingType === 'meal' && mealOption === 'import-saved' && (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 608)                                 <div className="import-meal-list">
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 609)                                     {loadingMeals ? (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 610)                                         <p>Loading meals...</p>
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 611)                                     ) : !Array.isArray(savedMeals) || savedMeals.length === 0 ? (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 612)                                         <p>No saved meals available.</p>
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 613)                                     ) : (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 614)                                         savedMeals.map((meal) => (
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 615)                                             <div key={meal._id} className="import-meal-item">
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 616)                                                 <span>{meal.meal.name} ({meal.meal.calories})</span>
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 617)                                                 <button onClick={() => handleSelectMeal(meal)}>Add to Day</button>
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 618)                                             </div>
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 619)                                         ))
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 620)                                     )}
+5c72afd2 (brodiekovach     2024-10-14 22:29:30 -0400 623)                             
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 624) 
+95303bb8 (brodiekovach     2024-10-08 15:00:47 -0400 658) 
+4c19dd18 (brodiekovach     2024-10-04 18:02:51 -0400 660)                     </div>
+393c28a8 (brodiekovach     2024-10-11 20:29:16 -0400 667) export default CustomCalendar;
+
+src/app/dashboard/calendar/titleModal.js
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  1) import React from 'react';
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  2) import './modal.css'; // Import your CSS for styling
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  3) 
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  4) const TitleModal = ({ show, onClose, onSave, title, setTitle }) => {
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  5)     if (!show) return null;
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  6) 
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  7)     const handleSave = () => {
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  8)         if (title.trim()) {
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  9)             onSave(title); // Save the title using the provided callback
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 10)             setTitle(''); // Clear the title after saving
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 11)             onClose(); // Close the modal
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 12)         } else {
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 13)             alert('Please enter a workout title'); // Alert if no title is entered
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 14)         }
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 15)     };
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 16) 
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 17)     return (
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 18)         <div className="modal-overlay">
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 19)             <div className="modal-content">
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 20)                 <h3>Save Workout</h3>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 21)                 <div className='title-container'>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 22)                 <input    
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 23)                     type="text"
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 24)                     value={title}
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 25)                     onChange={(e) => setTitle(e.target.value)} // Update title state on input change
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 26)                     placeholder="Enter Workout Title"
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 27)                 />
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 28)                 </div>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 29)                 <button className='title-btn' onClick={handleSave}>Save</button>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 30)                 <button className='title-btn' onClick={onClose}>Cancel</button>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 31)             </div>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 32)         </div>
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 33)     );
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 34) };
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 35) 
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 36) export default TitleModal;
+
+src/app/dashboard/calendar/modal.css
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400   1) /* modal.css */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   2) @keyframes fadeInCenter {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   3)     0% {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   4)         opacity: 0;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   5)         transform: scale(0.9); /* Slightly smaller for a subtle zoom effect */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   6)     }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   7)     100% {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   8)         opacity: 1;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400   9)         transform: scale(1); /* Full size */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  10)     }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  11) }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  12) 
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  13) /* Keyframes for fading out to the center */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  14) @keyframes fadeOutCenter {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  15)     0% {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  16)         opacity: 1;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  17)         transform: scale(1); /* Full size */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  18)     }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  19)     100% {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  20)         opacity: 0;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  21)         transform: scale(0.9); /* Slightly smaller when fading out */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  22)     }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  23) }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  24) 
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  25) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  26) .modal-overlay {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  27)     position: fixed;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  28)     top: 0;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  29)     left: 0;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  30)     right: 0;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  31)     bottom: 0;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  32)     background: rgba(0, 0, 0, 0.5);
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  33)     display: flex;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  34)     justify-content: center;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  35)     align-items: center;
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  36)     z-index: 1000;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  37) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  38) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  39) .modal-content {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  40)     background: white;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  41)     padding: 20px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  42)     border-radius: 8px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  43)     position: relative;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  44)     width: 90%;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  45)     max-width: 800px;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  46)     animation-duration: 0.25s;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  47)     animation-fill-mode: forwards;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  48) }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  49) 
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  50) .modal-open-animation {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  51)     animation-name: fadeInCenter;
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  52) }
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  53) 
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  54) /* Close animation */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  55) .modal-close-animation {
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  56)     animation-name: fadeOutCenter;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  57) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  58) 
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  59) .modal-close {
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  60)     background: transparent  ; /* Make the background transparent */
+02139d53 (brodiekovach 2024-10-04 23:27:46 -0400  61)     border: none;
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  62)     cursor: pointer; /* Change cursor to pointer */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  63)     position: absolute; /* Position it in the top right */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  64)     right: 15px; /* Distance from the right */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  65)     top: 15px; /* Distance from the top */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  66)     color: #333; /* Set the text color */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  67)     font-size: 20px;
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  68)     z-index: 10; /* Ensure it's above other content */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  69) }
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  70) 
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  71) .modal-close:hover {
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  72)     color: var(--vol-orange); /* Change color on hover */
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  73) }
+adecac5d (brodiekovach 2024-10-04 21:29:44 -0400  74) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  75) .close-btn {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  76)     position: absolute;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  77)     top: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  78)     right: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  79)     background: none;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  80)     border: none;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  81)     font-size: 1.5rem;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  82)     cursor: pointer;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  83) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  84) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  85) .modal-body {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  86)     display: flex;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  87)     gap: 20px; /* Add space between the buttons and forms */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  88)     align-items: flex-start;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  89) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  90) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  91) .add-options {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  92)     display: flex;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  93)     flex-direction: column;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  94)     gap: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  95) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  96) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  97) .add-forms {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  98)     display: flex;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  99)     flex-direction: column;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 100)     gap: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 101)     flex-grow: 1; /* Allow the forms to take up remaining space */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 102)     max-width: 400px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 103) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 104) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 105) .meal-form input {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 106)     padding: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 107)     font-size: 1rem;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 108)     width: 100%;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 109) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 110) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 111) .meal-form .meal-number {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 112)     width: 100%;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 113) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 114) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 115) .meal-form button {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 116)     padding: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 117)     font-size: 1rem;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 118)     cursor: pointer;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 119) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 120) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 121) .meal-form input {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 122)     color: black;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 123) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 124) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 125) .dropdown {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 126)     position: relative;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 127) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 128) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 129) .dropdown-options {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 130)     position: absolute;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 131)     background: white;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 132)     border: 1px solid #ccc;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 133)     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 134)     z-index: 10;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 135)     padding: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 136)     display: flex;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 137)     flex-direction: column;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 138)     gap: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 139) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 140) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 141) .dropdown-options button {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 142)     background: none;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 143)     border: none;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 144)     padding: 10px;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 145)     text-align: left;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 146)     cursor: pointer;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 147)     width: 100%;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 148)     color: black;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 149) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 150) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 151) .dropdown-options button:hover {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 152)     background-color: #f0f0f0; /* Change color on hover */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 153) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 154) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 155) .coming-soon {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 156)     color: black;
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 157) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 158) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 159) .meal-form input {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 160)     border: 1px solid #ccc; /* Light gray border */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 161)     border-radius: 4px; /* Rounded corners */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 162)     padding: 8px; /* Padding inside the input */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 163)     margin-bottom: 10px; /* Space between inputs */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 164)     width: 100%; /* Full width */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 165)     box-sizing: border-box; /* Ensure padding doesn't affect width */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 166) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 167) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 168) .meal-form input:focus {
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 169)     border-color: #007bff; /* Change border color on focus */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 170)     outline: none; /* Remove default outline */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 171) }
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 172) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 173) .calories-input {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 174)     display: flex;
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 175)     align-items: center; /* Aligns items vertically */
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 176) }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 177) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 178) .calories-label {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 179)     margin-left: 5px; /* Space between the input and label */
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 180)     font-weight: bold; /* Optional: makes the label bold */
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 181) }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 182) 
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 183) .title-container input {
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 184)     color: black;
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 185)     border: solid var(--smokey-gray) 2px;
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 186)     border-radius: 5px;
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 187) }
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 188) 
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 189) .title-btn {
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 190)     background-color: var(--vol-orange);
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 191)     margin: 2%;
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 192) }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 193) 
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 194) .import-workout-list p, .import-meal-list p {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 195)     color: black;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 196) }
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 197) 
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 198) .import-workout-item, .import-meal-item {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 199)     display: flex;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 200)     gap: 8px;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 201)     color: black;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 202) }
+
+src/app/dashboard/calendar/style.css
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 652)     bottom: 15px; /* Distance from the bottom of the container */
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400 654)     background-color: var(--vol-orange); /* Button background color */
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 658)     width: 60px; /* Width of the button */
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 659)     height: 60px; /* Height of the button */
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 679) }
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 680) 
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 681) .exercise-details {
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 682)     font-size: 1em;  /* Slightly smaller font size for the details */
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 683)     margin-top: 4px;   /* Add a bit of space between the name and the details */
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 684)     color: black;       /* Optional: a softer color for the text */
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 685)     display: block;    /* Ensure it's on a new line */
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 686) }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 687) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 688) .exercise-list li:hover .exercise-details {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 689)     color: white; /* Change the sets and reps text color on hover */
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 690)   }
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 691) 
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 692) .save-btn {
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 693)     background-color: #130d68;
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 694)     border-radius: 10px;
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 695) }
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 696) 
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 697) .save-btn:hover {
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 698)     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 699) }
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 700) 
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 701) .meal-btn-container {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 702)     display: flex;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 703)     gap: 8px;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 704) }
+
+src/app/dashboard/calendar/custom_calendar.css
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 116)     box-shadow: 0 5px 6px rgba(72,159,223,1);
+
+src/app/dashboard/calendar/exerciseSearch.js
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400   3) import './exerciseSearchStyles.css';
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400   9)   const [selectedExercise, setSelectedExercise] = useState(null); // To track the selected exercise
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  10)   const [sets, setSets] = useState('');
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  11)   const [reps, setReps] = useState('');
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  44)     setSelectedExercise(exercise); // Set the selected exercise
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  49)   const handleAddExercise = () => {
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  50)     if (selectedExercise && sets && reps) {
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  51)       const exerciseWithSetsAndReps = {
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  52)         ...selectedExercise,
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  53)         sets: parseInt(sets),
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  54)         reps: parseInt(reps),
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  55)       };
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  56)       onSelectExercise(exerciseWithSetsAndReps); // Pass the selected exercise with sets and reps to parent
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  57)       setSelectedExercise(null); // Reset selected exercise
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  58)       setSets(''); // Clear sets input
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  59)       setReps(''); // Clear reps input
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  60)     }
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  61)   };
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  62) 
+4c19dd18 (brodiekovach 2024-10-04 18:02:51 -0400  64)     <div className="search-exercises">
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  72)       <ul className="exercise-list">
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  83) 
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  84)       {/* Show sets and reps input fields only if an exercise is selected */}
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  85)       {selectedExercise && (
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  86)         <div className="exercise-inputs">
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  87)           <h4>Selected Exercise: {selectedExercise.name}</h4>
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  88)           <input
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  89)             type="number"
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  90)             value={sets}
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  91)             onChange={(e) => setSets(e.target.value)}
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  92)             placeholder="Sets"
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  93)           />
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  94)           <input
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  95)             type="number"
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  96)             value={reps}
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  97)             onChange={(e) => setReps(e.target.value)}
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  98)             placeholder="Reps"
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400  99)           />
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 100)           <button className='add-btn' onClick={handleAddExercise}>Add Exercise</button>
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 101)         </div>
+bedaf471 (brodiekovach 2024-10-05 17:28:20 -0400 102)       )}
+
+src/utils/userMeal.js
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  2) import clientPromise from './mongodb';
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 10)       calories: { type: Number, required: true },
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 17) // Function to create a meal
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 18) export const createMeal = async (userId, meals) => {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 19)   const client = await clientPromise; // Use the MongoDB client
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 20)   const db = client.db(); // Access the database
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 21)   const mealsCollection = db.collection('meals'); // Access the meals collection
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 22) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 23)   const result = await mealsCollection.insertOne({ userId, meals }); // Insert the meal
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 24)   return result; // Return the result of the insert operation
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 25) };
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 26) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 27) // Function to find meals by userId
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 28) export const findMealsByUserId = async (userId) => {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 29)   const client = await clientPromise; // Use the MongoDB client
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 30)   const db = client.db(); // Access the database
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 31)   const mealsCollection = db.collection('meals'); // Access the meals collection
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 32) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 33)   const meals = await mealsCollection.find({ userId }).toArray(); // Find meals by userId
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 34)   return meals; // Return the list of meals
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 35) };
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 36) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 37) // Function to delete a meal by ID
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 38) export const deleteMealById = async (mealId) => {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 39)   const client = await clientPromise; // Use the MongoDB client
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 40)   const db = client.db(); // Access the database
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 41)   const mealsCollection = db.collection('meals'); // Access the meals collection
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 42) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 43)   // if mealID is number, convert to ObjectId
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 44)   const objectId = Number.isInteger(mealId) ? mongoose.Types.ObjectId.createFromTime(mealId) : new mongoose.Types.ObjectId(mealId);
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 45) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 46)   const result = await workoutsCollection.deleteOne({ _id: objectId}); // Delete the workout by ID
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 47)   return result; // Return the result of the delete operation
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 48) };
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 49) 
+
+src/utils/userWorkout.js
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  6)   title: { type: String, required:true},
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 26) };
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 27) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 28) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 29) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 30) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 31) // Function to find workouts by userId
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 32) export const findWorkoutsByUserId = async (userId) => {
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 33)   const client = await clientPromise; // Use the MongoDB client
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 34)   const db = client.db(); // Access the database
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 35)   const workoutsCollection = db.collection('workouts'); // Access the workouts collection
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 36) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 37)   const workouts = await workoutsCollection.find({ userId }).toArray(); // Find workouts by userId
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 38)   return workouts; // Return the list of workouts
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 39) };
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 40) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 41) // Function to delete a workout by ID
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 42) export const deleteWorkoutById = async (workoutId) => {
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 43)   const client = await clientPromise; // Use the MongoDB client
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 44)   const db = client.db(); // Access the database
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 45)   const workoutsCollection = db.collection('workouts'); // Access the workouts collection
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 46) 
+393c28a8 (brodiekovach 2024-10-11 20:29:16 -0400 47)   // if workoutID is number, convert to ObjectId
+393c28a8 (brodiekovach 2024-10-11 20:29:16 -0400 48)   const objectId = Number.isInteger(workoutId) ? mongoose.Types.ObjectId.createFromTime(workoutId) : new mongoose.Types.ObjectId(workoutId);
+393c28a8 (brodiekovach 2024-10-11 20:29:16 -0400 49) 
+393c28a8 (brodiekovach 2024-10-11 20:29:16 -0400 50)   const result = await workoutsCollection.deleteOne({ _id: objectId}); // Delete the workout by ID
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 51)   return result; // Return the result of the delete operation
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 52) };
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 53) 
+caba5326 (brodiekovach 2024-10-11 10:34:25 -0400 54) export default Workout;
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  87)     
+
+src/app/api/workouts/saveToProfile/route.js
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  1) // src/app/api/workouts/save.js
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  2) import { NextResponse } from 'next/server';
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  3) import clientPromise from '@/utils/mongodb';
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  4) 
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  5) export async function POST(req) {
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  6)     try {
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  7)         const body = await req.json();
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  8)         const { userId, title, exercises, date } = body;
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400  9) 
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 10)         if (!userId || !exercises || !date) {
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 11)             return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 12)         }
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 13) 
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 14)         const client = await clientPromise;
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 15)         const db = client.db();
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 16)         const result = await db.collection('workouts').insertOne({
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 17)             userId, // This should now store the actual ObjectId
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 18)             title,
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 19)             exercises,
+b4b61753 (brodiekovach 2024-10-14 18:41:49 -0400 20)             date: new Date(date),
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 21)         });
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 22) 
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 23)         return NextResponse.json({ success: true, data: result });
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 24)     } catch (error) {
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 25)         console.error('Error in save workout API:', error);
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 26)         return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 27)     }
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400 28) }
+
+src/app/api/workouts/getSavedWorkouts/route.js
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  1) import { NextResponse } from 'next/server';
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  2) import clientPromise from '@/utils/mongodb';
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  3) 
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  4) export async function POST(req) {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  5)     try {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  6)         const body = await req.json();
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  7)         const { userId } = body;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  8) 
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400  9)         if (!userId) {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 10)             return NextResponse.json({ success: false, message: 'Missing userId' });
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 11)         }
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 12) 
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 13)         const client = await clientPromise;
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 14)         const db = client.db();
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 15)         const workouts = await db.collection('workouts').find({ userId }).toArray();
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 16) 
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 17)         return NextResponse.json({ success: true, workouts });
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 18)     } catch (error) {
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 19)         console.error('Error fetching workouts:', error);
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 20)         return NextResponse.json({ success: false, message: 'Server error' });
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 21)     }
+6536aa47 (brodiekovach 2024-10-14 20:41:58 -0400 22) }
+
+src/app/api/meals/getSavedMeals/route.js
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  1) import { NextResponse } from 'next/server';
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  2) import clientPromise from '@/utils/mongodb';
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  3) 
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  4) export async function POST(req) {
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  5)     try {
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  6)         const body = await req.json();
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  7)         const { userId } = body;
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  8) 
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400  9)         if (!userId) {
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 10)             return NextResponse.json({ success: false, message: 'Missing userId' });
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 11)         }
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 12) 
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 13)         const client = await clientPromise;
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 14)         const db = client.db();
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 15)         const meals = await db.collection('meals').find({ userId }).toArray();
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 16) 
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 17)         return NextResponse.json({ success: true, meals });
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 18)     } catch (error) {
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 19)         console.error('Error fetching meals:', error);
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 20)         return NextResponse.json({ success: false, message: 'Server error' });
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 21)     }
+5c72afd2 (brodiekovach 2024-10-14 22:29:30 -0400 22) }
+
+src/app/api/meals/saveToProfile/route.js
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  1) import { NextResponse } from "next/server";
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  2) import clientPromise from "@/utils/mongodb";
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  3) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  4) export async function POST(req) {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  5) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  6)     try {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  7)         const body = await req.json();
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  8)         const { userId, meal, date } = body;
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400  9) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 10)         if (!userId || !meal || !date) {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 11)             return NextResponse.json({ success: false, message: 'Missing required fields'});
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 12)         }
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 13) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 14)         const client = await clientPromise;
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 15)         const db = client.db();
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 16)         const result = await db.collection('meals').insertOne({
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 17)             userId,
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 18)             meal: {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 19)                 name: meal.name,
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 20)                 ingredients: meal.ingredients,
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 21)                 calories: meal.calories,
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 22)             },
+66196504 (brodiekovach 2024-10-14 19:20:54 -0400 23)             date: new Date(date),
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 24)         });
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 25) 
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 26)         return NextResponse.json({ success: true, data: result });
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 27)     } catch (error) {
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 28)         console.error('Error in save meals API:', error);
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 29)         return NextResponse.json({ success: false, message: 'Server error'});
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 30)     }
+50613d9d (brodiekovach 2024-10-12 22:53:21 -0400 31) }
+
+
+d78e9f17 gain-grain/src/app/api/login/find-user/route.js (brodiekovach 2024-10-12 18:50:24 -0400 11)       if (result.success) {
+d78e9f17 gain-grain/src/app/api/login/find-user/route.js (brodiekovach 2024-10-12 18:50:24 -0400 12)         // Return the userId along with the success response
+d78e9f17 gain-grain/src/app/api/login/find-user/route.js (brodiekovach 2024-10-12 18:50:24 -0400 13)         return NextResponse.json({ success: true, userId: result.user._id.toString() });
+d78e9f17 gain-grain/src/app/api/login/find-user/route.js (brodiekovach 2024-10-12 18:50:24 -0400 14)       } else {
+d78e9f17 gain-grain/src/app/api/login/find-user/route.js (brodiekovach 2024-10-12 18:50:24 -0400 15)         return NextResponse.json({ success: false, message: result.message }, { status: 401 });
+d78e9f17 gain-grain/src/app/api/login/find-user/route.js (brodiekovach 2024-10-12 18:50:24 -0400 16)       }
+
+src/app/api/meals/recipes/route.js
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400  1) import { NextResponse } from 'next/server';
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400  3) import { load } from 'cheerio';
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400  5) export async function POST(req) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400  6)   try {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400  7)     const { url } = await req.json();
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400  9)     if (!url) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 10)       return NextResponse.json({ success: false, message: 'URL is required' }, { status: 400 });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 11)     }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 14)     const $ = load(data);
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 16)     // Extracting the recipe name
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 17)     const name = $('h1').text() || $('.recipe-title').text() || $('meta[property="og:title"]').attr('content');
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 18) 
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 19)     // Enhanced ingredient extraction
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 21)     /*
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 22)     // Try various selectors for ingredients
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 23)     const ingredientSelectors = [
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 24)       'div[data-testid="IngredientList"] > div',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 25)       '.ingredient',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 26)       '.ingredients-item',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 27)       '.recipe-ingredients li',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 28)       '.ingredient-description',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 29)       '[itemprop="recipeIngredient"]',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 30)       '[class*="ingredient"]' // Catch-all for any class containing "ingredient"
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 31)     ];
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 32) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 33)     ingredientSelectors.forEach((selector) => {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 34)       $(selector).each((i, elem) => {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 35)         // Extract the ingredient text, removing extra spaces
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 36)         const ingredientText = $(elem).text().trim();
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 37) 
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 38)         // Extract the amount and name separately if possible
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 39)         const amount = $(elem).find('.Amount, .ingredient-amount').text().trim();
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 40)         const ingredientName = ingredientText.replace(amount, '').trim() || ingredientText;
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 41) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 42)         // Add only non-empty ingredients to the array
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 43)         if (ingredientText) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 44)           ingredients.push({ amount, name: ingredientName });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 45)         }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 46)       });
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 48) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 49)     // If no ingredients were found with the specified selectors, try a broader search
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 50)     if (ingredients.length === 0) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 51)       $('li').each((i, elem) => {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 52)         const text = $(elem).text().trim();
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 53)         if (text.toLowerCase().includes('ingredient')) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 54)           ingredients.push({ name: text });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 55)         }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 56)       });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 57)     }*/
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 58) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 59)     // Extract calories from various possible locations
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 60)     let calories = null;
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 61)     const calorieSelectors = [
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 62)       '.calories',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 63)       '.nutrition-calories',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 64)       '.calorie-count',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 65)       'meta[itemprop="calories"]',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 66)       'meta[property="og:calories"]',
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 67)       'meta[name="calories"]'
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 68)     ];
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 69) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 70)     calorieSelectors.some((selector) => {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 71)       const element = $(selector);
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 72)       if (element.length) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 73)         calories = element.text().trim() || element.attr('content');
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 74)         return true; // Exit loop if we find calories
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 75)       }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 76)       return false;
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 77)     });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 78) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 79)     // Check if calories were found in the text, and if not, try parsing the whole page for any keyword match
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 80)     if (!calories) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 81)       const caloriePattern = /(\d+)\s*(kcal|calories|cal\b)/i;
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 82)       const match = caloriePattern.exec(data);
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 83)       if (match) {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 84)         calories = match[1];
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 85)       }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 86)     }
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 87) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 88)     // Final return with structured data
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 89)     return NextResponse.json({ success: true, name, ingredients, calories });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 91)     console.error('Error parsing the recipe:', error);
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 92)     return NextResponse.json({ success: false, message: 'Failed to parse recipe', error: error.message }, { status: 500 });
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 95) 
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 96) export async function GET() {
+95303bb8 (brodiekovach 2024-10-08 15:00:47 -0400 97)   return NextResponse.json({ success: false, message: 'Method GET not allowed' }, { status: 405 });
+4fd6bb8d (brodiekovach 2024-10-11 20:34:07 -0400 98) }
+
+src/app/login/page.js
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  40)         localStorage.setItem('userId', data.userId);
+d78e9f17 (brodiekovach 2024-10-12 18:50:24 -0400  41)         console.log('UserId set in localStorage:', data.userId); // Log userId after setting it
+
+
