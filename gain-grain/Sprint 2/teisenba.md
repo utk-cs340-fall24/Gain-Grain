@@ -26,7 +26,8 @@ Gain-Grain
 * on pressing the back button, and I couldn't figure out what was causing the issues until
 * I finally found that file.
 * Many of the ideas I had come up with to do for this sprint (comments, likes, sharing) 
-* rely on the backend to exist first.
+* rely on the backend to exist first. I am hoping to get more code committed for the next
+* sprint with this one having the break, rebasing, and waiting on backend.
 * We had one large rebasing issue and a smaller one as well. These both led to the deletion
 * of some new code and the reintroduction of structures and code we had deleted weeks ago. 
 * I believe someone pushed to the repo before pulling, and the group has since met and ironed

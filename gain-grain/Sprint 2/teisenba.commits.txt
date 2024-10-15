@@ -29,6 +29,7 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: expected string or bytes-like object, got 'NoneType'
 
+
 f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400  4) import Link from "next/link"; // Import Link
 7c198c14 (teisenba           2024-10-10 13:20:26 -0400  5) import Navbar from "../components/Navbar";
 5c1ee495 (teisenba           2024-10-10 12:24:03 -0400  6) import Feed from "../components/Feed";
