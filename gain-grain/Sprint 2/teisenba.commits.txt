@@ -1,8 +1,4 @@
-I made this commits.txt manually from my commits history as I did last time. I wasn't able to use blame-tracker due to this error:
-
-Non-code related work:
-Researched and found hosting platform Vercel
-Setup hosting for Vercel
+I created this file manually because the blame tracker didn't work for me. I pasted the command I used and the error output below
 
 PS C:\Users\trevo\OneDrive\Documents\School\COSC340\Gain-Grain\gain-grain> python3 blame-tracker.py -by "teisenba" --since "10/1/2024" -o '.\Sprint 2\teisenba.commits.txt'  
 Exception in thread Thread-3109 (_readerthread):
@@ -33,713 +29,550 @@ Traceback (most recent call last):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: expected string or bytes-like object, got 'NoneType'
 
-gain-grain/src/app/page.js:
-    import Navbar from "../components/Navbar";
-    <main className="flex min-h-screen flex-col bg-gray-50">
-
-    // Home.js
-    import Navbar from "../components/Navbar"; // Adjust the path based on your file structure
-    import Feed from "../components/Feed";
-    import Comments from "../components/Comments";
-    {/* Navbar */}
-    <Navbar />
-    <Feed toggleComments={toggleComments} visibleComments={visibleComments} />
-    {/* Comments Section */}
-    <Comments visibleComments={visibleComments} />
-
-gain-grain/src/components/Comments.js:
-    // Comments.js
-    export default function Comments({ visibleComments }) {
-        return (
-            <div className="comments-container flex flex-col ml-4">
-                {Object.keys(visibleComments).map((postId) =>
-                    visibleComments[postId] ? (
-                        <div key={postId} className="comments-section bg-white p-3 rounded-lg mt-3 w-64">
-                            <h4 className="font-bold">Comments</h4>
-                            <div className="comment mb-2"><strong>@user456:</strong> Great post!</div>
-                            <div className="comment"><strong>@fitguru:</strong> Really informative!</div>
-                        </div>
-                    ) : null
-                )}
-            </div>
-        );
-    }
-
-gain-grain/src/components/Feed.js:
-    // Feed.js
-    import { useState } from "react";
-    export default function Feed({ toggleComments, visibleComments }) {
-        return (
-            <div className="flex justify-center mt-8 w-full">
-                <div className="flex flex-col items-center max-w-2xl w-full">
-                    {[1, 2].map((postId) => (
-                        <div key={postId} className="relative post bg-white border border-gray-300 mb-5 rounded-lg w-full">
-                            <div className="post-header flex items-center p-3">
-                                <img src="https://via.placeholder.com/40" alt="User Profile" className="rounded-full mr-2" />
-                                <h3 className="text-lg">@user{postId}</h3>
-                            </div>
-                            <div className="post-image">
-                                <img src="https://via.placeholder.com/600x400" alt="Post Image" className="w-full rounded-t-lg" />
-                            </div>
-                            <div className="post-content p-3">
-                                <h4 className="text-xl">Post Title {postId}</h4>
-                                <p className="text-gray-700">This is a description of post {postId}.</p>
-                            </div>
-                            <div className="post-actions flex justify-around mb-3">
-                                <button className="hover:underline">Like</button>
-                                <button className="hover:underline" onClick={() => toggleComments(postId)}>Comment</button>
-                                <button className="hover:underline">Share</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
-gain-grain/src/components/Navbar.js:
-    <main className="flex min-h-screen flex-col bg-gray-50">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg box-shadow:0 hover:bg-orange-500 hover:text-white transition-all">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-    function toggleHamburgerDropdown() {
-            if (showDropdown) {
-            // Fade out
-                setIsVisible(false);
-                setTimeout(() => setShowDropdown(false), 200); 
-            } 
-            else {
-                // Fade in
-                setShowDropdown(true);            
-                setTimeout(() => setIsVisible(true), 0); 
-            }
-        }
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
-    <Link href="/dashboard/savedMeals">
-                                    {/* nutrition button */}
-                                    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
-                                        Nutrition
-                                    </button>
-                                </Link>
-                                
-                                <Link href="/dashboard/savedWorkouts">
-                                    {/* exercise button*/}
-                                    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
-                                        Exercise
-                                    </button>
-                                </Link>
-
-    <div className={styles.buttonContainer}>
-                    <Link href="/dashboard/calendar">
-                        <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
-                            Calendar
-                        </button>
-                    </Link>
-                    <Link href="/post">
-                        <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
-                            Post
-                        </button>
-                    </Link>
-                </div>
-    <div className={styles.hamburgerButton} onClick={toggleHamburgerDropdown}>
-                    <Bars3Icon className="size-7 text-white rounded-lg hover:bg-orange-600"/>
-    <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 hover:text-white transition-all">
-
-    <div>
-                    <img
-                        className={styles.logo} 
-                        height={50} 
-                        width={150}
-                        onClick={() => window.location.href = '/'}
-                    ></img>
-
-    // functionality to make hamburger menu appear
-        function toggleHamburgerDropdown(){
-            setShowDropdown(!showDropdown)
-        }
-    // orange bar
-            <nav className={styles.bigBar}>
-                {/* gain & grain logo top left */}
-                <div className="flex flex-col justify-center items-center">
-                    <div className={styles.logo}></div>
-                </div>
-                {/* search bar */}
-                <div className="flex-grow w-full flex justify-center items-center">
-                className={styles.searchBar}
-                {/* hamburger options menu */}
-                <div className={styles.hamburgerDropdown} onClick={toggleHamburgerDropdown}>
-                    <Bars3Icon className="size-7 text-white"/>
-                {/* make the dropdown appear if it has been clicked */}
-                    {showDropdown ?
-                        <div className={styles.hamburgerMenu}>
-                            <div className="flex flex-col space-y-1 my-1">
-            
-gain-grain/src/components/navbar.module.css:
-    @media screen and (max-width: 1000px) {
-        .logo {
-            display: none;
-        }
-        .centerContainer {
-            justify-content: start;
-        }
-        .searchBar {
-            margin-left: 0px;
-        }
-        .searchBar:hover,
-        .searchBar:focus {
-            width: 10rem;
-        }   
-    }
-    @media screen and (max-width: 650px) {
-        .searchBar {
-            width: 10rem;
-        }
-        .searchBar:hover,
-        .searchBar:focus {
-            width: 10rem;
-        }   
-    }
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    outline: none;
-    border: none;
-    background-color: transparent;
-    background-color: white; 
-    outline: none;
-    border: 1px solid transparent;
-    /* Centering the search bar container */
-    .centerContainer {
-        flex: 1; /* Make it take available space */
-        display: flex;
-        justify-content: center; /* Center the search bar */
-        align-items: center; /* Center vertically */
-    }
-    .buttonContainer {
-        display: flex;
-        align-items: center;
-        gap: 1rem; 
-    }
-    .hamburgerButton {
-    padding-left: 20px;
-        padding-right: 10px;
-        cursor: pointer;
-    }
-    .hamburgerButton:hover {
-    background-color: #F97316;
-    border-radius: 0.5rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    .hamburgerMenu {
-        width: 10vw;
-    background-image: url('../public/images/logo.png');
-        height: 60px;
-        width: 60px;
-
-    .bigBar {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        height: 4rem; /* or 64px */
-        background-color: #F97316; /* Tailwind's orange-500 */
-        padding: 1rem; /* or 16px */
-    }
-    .logo {
-        width: 12rem; /* Adjust the size as needed */
-        height: 8rem; /* Adjust the size as needed */
-        background-image: url('/../public/images/logo.jpg'); /* Path to your image */
-        background-size: contain; /* Ensures the image fits the div */
-        background-repeat: no-repeat; /* Prevents the image from repeating */
-        background-position: center; /* Centers the image */
-    }
-    .searchBar {
-        width: 20rem;
-        background-color: white; /* bg-gray-200 equivalent */
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        transition: width 0.3s ease-in-out;
-        outline: none; /* Removes the default focus outline */
-        border: 1px solid transparent; /* Initial transparent border */
-    }
-    
-    .searchBar:hover,
-    .searchBar:focus {
-        width: 30rem;
-    .hamburgerDropdown .hamburgerMenu {
-        width: 15vw;
-        background-color: lightgrey;
-        position: absolute;
-        right: 0;
-        top: 64px;
-        z-index: 1;
-    }
-
-gain-grain/src/app/post/page.js:
-    {/* background grey */}
-    {/* white pane in center screen */}
-
-    gain-grain/src/app/api/profile/get-user-by-id/route.js:
-    import { NextResponse } from 'next/server';
-    import { getUserById } from '@/utils/userModel';
-    export async function POST(req) {
-    try {
-        const body = await req.json();
-        const { userId } = body;
-        const result = await getUserById(userId);
-        if(result.success) {
-        return NextResponse.json({ success: true, user: result.user })
-        } else {
-        return NextResponse.json(result, { status: 400 });
-        }
-    } catch (error) {
-        console.error('Error when searching for user:', error);
-        return NextResponse.json({ success: false, message: 'Server error.' }, { status: 500 });
-    }
-    }
-    export async function GET() {
-    return NextResponse.json({ success: false, message: 'Method GET not allowed.' }, { status: 405 });
-    }
-    <button className="bg-[#4CAF50] hover:bg-[#45A049] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
-    <button className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
-    <button className="bg-[#3F51B5] hover:bg-[#303F9F] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
-    <button className="bg-[#FFC107] hover:bg-[#FFA000] text-white font-bold h-16 w-full rounded text-lg flex items-center justify-center">
-
-gain-grain/src/app/profile/page.js:
-    "use client";
-    import React, { useEffect, useState} from "react";   
-    // import { getSession } from 'next-auth/react';    
-    import styles from './profile.module.css'
-    import { useSearchParams } from 'next/navigation';
-    const [user, setUser] = useState('');
-    const [error, setError] = useState(null);
-    const [validId, setValidId] = useState(false);
-    const searchParams = useSearchParams();
-    const userId = searchParams.get('userId');
-    useEffect(() => {
-        const fetchUserData = async () => {
-        if (!userId) {
-            setError('No User ID provided');
-            return;
-        }
-        
-        try {
-            const response = await fetch('/api/profile/get-user-by-id', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId }),
-            });
-            if (!response.ok) throw new Error('Failed to fetch user data');
-            const data = await response.json();
-            if (data.success) {
-            setUser(data.user);
-            setValidId(true);
-            } else {
-            setError(data.message || 'Failed to fetch user data');
-            }
-        } catch (error) {
-            setError(error.message);
-        }
-        };
-        fetchUserData();
-    }, [userId]);
-    return (
-        <div>
-        {validId ? (
-            <>
-            <div className="flex items-center space-x-6">
-                <div className="w-24 h-24">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                </svg>
-                </div>
-                <div>
-                <ul>
-                    <p>Followers: {user.numFollowers}</p>
-                    <p>Following: {user.numFollowing}</p>
-                </ul>
-                <h1 className="text-2xl font-bold">{user.username} </h1>
-                <p className="text-gray-600">User's Bio:
-                    <p>{user.bio}</p>
-                </p>
-                </div>
-                <button>Edit profile</button>
-            </div>
-            <div className="mt-8">
-                <h2 className="text-xl font-semibold mb-4">Saved Workouts</h2>
-            </div>
-            <div className="mt-8">
-                <h2 className="text-xl font-semibold mb-4">Saved Meals</h2>
-            </div>
-            </>
-        ) : (
-            <div className={styles.wrapper}>
-            <p className={styles.errorMessage}>{error}</p>
-        )}
-        </div>
-    );
-    };
-    // export async function getServerSideProps(context) {
-    //   const session = await getSession(context);
-    //   if (!session || !session.user) {
-    //     return {
-    //       redirect: {
-    //         destination: '../login', 
-    //         permanent: false,
-    //       },
-    //     };
-    //   }
-    //   const userId = session.user.id;
-    //   return {
-    //     props: {
-    //       userId,
-    //     },
-    //   };
-    // }
-
-gain-grain/src/app/profile/profile.module.css:
-    .wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--vol-orange);
-        width: 100vw;
-        height: 100vh;
-    }
-    .errorMessage {
-        font-size: 30px;
-        color: white;
-    }
-
-gain-grain/src/utils/userWorkout.js:
-    import mongoose from 'mongoose';
-    import clientPromise from './mongodb';
-    const workoutSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    exercises: [
-        {
-        name: { type: String, required: true },
-        Sets: { type: Number },
-        Reps: { type: Number },
-        }
-    ]
-    });
-    const Workout = mongoose.models.Workout || mongoose.model('Workout', workoutSchema);
-    // Function to create a workout
-    export const createWorkout = async (userId, exercises) => {
-    const client = await clientPromise; // Use the MongoDB client
-    const db = client.db(); // Access the database
-    const workoutsCollection = db.collection('workouts'); // Access the workouts collection
-    const result = await workoutsCollection.insertOne({ userId, exercises, date: new Date() }); // Insert the workout
-    return result; // Return the result of the insert operation
-    };
-    // Function to find workouts by userId
-    export const findWorkoutsByUserId = async (userId) => {
-    const client = await clientPromise; // Use the MongoDB client
-    const db = client.db(); // Access the database
-    const workoutsCollection = db.collection('workouts'); // Access the workouts collection
-    const workouts = await workoutsCollection.find({ userId }).toArray(); // Find workouts by userId
-    return workouts; // Return the list of workouts
-    };
-    // Function to delete a workout by ID
-    export const deleteWorkoutById = async (workoutId) => {
-    const client = await clientPromise; // Use the MongoDB client
-    const db = client.db(); // Access the database
-    const workoutsCollection = db.collection('workouts'); // Access the workouts collection
-    const result = await workoutsCollection.deleteOne({ _id: new mongoose.Types.ObjectId(workoutId) }); // Delete the workout by ID
-    return result; // Return the result of the delete operation
-    };
-    export default Workout;
-
-gain-grain/src/app/dashboard/calendar/style.css:
-    background-color: var(--powder-blue); /* Darken color on hover */
-
-gain-grain/src/app/api/login/find-user/route.js:
-    if (result.success) {
-            // Return the userId along with the success response
-            return NextResponse.json({ success: true, userId: result.user._id.toString() });
-        } else {
-            return NextResponse.json({ success: false, message: result.message }, { status: 401 });
-        }
-
-gain-grain/src/app/api/meals/saveToProfile/route.js:
-    import { NextResponse } from "next/server";
-    import clientPromise from "@/utils/mongodb";
-    export async function POST(req) {
-        try {
-            const body = await req.json();
-            const { userId, meal, date } = body;
-            if (!userId || !meal || !date) {
-                return NextResponse.json({ success: false, message: 'Missing required fields'});
-            }
-            const client = await clientPromise;
-            const db = client.db();
-            const result = await db.collection('meals').insertOne({
-                userId,
-                meal: {
-                    name: meal.name,
-                    ingredients: meal.ingredients,
-                    calories: meal.calories,
-                },
-                date,
-            });
-            return NextResponse.json({ success: true, data: result });
-        } catch (error) {
-            console.error('Error in save meals API:', error);
-            return NextResponse.json({ success: false, message: 'Server error'});
-        }
-    }
-    import { NextResponse } from "next/server";
-    import clientPromise from "@/utils/mongodb";
-    export async function POST(req) {
-        try {
-            const body = await req.json();
-            const { userId, meal, date } = body;
-            if (!userId || !meal || !date) {
-                return NextResponse.json({ success: false, message: 'Missing required fields'});
-            }
-            const client = await clientPromise;
-            const db = client.db();
-            const result = await db.collection('meals').insertOne({
-                userId,
-                meal: {
-                    name: meal.name,
-                    ingredients: meal.ingredients,
-                    calories: meal.calories,
-                },
-                date,
-            });
-            return NextResponse.json({ success: true, data: result });
-        } catch (error) {
-            console.error('Error in save meals API:', error);
-            return NextResponse.json({ success: false, message: 'Server error'});
-        }
-    }
-
-gain-grain/src/app/api/workouts/saveToProfile/route.js:
-    import { NextResponse } from 'next/server';
-    import clientPromise from '@/utils/mongodb';
-    export async function POST(req) {
-        try {
-            const body = await req.json();
-            const { userId, exercises, date } = body;
-            if (!userId || !exercises || !date) {
-                return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
-            }
-            const client = await clientPromise;
-            const db = client.db();
-            const result = await db.collection('workouts').insertOne({
-                userId, // This should now store the actual ObjectId
-                exercises,
-                date,
-            });
-            return NextResponse.json({ success: true, data: result });
-        } catch (error) {
-            console.error('Error in save workout API:', error);
-            return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
-        }
-    }
-    import { NextResponse } from 'next/server';
-    import clientPromise from '@/utils/mongodb';
-    export async function POST(req) {
-        try {
-            const body = await req.json();
-            const { userId, exercises, date } = body;
-            if (!userId || !exercises || !date) {
-                return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
-            }
-            const client = await clientPromise;
-            const db = client.db();
-            const result = await db.collection('workouts').insertOne({
-                userId, // This should now store the actual ObjectId
-                exercises,
-                date,
-            });
-            return NextResponse.json({ success: true, data: result });
-        } catch (error) {
-            console.error('Error in save workout API:', error);
-            return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
-        }
-    }
-
-gain-grain/src/app/dashboard/calendar/page.js:
-    <main className="calendar-main">
-                <Navbar/>
-    const saveWorkoutToProfile = async () => {
-            const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
-            if (!userId) {
-                alert('User not logged in');
-                return;
-            }
-            console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
-            try {
-                const response = await fetch('/api/workouts/saveToProfile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        userId, 
-                        exercises: selectedExercises,
-                        date: selectedDate,   
-                    }),
-                });
-                const data = await response.json();
-                if (data.success) {
-                    alert('Workout saved successfully!');
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Error saving workout:', error);
-                alert('Failed to save workout');
-            }
-        };
-        const saveMealToProfile = async (meal) => {
-            const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
-        
-            if (!userId) {
-                alert('User not logged in');
-                return;
-            }
-        
-            console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
-        
-            try {
-                const MealData = {
-                    name: meal.name,
-                    ingredients: meal.ingredients,
-                    calories: meal.calories,
-                };
-        
-                const response = await fetch('/api/meals/saveToProfile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        userId, 
-                        meal: MealData, 
-                        date: selectedDate // Ensure selectedDate is defined in the scope
-                    }),
-                });
-        
-                const data = await response.json();
-                if (data.success) {
-                    alert('Meal saved successfully!');
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Error saving meal:', error);
-                alert('Failed to save meal');
-            }
-        };
-
-    useEffect(() => {
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-            // If the user is not logged in, redirect them to the login page
-            window.location.href = '/login';
-            }
-        }, []);      
-    const handleIngredientsChange = (e) => {
-            const value = e.target.value;
-            setMealIngredients(value.split(',').map(ingredient => ingredient.trim())); // Split by comma and trim spaces
-        };
-    if (showModal) {
-                setMealName('');
-                setMealCalories('');
-                setMealIngredients([]);
-                setMealUrl('');
-            }
-    const saveWorkoutToProfile = async () => {
-            const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
-            if (!userId) {
-                alert('User not logged in');
-                return;
-            }
-            console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
-            try {
-                const response = await fetch('/api/workouts/saveToProfile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        userId, 
-                        exercises: selectedExercises,
-                        date: selectedDate,   
-                    }),
-                });
-                const data = await response.json();
-                if (data.success) {
-                    alert('Workout saved successfully!');
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Error saving workout:', error);
-                alert('Failed to save workout');
-            }
-        };
-        const saveMealToProfile = async (meal) => {
-            const userId = localStorage.getItem('userId'); // Retrieve the userId from localStorage (adjust as needed)
-        
-            if (!userId) {
-                alert('User not logged in');
-                return;
-            }
-        
-            console.log('UserId retrieved from localStorage:', userId); // Log userId for debugging
-        
-            try {
-                const MealData = {
-                    name: meal.name,
-                    ingredients: meal.ingredients,
-                    calories: meal.calories,
-                };
-        
-                const response = await fetch('/api/meals/saveToProfile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        userId, 
-                        meal: MealData, 
-                        date: selectedDate // Ensure selectedDate is defined in the scope
-                    }),
-                });
-        
-                const data = await response.json();
-                if (data.success) {
-                    alert('Meal saved successfully!');
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            } catch (error) {
-                console.error('Error saving meal:', error);
-                alert('Failed to save meal');
-            }
-        };
-        
-gain-grain/src/app/login/page.js:
-    localStorage.setItem('userId', data.userId);
-            console.log('UserId set in localStorage:', data.userId); // Log userId after setting it
-
-gain-grain/src/app/app.css:
-    .homepage-main {
-    width: 100%;
-    }
-
-gain-grain/src/app/homepage.css:
-    .homepage-main {
-        width: 100%;
-    }
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400  4) import Link from "next/link"; // Import Link
+7c198c14 (teisenba           2024-10-10 13:20:26 -0400  5) import Navbar from "../components/Navbar";
+5c1ee495 (teisenba           2024-10-10 12:24:03 -0400  6) import Feed from "../components/Feed";
+5c1ee495 (teisenba           2024-10-10 12:24:03 -0400  7) import Comments from "../components/Comments";
+c9dac84c (teisenba           2024-10-14 19:00:33 -0400  8) import './homepage.css'
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 11)   // State for managing comments visibility
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 12)   const [visibleComments, setVisibleComments] = useState(false);
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 14)   const toggleComments = () => {
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 15)     setVisibleComments(!visibleComments);
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 16)   };
+c9dac84c (teisenba           2024-10-14 19:00:33 -0400 19)     <main className="homepage-main flex min-h-screen flex-col bg-gray-50">
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 21)       {/* Main content */}
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 23)         {/* Navbar */}
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 24)         <Navbar />
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 25) 
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 26)         {/* Feed Section */}
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 27)         <Feed toggleComments={toggleComments} visibleComments={visibleComments} />
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 28) 
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 29)         {/* Comments Section */}
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 30)         <Comments visibleComments={visibleComments} />
+f5d0beb8 (teisenba           2024-10-10 19:09:46 -0400 31)       </div>
+e3800c16 (teisenba           2024-10-12 12:02:51 -0400 34) }
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  1) export default function Comments({ visibleComments }) {
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  2)     return (
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  3)         <div className="comments-container flex flex-col ml-4">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  4)             {Object.keys(visibleComments).map((postId) =>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  5)                 visibleComments[postId] ? (
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  6)                     <div key={postId} className="comments-section bg-white p-3 rounded-lg mt-3 w-64">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  7)                         <h4 className="font-bold">Comments</h4>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  8)                         <div className="comment mb-2"><strong>@user456:</strong> Great post!</div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  9)                         <div className="comment"><strong>@fitguru:</strong> Really informative!</div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 10)                     </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 11)                 ) : null
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 12)             )}
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 13)         </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 14)     );
+44e1aaca (teisenba 2024-10-15 08:35:23 -0400 15) }
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  1) export default function Feed({ toggleComments, visibleComments }) {
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  2)     return (
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  3)         <div className="flex justify-center mt-8 w-full">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  4)             <div className="flex flex-col items-center max-w-2xl w-full">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  5)                 {[1, 2].map((postId) => (
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  6)                     <div key={postId} className="relative post bg-white border border-gray-300 mb-5 rounded-lg w-full">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  7)                         <div className="post-header flex items-center p-3">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  8)                             <img src="https://via.placeholder.com/40" alt="User Profile" className="rounded-full mr-2" />
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400  9)                             <h3 className="text-lg">@user{postId}</h3>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 10)                         </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 11)                         <div className="post-image">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 12)                             <img src="https://via.placeholder.com/600x400" alt="Post Image" className="w-full rounded-t-lg" />
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 13)                         </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 14)                         <div className="post-content p-3">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 15)                             <h4 className="text-xl">Post Title {postId}</h4>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 16)                             <p className="text-gray-700">This is a description of post {postId}.</p>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 17)                         </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 18)                         <div className="post-actions flex justify-around mb-3">
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 19)                             <button className="hover:underline">Like</button>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 20)                             <button className="hover:underline" onClick={() => toggleComments(postId)}>Comment</button>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 21)                             <button className="hover:underline">Share</button>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 22)                         </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 23)                     </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 24)                 ))}
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 25)             </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 26)         </div>
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 27)     );
+5c1ee495 (teisenba 2024-10-10 12:24:03 -0400 28) }
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400   1) // navbar.js
+7739043e (teisenba 2024-10-10 17:22:57 -0400   5) import { Bars3Icon } from '@heroicons/react/24/outline'
+7739043e (teisenba 2024-10-10 17:22:57 -0400   6) import styles from './navbar.module.css'
+7739043e (teisenba 2024-10-10 17:22:57 -0400  12)     const [showDropdown, setShowDropdown] = useState(false)
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  13)     const [isVisible, setIsVisible] = useState(false);
+7739043e (teisenba 2024-10-10 17:22:57 -0400  14) 
+7739043e (teisenba 2024-10-10 17:22:57 -0400  15)     function toggleHamburgerDropdown(){
+7739043e (teisenba 2024-10-10 17:22:57 -0400  16)         setShowDropdown(!showDropdown)
+7739043e (teisenba 2024-10-10 17:22:57 -0400  17)     }
+7739043e (teisenba 2024-10-10 17:22:57 -0400  18) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  19)     function toggleHamburgerDropdown() {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  20)         if (showDropdown) {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  21)         // Fade out
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  22)             setIsVisible(false);
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  23)             setTimeout(() => setShowDropdown(false), 200); 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  24)         } 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  25)         else {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  26)             // Fade in
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  27)             setShowDropdown(true);            
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  28)             setTimeout(() => setIsVisible(true), 0); 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  29)         }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  30)     }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  31) 
+16318014 (teisenba 2024-10-11 10:13:22 -0400  33)         <nav className={styles.bigBar}>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  34)             {/* gain & grain logo top left */}
+16318014 (teisenba 2024-10-11 10:13:22 -0400  42)             </div>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  43)             {/* search bar */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  44)             <div className={styles.centerContainer}>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  48)                     className={styles.searchBar}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  51)             <div className={styles.buttonContainer}>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  52)                 {/* calendar button */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  53)                 <Link href="/dashboard/calendar">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  54)                     <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  55)                         Calendar
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  56)                     </button>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  57)                 </Link>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  58)                 {/* post button */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  59)                 <Link href="/post">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  60)                     <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  61)                         Post
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  62)                     </button>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  63)                 </Link>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  64)             </div>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  65)             {/* hamburger options menu */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  66)             <div className={styles.hamburgerButton} onClick={toggleHamburgerDropdown}>
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  67)                 <Bars3Icon className="size-10 text-white rounded-lg hover:bg-orange-600 p-0.5"/>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  68)                 {showDropdown ?
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  69)                     <div className={`${styles.hamburgerMenu} transition-opacity duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  70)                         <div className="flex flex-col space-y-1 my-1">
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  71)                             <Link href="/login" className="w-full flex justify-center">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  72)                                 {/* combined login/register button */}
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  73)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  74)                                     Login/Register
+7739043e (teisenba 2024-10-10 17:22:57 -0400  75)                                 </button>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  76)                             </Link>
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  77)                             <Link href="/profile" className="w-full flex justify-center">
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  78)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+7739043e (teisenba 2024-10-10 17:22:57 -0400  79)                                     Profile
+7739043e (teisenba 2024-10-10 17:22:57 -0400  80)                                 </button>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  81)                             </Link>
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  82)                             <Link href="/dashboard/savedMeals" className="w-full flex justify-center">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  83)                                 {/* nutrition button */}
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  84)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  85)                                     Nutrition
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  86)                                 </button>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  87)                             </Link>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  88)                             
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  89)                             <Link href="/dashboard/savedWorkouts" className="w-full flex justify-center">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  90)                                 {/* exercise button*/}
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  91)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  92)                                     Exercise
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  93)                                 </button>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  94)                             </Link>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  95)                         </div>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  96)                     </div>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  97)                     // if not clicked, render nothing
+7739043e (teisenba 2024-10-10 17:22:57 -0400  98)                     :<></>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  99)                 }
+7739043e (teisenba 2024-10-10 17:22:57 -0400 100)             </div>
+16318014 (teisenba 2024-10-11 10:13:22 -0400   1) .bigBar {
+16318014 (teisenba 2024-10-11 10:13:22 -0400   2)     display: flex;
+16318014 (teisenba 2024-10-11 10:13:22 -0400   3)     width: 100%;
+16318014 (teisenba 2024-10-11 10:13:22 -0400   4)     align-items: center;
+9e7fb50f (teisenba 2024-10-14 16:06:08 -0400   5)     top: 0;
+16318014 (teisenba 2024-10-11 10:13:22 -0400   6)     justify-content: space-between;
+16318014 (teisenba 2024-10-11 10:13:22 -0400   7)     height: 4rem; /* or 64px */
+9e7fb50f (teisenba 2024-10-14 16:06:08 -0400   8)     background-color: var(--vol-orange);
+16318014 (teisenba 2024-10-11 10:13:22 -0400   9)     padding: 1rem; /* or 16px */
+16318014 (teisenba 2024-10-11 10:13:22 -0400  10) }
+16318014 (teisenba 2024-10-11 10:13:22 -0400  11) 
+16318014 (teisenba 2024-10-11 10:13:22 -0400  12) .logo {
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  13)     background-size: contain;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  14)     background-repeat: no-repeat;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  15)     background-position: center;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  19)     outline: none;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  20)     border: none;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  21)     background-color: transparent;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  22) }
+16318014 (teisenba 2024-10-11 10:13:22 -0400  23) 
+16318014 (teisenba 2024-10-11 10:13:22 -0400  24) .searchBar {
+16318014 (teisenba 2024-10-11 10:13:22 -0400  25)     width: 20rem;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  26)     background-color: white; 
+16318014 (teisenba 2024-10-11 10:13:22 -0400  27)     padding: 0.5rem;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  28)     border-radius: 0.5rem;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  29)     transition: width 0.3s ease-in-out;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  30)     outline: none;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  31)     border: 1px solid transparent;
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  32)     margin-left: 190px;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  33) }
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  34) 
+16318014 (teisenba 2024-10-11 10:13:22 -0400  35) .searchBar:hover,
+16318014 (teisenba 2024-10-11 10:13:22 -0400  36) .searchBar:focus {
+16318014 (teisenba 2024-10-11 10:13:22 -0400  37)     width: 30rem;
+7739043e (teisenba 2024-10-10 17:22:57 -0400  38) }
+7739043e (teisenba 2024-10-10 17:22:57 -0400  39) 
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  40) /* Centering the search bar container */
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  41) .centerContainer {
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  42)     flex: 1; /* Make it take available space */
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  43)     display: flex;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  44)     justify-content: center; /* Center the search bar */
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  45)     align-items: center; /* Center vertically */
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  46) }
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  47) 
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  48) .buttonContainer {
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  49)     display: flex;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  50)     align-items: center;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  51)     gap: 1rem; 
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  52) }
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  53) 
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  54) .hamburgerButton {
+7739043e (teisenba 2024-10-10 17:22:57 -0400  55)     position: relative;
+7739043e (teisenba 2024-10-10 17:22:57 -0400  56)     height: 64px;
+7739043e (teisenba 2024-10-10 17:22:57 -0400  57)     display: flex;
+7739043e (teisenba 2024-10-10 17:22:57 -0400  58)     align-items: center;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  59)     padding-left: 20px;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  60)     padding-right: 20px;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  61)     cursor: pointer;
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  62) }
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  63) 
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  64) .hamburgerButton .hamburgerMenu {
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  65)     width: 10vw;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  66)     min-width: 150px;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  67)     background-color: lightgrey;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  68)     position: absolute;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  69)     right: 0;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  70)     top: 64px;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  71)     z-index: 1;
+16318014 (teisenba 2024-10-11 10:13:22 -0400  72) }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  73) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  74) @media screen and (max-width: 1000px) {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  75)     .logo {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  76)         display: none;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  77)     }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  78) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  79)     .centerContainer {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  80)         justify-content: start;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  81)     }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  82) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  83)     .searchBar {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  84) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  85)         margin-left: 0px;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  86)     }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  87) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  88)     .searchBar:hover,
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  89)     .searchBar:focus {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  90)         width: 10rem;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  91)     }   
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  92) }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  93) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  94) @media screen and (max-width: 650px) {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  95)     .searchBar {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  96) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  97)         width: 10rem;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  98)     }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  99) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 100)     .searchBar:hover,
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 101)     .searchBar:focus {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 102)         width: 10rem;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 103)     }   
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 104) }
+dbca216a (teisenba         2024-10-11 17:33:18 -0400 11)             {/* background grey */}
+dbca216a (teisenba         2024-10-11 17:33:18 -0400 14)                 {/* white pane in center screen */}
+dbca216a (teisenba         2024-10-11 17:33:18 -0400 17)                     
+284a260a gain-grain/src/app/dashboard/calendar/style.css    (teisenba           2024-10-14 17:24:22 -0400  30)     /* padding: 30px; */
+284a260a gain-grain/src/app/dashboard/calendar/style.css    (teisenba           2024-10-14 17:24:22 -0400  50) .calendar-main {
+284a260a gain-grain/src/app/dashboard/calendar/style.css    (teisenba           2024-10-14 17:24:22 -0400  51)     width: 100%;
+284a260a gain-grain/src/app/dashboard/calendar/style.css    (teisenba           2024-10-14 17:24:22 -0400  52) }
+284a260a gain-grain/src/app/dashboard/calendar/style.css    (teisenba           2024-10-14 17:24:22 -0400  53) 
+e3800c16 gain-grain/src/app/dashboard/calendar/style.css    (teisenba           2024-10-12 12:02:51 -0400 669)     background-color: var(--powder-blue); /* Darken color on hover */
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400  11) import Navbar from "../../../components/Navbar";
+284a260a (teisenba         2024-10-14 17:24:22 -0400 391)         <main className="calendar-main">
+284a260a (teisenba         2024-10-14 17:24:22 -0400 392)             <Navbar/>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 393)             <div className="container">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 394)                 
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 395)                 <div className="left">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 396)                     <div className="calendar">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 397)                         <div className="month">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 398)                             <FaAngleLeft className="prev" onClick={handlePrevMonth} />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 399)                             <div className="date">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 400)                                 {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 401)                             </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 402)                             <FaAngleRight className="next" onClick={handleNextMonth} />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 403)                         </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 404)                         <div className="weekdays">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 405)                             <div>Sun</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 406)                             <div>Mon</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 407)                             <div>Tue</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 408)                             <div>Wed</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 409)                             <div>Thu</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 410)                             <div>Fri</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 411)                             <div>Sat</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 412)                         </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 413)                         <div className="days">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 414)                             {renderDays()}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 418)                 <div className="right">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 419)                     <div className="today-date">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 420)                         <div className="event-day">{selectedDate.toLocaleDateString('default', { weekday: 'long' })}</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 421)                         <div className="event-date">{selectedDate.toDateString()}</div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 423)                     
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 424)                     <div className="exercise-section">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 425)                         <h3>Exercises</h3>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 434)                         <ul className="exercise-list">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 435)                             {selectedExercises.map((exercise, index) => (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 436)                                 <li key={index}>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 437)                                 <div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 438)                                     <span>{exercise.name}</span>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 439)                                     <div className="exercise-details">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 440)                                         {exercise.sets} sets x {exercise.reps} reps
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 441)                                     </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 443)                                 <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 445)                             ))}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 446)                         </ul>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 447)                     </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 448)                     
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 449)                     <div className="meal-section">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 450)                         <h3>Meals</h3>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 451)                         <ul className="meal-list">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 452)                             {selectedMeals.map((meal, index) => (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 453)                                 <li key={index}>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 454)                                     <span>{meal.name} ({meal.calories} cal)</span>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 459)                                 </li>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 460)                             ))}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 461)                         </ul>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 462)                     </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 464)                     <div className="add-section">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 465)                         <button className="add-button" onClick={toggleModal}>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 466)                             <FaPlus />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 467)                         </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 471)                 <Modal show={showModal} onClose={toggleModal}>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 472)                     <div className="modal-body">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 473)                         <div className="add-options">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 474)                             <div className="dropdown">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 475)                                 <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 476)                                     onClick={() => setShowExerciseDropdown(!showExerciseDropdown)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 477)                                     className={activeButton === 'exercise' ? 'active' : ''}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 478)                                 >
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 479)                                     Add Exercise
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 480)                                 </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 481)                                 {showExerciseDropdown && (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 482)                                     <div className="dropdown-options">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 483)                                         <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 484)                                             onClick={() => {
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 485)                                                 setExerciseOption('create-new');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 486)                                                 setMealOption('');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 487)                                                 setAddingType('exercise');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 488)                                                 setShowExerciseSearch(true);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 489)                                                 setActiveButton('exercise');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 490)                                                 setShowExerciseDropdown(false);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 491)                                             }}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 492)                                         >
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 493)                                             Create New
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 494)                                         </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 495)                                         <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 496)                                             onClick={() => {
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 497)                                                 setExerciseOption('import-saved');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 498)                                                 setMealOption('');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 499)                                                 setAddingType('exercise');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 500)                                                 setShowExerciseSearch(false);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 502)                                                 setActiveButton('exercise');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 503)                                                 setShowExerciseDropdown(false);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 504)                                             }}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 505)                                         >
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 506)                                             Import from Saved
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 507)                                         </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 508)                                     </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 509)                                 )}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 511) 
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 512)                             <div className="dropdown">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 513)                                 <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 514)                                     onClick={() => setShowMealDropdown(!showMealDropdown)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 515)                                     className={activeButton === 'meal' ? 'active' : ''}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 517)                                     Add Meal
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 519)                                 {showMealDropdown && (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 520)                                     <div className="dropdown-options">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 521)                                         <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 522)                                             onClick={() => {
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 523)                                                 setMealOption('create-new');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 524)                                                 setExerciseOption('');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 525)                                                 setAddingType('meal');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 526)                                                 setActiveButton('meal');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 527)                                                 setShowMealDropdown(false);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 528)                                             }}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 529)                                         >
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 530)                                             Create New
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 531)                                         </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 532)                                         <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 533)                                             onClick={() => {
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 534)                                                 setMealOption('import-saved');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 538)                                                 setExerciseOption('');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 539)                                                 setShowMealDropdown(false);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 540)                                             }}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 541)                                         >
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 542)                                             Import from Saved
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 543)                                         </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 544)                                         <button
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 545)                                             onClick={() => {
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 546)                                                 handleImportUrl();
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 547)                                                 setMealOption('import-url');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 548)                                                 setExerciseOption('');
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 549)                                                 setShowMealDropdown(false);
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 550)                                             }}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 551)                                         >
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 552)                                             Import from URL
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 553)                                         </button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 554)                                     </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 555)                                 )}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 556)                             </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 559)                         <div className="add-forms">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 560)                             {exerciseOption === 'create-new' && addingType === 'exercise' && showExerciseSearch && (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 561)                                 <ExerciseSearch onSelectExercise={handleSelectExercise} />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 562)                             )}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 582)                             {addingType === 'meal' && mealOption === 'create-new' && (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 583)                                 <div className="meal-form">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 584)                                     <input
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 585)                                         type="text"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 586)                                         value={mealName}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 587)                                         onChange={(e) => setMealName(e.target.value)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 588)                                         placeholder="Meal Name"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 589)                                     />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 590)                                     <input
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 591)                                         className="meal-number"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 592)                                         type="number"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 593)                                         value={mealCalories}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 594)                                         onChange={(e) => setMealCalories(e.target.value)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 595)                                         placeholder="Calories"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 596)                                     />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 597)                                     <input
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 598)                                         type="text"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 599)                                         value={mealIngredients}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 600)                                         onChange={(e) => setMealIngredients(e.target.value)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 601)                                         placeholder="Ingredients (optional)"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 602)                                     />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 603)                                     <button onClick={handleAddMeal}>Add Meal</button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 621)                                 </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 622)                             )}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 625)                             {mealOption === 'import-url' && (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 626)                                 <div className="meal-form">
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 627)                                     <h3>Import Meal from URL</h3>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 628)                                     <input
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 629)                                         type="text"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 630)                                         value={mealUrl} // New state variable to hold the URL
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 631)                                         onChange={(e) => setMealUrl(e.target.value)} // Update state on input change
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 632)                                         placeholder="Enter Recipe URL"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 633)                                     />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 634)                                     <button onClick={handleImportUrl}>Fetch Meal Details</button> {/* Button to fetch meal details */}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 635)                                     
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 636)                                     {/* Display fetched meal details after the URL is processed */}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 637)                                     {mealName && (
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 638)                                         <>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 639)                                             <h3>Imported Meal Details</h3>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 640)                                             <input
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 641)                                                 type="text"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 642)                                                 value={mealName}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 643)                                                 onChange={(e) => setMealName(e.target.value)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 644)                                                 placeholder="Meal Name"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 645)                                             />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 646)                                             <input
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 647)                                                 className="meal-number"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 648)                                                 type="number"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 649)                                                 value={mealCalories}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 650)                                                 onChange={(e) => setMealCalories(e.target.value)}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 651)                                                 placeholder="Calories"
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 652)                                             />
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 653)                                             <button onClick={handleAddMeal}>Add Meal</button>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 654)                                         </>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 655)                                     )}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 656)                                 </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 657)                             )}
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 659)                         </div>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 661)                 </Modal>
+9e7fb50f (teisenba         2024-10-14 16:06:08 -0400 662)             </div>
+284a260a (teisenba         2024-10-14 17:24:22 -0400 663)         </main>
+7739043e gain-grain/src/app/login/page.js           (teisenba     2024-10-10 17:22:57 -0400   4) import { LockClosedIcon, UserIcon } from '@heroicons/react/24/solid';
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400  6) 
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400  7) .homepage-main {
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400  8)   width: 100%;
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400  9) }
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400 10) 
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400 42) 
+c9dac84c (teisenba      2024-10-14 19:00:33 -0400 43) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 1) .homepage-main {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 2)     width: 100%;
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400 3) }
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400   1) // navbar.js
+7739043e (teisenba 2024-10-10 17:22:57 -0400   5) import { Bars3Icon } from '@heroicons/react/24/outline'
+7739043e (teisenba 2024-10-10 17:22:57 -0400   6) import styles from './navbar.module.css'
+7739043e (teisenba 2024-10-10 17:22:57 -0400  12)     const [showDropdown, setShowDropdown] = useState(false)
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  13)     const [isVisible, setIsVisible] = useState(false);
+7739043e (teisenba 2024-10-10 17:22:57 -0400  14) 
+7739043e (teisenba 2024-10-10 17:22:57 -0400  15)     function toggleHamburgerDropdown(){
+7739043e (teisenba 2024-10-10 17:22:57 -0400  16)         setShowDropdown(!showDropdown)
+7739043e (teisenba 2024-10-10 17:22:57 -0400  17)     }
+7739043e (teisenba 2024-10-10 17:22:57 -0400  18) 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  19)     function toggleHamburgerDropdown() {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  20)         if (showDropdown) {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  21)         // Fade out
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  22)             setIsVisible(false);
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  23)             setTimeout(() => setShowDropdown(false), 200); 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  24)         } 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  25)         else {
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  26)             // Fade in
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  27)             setShowDropdown(true);            
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  28)             setTimeout(() => setIsVisible(true), 0); 
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  29)         }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  30)     }
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  31) 
+16318014 (teisenba 2024-10-11 10:13:22 -0400  33)         <nav className={styles.bigBar}>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  34)             {/* gain & grain logo top left */}
+16318014 (teisenba 2024-10-11 10:13:22 -0400  42)             </div>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  43)             {/* search bar */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  44)             <div className={styles.centerContainer}>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  48)                     className={styles.searchBar}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  51)             <div className={styles.buttonContainer}>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  52)                 {/* calendar button */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  53)                 <Link href="/dashboard/calendar">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  54)                     <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  55)                         Calendar
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  56)                     </button>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  57)                 </Link>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  58)                 {/* post button */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  59)                 <Link href="/post">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  60)                     <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  61)                         Post
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  62)                     </button>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  63)                 </Link>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  64)             </div>
+16318014 (teisenba 2024-10-11 10:13:22 -0400  65)             {/* hamburger options menu */}
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  66)             <div className={styles.hamburgerButton} onClick={toggleHamburgerDropdown}>
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  67)                 <Bars3Icon className="size-10 text-white rounded-lg hover:bg-orange-600 p-0.5"/>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  68)                 {showDropdown ?
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  69)                     <div className={`${styles.hamburgerMenu} transition-opacity duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  70)                         <div className="flex flex-col space-y-1 my-1">
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  71)                             <Link href="/login" className="w-full flex justify-center">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  72)                                 {/* combined login/register button */}
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  73)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  74)                                     Login/Register
+7739043e (teisenba 2024-10-10 17:22:57 -0400  75)                                 </button>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  76)                             </Link>
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  77)                             <Link href="/profile" className="w-full flex justify-center">
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  78)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+7739043e (teisenba 2024-10-10 17:22:57 -0400  79)                                     Profile
+7739043e (teisenba 2024-10-10 17:22:57 -0400  80)                                 </button>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  81)                             </Link>
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  82)                             <Link href="/dashboard/savedMeals" className="w-full flex justify-center">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  83)                                 {/* nutrition button */}
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  84)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  85)                                     Nutrition
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  86)                                 </button>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  87)                             </Link>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  88)                             
+c9dac84c (teisenba 2024-10-14 19:00:33 -0400  89)                             <Link href="/dashboard/savedWorkouts" className="w-full flex justify-center">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  90)                                 {/* exercise button*/}
+27a99e5e (teisenba 2024-10-14 19:39:06 -0400  91)                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  92)                                     Exercise
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  93)                                 </button>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  94)                             </Link>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  95)                         </div>
+7739043e (teisenba 2024-10-10 17:22:57 -0400  96)                     </div>
+5afc6b1d (teisenba 2024-10-12 11:37:25 -0400  97)                     // if not clicked, render nothing
+7739043e (teisenba 2024-10-10 17:22:57 -0400  98)                     :<></>
+5cb8e715 (teisenba 2024-10-11 18:24:12 -0400  99)                 }
+7739043e (teisenba 2024-10-10 17:22:57 -0400 100)             </div>

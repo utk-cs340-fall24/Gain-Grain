@@ -50,8 +50,6 @@ Gain-Grain
 * gain-grain/src/components/Navbar.js
 * gain-grain/src/components/navbar.module.css
 * gain-grain/src/app/post/page.js:
-* gain-grain/src/app/profile/page.js
-* gain-grain/src/app/profile/profile.module.css:
 * gain-grain/src/app/dashboard/calendar/style.css
 * gain-grain/src/app/dashboard/calendar/page.js
 * gain-grain/src/app/login/page.js
