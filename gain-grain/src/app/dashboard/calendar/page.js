@@ -32,6 +32,9 @@ const CustomCalendar = () => {
     const [mealOption, setMealOption] = useState('');
     const [mealUrl, setMealUrl] = useState(''); // State to hold the meal URL
     const [workoutTitle, setWorkoutTitle] = useState('');
+    const [savedWorkouts, setSavedWorkouts] = useState([]);
+    const [loadingWorkouts, setLoadingWorkouts] = useState(false);
+    
 
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -160,6 +163,12 @@ const CustomCalendar = () => {
         setShowModal(!showModal);
     };
 
+    const handleShowModal = async () => {
+        await handleFetchWorkouts(); // Fetch workouts when showing the modal
+        setShowModal(true);
+    };
+    
+
     const handleSaveWorkout = (title) => {
         saveWorkoutToProfile(title);
         setWorkoutTitle('');
@@ -269,6 +278,73 @@ const CustomCalendar = () => {
             alert('Failed to save meal');
         }
     };
+
+    // Function to fetch workouts by userId
+    const fetchUserWorkouts = async () => {
+        const userId = localStorage.getItem('userId'); // Retrieve userId from local storage
+    
+        if (!userId) {
+            console.error('User ID not found in local storage');
+            return []; // Handle this scenario appropriately
+        }
+    
+        try {
+            const response = await fetch('/api/workouts/getSavedWorkouts', {
+                method: 'POST', // Change to POST
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId }), // Send userId in the body
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setSavedWorkouts(data.workouts); // Set savedWorkouts to the workouts array
+                    console.log("Fetched Workouts:", data.workouts); // Log fetched workouts
+                } else {
+                    console.error('Failed to fetch workouts:', data.message);
+                    setSavedWorkouts([]); // Set to empty array if not successful
+                }
+            } else {
+                console.error('Failed to fetch workouts:', response.statusText);
+                setSavedWorkouts([]); // Handle response error
+            }
+        } catch (error) {
+            console.error('Error fetching workouts:', error);
+            setSavedWorkouts([]); // Handle fetch error
+        }
+    };
+    
+
+    const handleFetchWorkouts = async () => {
+        setLoadingWorkouts(true); // Set loading to true before fetching
+        const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+    
+        if (userId) {
+            const workouts = await fetchUserWorkouts(userId);
+            setSavedWorkouts(workouts); // Update the state with fetched workouts
+        } else {
+            console.error('User ID not found in localStorage');
+        }
+        setLoadingWorkouts(false); // Set loading to false after fetching
+    };
+    
+
+    const handleSelectWorkout = (workout) => {
+        // Assuming workout.exercises is an array of exercise objects
+        const exercisesToAdd = workout.exercises.map((exercise) => ({
+            name: exercise.name,
+            sets: exercise.sets,
+            reps: exercise.reps,
+        }));
+    
+        setSelectedExercises((prevExercises) => [...prevExercises, ...exercisesToAdd]);
+        setExerciseOption('');
+        toggleModal(); // Close the modal after adding
+    };
+    
+
     
     const renderDays = () => {
         return days.map((dayObj, index) => (
@@ -347,8 +423,10 @@ const CustomCalendar = () => {
                             {selectedMeals.map((meal, index) => (
                                 <li key={index}>
                                     <span>{meal.name} ({meal.calories} cal)</span>
-                                    <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
-                                    <button className='remove-btn' onClick={() => saveMealToProfile(meal)}>Save Meal to Profile</button>
+                                    <div className='meal-btn-container'>
+                                        <button className="remove-btn" onClick={() => handleRemoveMeal(index)}>Remove</button>
+                                        <button className='remove-btn' onClick={() => saveMealToProfile(meal)}>Save Meal to Profile</button>
+                                    </div>    
                                 </li>
                             ))}
                         </ul>
@@ -391,6 +469,7 @@ const CustomCalendar = () => {
                                                 setMealOption('');
                                                 setAddingType('exercise');
                                                 setShowExerciseSearch(false);
+                                                fetchUserWorkouts();
                                                 setActiveButton('exercise');
                                                 setShowExerciseDropdown(false);
                                             }}
@@ -450,11 +529,23 @@ const CustomCalendar = () => {
                                 <ExerciseSearch onSelectExercise={handleSelectExercise} />
                             )}
 
-                            {exerciseOption === 'import-saved' && (
-                                <div className="coming-soon">
-                                    <p>Coming Soon: Import from Saved Exercises!</p>
+                            {addingType === 'exercise' && exerciseOption === 'import-saved' && (
+                                <div className="workout-list">
+                                    {loadingWorkouts ? (
+                                        <p>Loading workouts...</p>
+                                    ) : !Array.isArray(savedWorkouts) || savedWorkouts.length === 0 ? (
+                                        <p>No saved workouts available.</p>
+                                    ) : (
+                                        savedWorkouts.map((workout) => (
+                                            <div key={workout._id} className="workout-item">
+                                                <span>{workout.title}</span>
+                                                <button onClick={() => handleSelectWorkout(workout)}>Add to Day</button>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             )}
+
 
                             {addingType === 'meal' && mealOption === 'create-new' && (
                                 <div className="meal-form">

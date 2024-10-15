@@ -191,3 +191,12 @@
     margin: 2%;
 }
 
+.workout-list p {
+    color: black;
+}
+
+.workout-item {
+    display: flex;
+    gap: 8px;
+    color: black;
+}

@@ -649,14 +649,14 @@ body {
 
 .add-button {
     position: absolute; /* Position it relative to the parent container */
-    bottom: 65px; /* Distance from the bottom of the container */
+    bottom: 15px; /* Distance from the bottom of the container */
     right: 15px; /* Distance from the right of the container */
     background-color: var(--vol-orange); /* Button background color */
     color: white; /* Text color */
     border: none; /* Remove border */
     border-radius: 50%; /* Make it circular */
-    width: 50px; /* Width of the button */
-    height: 50px; /* Height of the button */
+    width: 60px; /* Width of the button */
+    height: 60px; /* Height of the button */
     font-size: 30px; /* Icon size */
     display: flex;
     justify-content: center;
@@ -698,3 +698,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
 }
 
+.meal-btn-container {
+    display: flex;
+    gap: 8px;
+}
