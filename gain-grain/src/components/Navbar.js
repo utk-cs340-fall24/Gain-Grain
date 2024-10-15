@@ -92,6 +92,12 @@ export default function Navbar() {
                                     Exercise
                                 </button>
                             </Link>
+                            <Link href="/dashboard/notifications" className="w-full flex justify-center">
+                                {/* exercise button*/}
+                                <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
+                                    Notifications
+                                </button>
+                            </Link>
                         </div>
                     </div>
                     // if not clicked, render nothing
