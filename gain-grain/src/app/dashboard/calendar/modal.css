@@ -191,11 +191,11 @@
     margin: 2%;
 }
 
-.workout-list p {
+.import-workout-list p, .import-meal-list p {
     color: black;
 }
 
-.workout-item {
+.import-workout-item, .import-meal-item {
     display: flex;
     gap: 8px;
     color: black;
