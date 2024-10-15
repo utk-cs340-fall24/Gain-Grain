@@ -1,0 +1,54 @@
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  1) "use client"
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  2) import { useState } from 'react';
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  3) 
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  4) export default function NotificationsPage() {
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  5)   const [notifications, setNotifications] = useState([
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  6)     { id: 1, message: 'Welcome to Gain-Grain!', type: 'success' },
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  7)     { id: 2, message: 'New workout added.', type: 'info' },
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  8)     { id: 3, message: 'Error loading nutrition data.', type: 'error' },
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400  9)   ]);
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 10) 
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 11)   const handleDismiss = (id) => {
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 12)     setNotifications(notifications.filter((notif) => notif.id !== id));
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 13)   };
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 14) 
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 15)   const getNotificationStyle = (type) => {
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 16)     switch (type) {
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 17)       case 'success':
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 18)         return 'bg-green-100 text-green-800';
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 19)       case 'info':
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 20)         return 'bg-blue-100 text-blue-800';
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 21)       case 'error':
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 22)         return 'bg-red-100 text-red-800';
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 23)       default:
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 24)         return 'bg-gray-100 text-gray-800';
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 25)     }
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 26)   };
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 27) 
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 28)   return (
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 29)     <div className="notifications-page p-4">
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 30)       <h1 className="text-2xl font-bold mb-4">Notifications</h1>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 31)       
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 32)       {notifications.length === 0 ? (
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 33)         <p className="text-gray-500">No notifications</p>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 34)       ) : (
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 35)         notifications.map((notif) => (
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 36)           <div
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 37)             key={notif.id}
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 38)             className={`notification-item p-4 mb-2 rounded-lg shadow-md ${getNotificationStyle(notif.type)}`}
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 39)           >
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 40)             <div className="flex justify-between items-center">
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 41)               <span>{notif.message}</span>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 42)               <button
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 43)                 className="ml-4 text-red-500 font-bold"
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 44)                 onClick={() => handleDismiss(notif.id)}
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 45)               >
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 46)                 Dismiss
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 47)               </button>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 48)             </div>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 49)           </div>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 50)         ))
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 51)       )}
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 52)     </div>
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 53)   );
+6d7fa24a (V1w35h 2024-10-15 12:08:38 -0400 54) }
