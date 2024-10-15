@@ -142,6 +142,8 @@ const CustomCalendar = () => {
             setMealName('');
             setMealCalories('');
             setMealIngredients([]);
+            setMealOption('');
+            setAddingType('');
             setShowModal(false);
         }
     };
