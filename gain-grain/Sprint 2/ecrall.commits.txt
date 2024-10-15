@@ -1,0 +1,1167 @@
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400  1) import { NextResponse } from 'next/server';
+e143b240 gain-grain/src/app/api/login/find-user/route.js (Ethan        2024-10-10 00:20:55 -0400  2) import { findUser } from '../../../../utils/userModel';
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400  3) 
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400  4) export async function POST(req) {
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400  5)     try {
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400  6)       const body = await req.json();
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400  7)       const { username, password } = body;
+b876ad5f gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 18:18:47 -0400  8) 
+b876ad5f gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 18:18:47 -0400  9)       const result = await findUser(username, password);
+b876ad5f gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 18:18:47 -0400 10) 
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400 17)     } catch (error) {
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400 18)       console.error('Error in find-user API:', error);
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400 19)       return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400 20)     }
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400 21)   }
+caa351af gain-grain/src/app/api/find-user/route.js       (Ethan        2024-10-04 14:51:27 -0400 22)   
+e143b240 gain-grain/src/app/api/login/find-user/route.js (Ethan        2024-10-10 00:20:55 -0400 23) export async function GET() {
+e143b240 gain-grain/src/app/api/login/find-user/route.js (Ethan        2024-10-10 00:20:55 -0400 24)   return NextResponse.json({ success: false, message: 'Method GET not allowed' }, { status: 405 });
+e143b240 gain-grain/src/app/api/login/find-user/route.js (Ethan        2024-10-10 00:20:55 -0400 25) }
+
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400   2) import { useState, useEffect } from 'react';
+06458558 (Ethan        2024-10-04 19:24:39 -0400   9)   const [showPassword, setShowPassword] = useState(false);
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  10)   const [rememberMe, setRememberMe] = useState(false);
+caa351af (Ethan        2024-10-04 14:51:27 -0400  12)   const handleLogin = async (e) => {
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  16)       showAlert('Username and password are both required.');
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  19)     
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  20)     if(rememberMe) {
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  21)       localStorage.setItem('username', username)
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  22)       localStorage.setItem('password', password)
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  23)     } else {
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  24)       localStorage.removeItem('username', username)
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  25)       localStorage.removeItem('password', password)
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  26)     }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  29)       const res = await fetch('/api/login/find-user', {
+caa351af (Ethan        2024-10-04 14:51:27 -0400  31)         headers: {
+caa351af (Ethan        2024-10-04 14:51:27 -0400  32)           'Content-Type': 'application/json',
+caa351af (Ethan        2024-10-04 14:51:27 -0400  33)         },
+caa351af (Ethan        2024-10-04 14:51:27 -0400  37)       const data = await res.json();
+caa351af (Ethan        2024-10-04 14:51:27 -0400  39)       if (res.ok && data.success) {
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  44)         showAlert(data.message);
+caa351af (Ethan        2024-10-04 14:51:27 -0400  47)       console.error('Error: ', error);
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  48)       showAlert('An error occurred. Please try again.');
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  52)   useEffect(() => {
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  53)     const storedUsername = localStorage.getItem('username');
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  54)     const storedPassword = localStorage.getItem('password');
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  55)     if(storedUsername && storedPassword) {
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  56)       setUsername(storedUsername);
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  57)       setPassword(storedPassword);
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  58)       setRememberMe(true);
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  59)     }
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  60)   }, []);
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400  61) 
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  62)   const showAlert = (message) => {
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  63)     const alertContainer = document.getElementById('alert-container');
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  64)     const alertMessage = document.getElementById('alert-message');
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  65) 
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  66)     alertMessage.textContent = message;
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  67)     alertContainer.classList.remove('hidden');
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  68) 
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  69)     setTimeout(() => {
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  70)       alertContainer.classList.add('hidden');
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  71)     }, 10000);
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  72) 
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  73)     document.getElementById('alert-close').addEventListener('click', () => {
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  74)       alertContainer.classList.add('hidden');
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  75)     });
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  76)   };
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  77) 
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  80)       <div id="alert-container" className={`${styles.alert} hidden`}>
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  81)         <span id="alert-message"></span>
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  82)         <button id="alert-close">
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  83)           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  84)             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  85)           </svg>
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  86)         </button> {}
+ea1e3af4 (Ethan        2024-10-04 15:55:33 -0400  87)       </div>
+caa351af (Ethan        2024-10-04 14:51:27 -0400  89)         <form onSubmit={handleLogin}>
+caa351af (Ethan        2024-10-04 14:51:27 -0400  92)             <input 
+caa351af (Ethan        2024-10-04 14:51:27 -0400  93)               type="text" 
+caa351af (Ethan        2024-10-04 14:51:27 -0400  94)               placeholder="Username" 
+caa351af (Ethan        2024-10-04 14:51:27 -0400  95)               value={username}
+caa351af (Ethan        2024-10-04 14:51:27 -0400  96)               onChange={(e) => setUsername(e.target.value)}
+caa351af (Ethan        2024-10-04 14:51:27 -0400  97)             />
+caa351af (Ethan        2024-10-04 14:51:27 -0400 103)             <input 
+06458558 (Ethan        2024-10-04 19:24:39 -0400 104)               type={showPassword ? 'text' : 'password'} 
+caa351af (Ethan        2024-10-04 14:51:27 -0400 105)               placeholder="Password" 
+caa351af (Ethan        2024-10-04 14:51:27 -0400 106)               value={password}
+caa351af (Ethan        2024-10-04 14:51:27 -0400 107)               onChange={(e) => setPassword(e.target.value)}
+06458558 (Ethan        2024-10-04 19:24:39 -0400 108)             />  
+06458558 (Ethan        2024-10-04 19:24:39 -0400 113)           <div className={styles.togglePasswordContainer}>
+06458558 (Ethan        2024-10-04 19:24:39 -0400 114)             <button 
+06458558 (Ethan        2024-10-04 19:24:39 -0400 115)               className={styles.togglePassword}
+06458558 (Ethan        2024-10-04 19:24:39 -0400 116)               type="button"
+06458558 (Ethan        2024-10-04 19:24:39 -0400 117)               onClick={() => setShowPassword((prev) => !prev)}
+06458558 (Ethan        2024-10-04 19:24:39 -0400 118)             >
+06458558 (Ethan        2024-10-04 19:24:39 -0400 119)               {showPassword ? 'Hide Password' : 'Show Password'}  
+06458558 (Ethan        2024-10-04 19:24:39 -0400 120)             </button>
+06458558 (Ethan        2024-10-04 19:24:39 -0400 121)           </div>
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400 124)               <input 
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400 125)                 type="checkbox" 
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400 126)                 checked={rememberMe}
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400 127)                 onChange={(e) => setRememberMe(e.target.checked)}
+01f94e21 (Ethan        2024-10-04 18:41:34 -0400 128)                 />
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 131)             <a href="/login/forgot-password"> Forgot password?</a>
+
+06458558 (Ethan  2024-10-04 19:24:39 -0400  46) .togglePasswordContainer {
+06458558 (Ethan  2024-10-04 19:24:39 -0400  47)   display: flex;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  48)   margin-top: -20px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  49)   padding-bottom: 25px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  50) }
+06458558 (Ethan  2024-10-04 19:24:39 -0400  51) 
+06458558 (Ethan  2024-10-04 19:24:39 -0400  52) .togglePassword {
+06458558 (Ethan  2024-10-04 19:24:39 -0400  53)   margin-left: auto;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  54)   margin-right: 0;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  55) }
+06458558 (Ethan  2024-10-04 19:24:39 -0400  56) 
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 148) }
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 149) 
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 150) .hidden {
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 151)   display: none;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 152) }
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 153) 
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 154) .alert {
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 155)   position: fixed;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 156)   top: 30px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 157)   right: 30px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 158)   padding: 20px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 159)   font-size: 17px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 160)   background-color: var(--login-primary);
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 161)   border: 2px solid rgba(255, 140, 0, 0.8);
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 162)   color: white;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 163)   border-radius: 5px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 164)   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 165)   z-index: 1000;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 166) }
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 167) 
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 168) .alert::before {
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 169)   content: "";
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 170)   position: absolute;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 171)   top: 0;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 172)   left: 0;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 173)   right: 0;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 174)   bottom: 0;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 175)   background-color: var(--vol-orange);
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 176)   border-radius: 5px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 177)   z-index: -1;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 178) }
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 179) 
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 180) .alert.hidden {
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 181)   display: none;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 182) }
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 183) 
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 184) #alert-close {
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 185)   background: transparent;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 186)   border: none;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 187)   color: white;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 188)   font-size: 16px;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 189)   cursor: pointer;
+ea1e3af4 (Ethan  2024-10-04 15:55:33 -0400 190)   padding-right: 0px;
+
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  1) import { NextResponse } from 'next/server';
+e143b240 gain-grain/src/app/api/register/create-user/route.js (Ethan 2024-10-10 00:20:55 -0400  2) import { createAndSaveUser } from '../../../../utils/userModel';
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  3) 
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  4) export async function POST(req) {
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  5)   try {
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  6)     const body = await req.json();
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  7)     const { name, email, username, password } = body;
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  8) 
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400  9)     const result = await createAndSaveUser(name, email, username, password);
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 10) 
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 11)     return NextResponse.json(result);
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 12)   } catch (error) {
+e143b240 gain-grain/src/app/api/register/create-user/route.js (Ethan 2024-10-10 00:20:55 -0400 13)     console.error('Error when creating user:', error);
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 14)     return NextResponse.json({ success: false, message: 'Server error.' }, { status: 500 });
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 15)   }
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 16) }
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 17) 
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 18) export async function GET() {
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 19)   return NextResponse.json({ success: false, message: 'Method GET not allowed.' }, { status: 405 });
+b876ad5f gain-grain/src/app/api/create-user/route.js          (Ethan 2024-10-04 18:18:47 -0400 20) }
+
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400   1) "use client";
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400   3) import { useState } from 'react';
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400   7)     const [name, setName] = useState('');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400   8)     const [email, setEmail] = useState('');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400   9)     const [username, setUsername] = useState('');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  10)     const [password, setPassword] = useState('');
+06458558 (Ethan  2024-10-04 19:24:39 -0400  11)     const [showPassword, setShowPassword] = useState(false);
+e143b240 (Ethan  2024-10-10 00:20:55 -0400  12)     const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  13)     const [confirmedPassword, setConfirmedPassword] = useState('');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  14) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  15)     const handleRegistration = async(e) => {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  16)         e.preventDefault();
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  17) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  18)         if (!name) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  19)             showAlert('Name is required.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  20)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  21)         } else if (!email) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  22)             showAlert('Email is required.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  23)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  24)         } else if(!email.includes('@')) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  25)             showAlert('Please enter a valid email.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  26)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  27)         } else if (!username) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  28)             showAlert('Username is required.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  29)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  30)         } else if (!password) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  31)             showAlert('Password is required.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  32)             return;
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  33)         } else if(password.length < 12) {
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  34)             showAlert('Password must be at least 12 characters.');
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  35)             return;
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  36)         } else if(!(/[a-z]/.test(password) && /[A-Z]/.test(password))) {
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  37)             showAlert('Password must contain uppercase and lowercase letters');
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  38)             return;
+f69c60d6 (Ethan  2024-10-05 15:58:36 -0400  39)         } else if(!(/\d/.test(password))) {
+f69c60d6 (Ethan  2024-10-05 15:58:36 -0400  40)             showAlert('Password must contain numbers');
+f69c60d6 (Ethan  2024-10-05 15:58:36 -0400  41)             return;
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  42)         } else if(!(/[^A-Za-z0-9]/.test(password))) {
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  43)             showAlert('Password must contain a special character');
+b98de721 (Ethan  2024-10-05 15:51:45 -0400  44)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  45)         } else if(!confirmedPassword) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  46)             showAlert('Please confirm your password.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  47)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  48)         }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  49) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  50)         if(password !== confirmedPassword) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  51)             showAlert('Passwords do not match');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  52)             return;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  53)         }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  54) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  55)         try {
+e143b240 (Ethan  2024-10-10 00:20:55 -0400  56)             const res = await fetch('/api/register/create-user', {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  57)                 method: 'POST',
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  58)                 headers: {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  59)                 'Content-Type': 'application/json',
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  60)                 },
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  61)                 body: JSON.stringify({ name, email, username, password }),
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  62)             });
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  63) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  64)             const data = await res.json();
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  65) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  66)             if (res.ok && data.success) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  67)                 window.location.href = '/login';
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  68)             } else {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  69)                 showAlert(data.message);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  70)             }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  71)         } catch (error) {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  72)             console.error('Error: ', error);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  73)             showAlert('An error occurred. Please try again.');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  74)         }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  75)     };
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  76) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  77)     const showAlert = (message) => {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  78)         const alertContainer = document.getElementById('alert-container');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  79)         const alertMessage = document.getElementById('alert-message');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  80)     
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  81)         alertMessage.textContent = message;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  82)         alertContainer.classList.remove('hidden');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  83)     
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  84)         setTimeout(() => {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  85)           alertContainer.classList.add('hidden');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  86)         }, 10000);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  87)     
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  88)         document.getElementById('alert-close').addEventListener('click', () => {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  89)           alertContainer.classList.add('hidden');
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  90)         });
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  91)     };
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  92) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  95)             <div id="alert-container" className={`${styles.alert} hidden`}>
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  96)                 <span id="alert-message"></span>
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  97)                 <button id="alert-close">
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  98)                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400  99)                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 100)                     </svg>
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 101)                 </button> {}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 102)             </div>
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 105)                 <form onSubmit={handleRegistration}>
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 107)                         <input 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 108)                             type="text" 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 109)                             placeholder="Enter your full name"
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 110)                             value={name}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 111)                             onChange={(e) => setName(e.target.value)}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 112)                              />
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 115)                         <input 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 116)                             type="text" 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 117)                             placeholder="Enter your email"
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 118)                             value={email}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 119)                             onChange={(e) => setEmail(e.target.value)}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 120)                             />
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 123)                         <input 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 124)                             type="text" 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 125)                             placeholder="Enter your username" 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 126)                             value={username}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 127)                             onChange={(e) => setUsername(e.target.value)}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 128)                             />
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 131)                         <input 
+06458558 (Ethan  2024-10-04 19:24:39 -0400 132)                             className={styles.passwordInput} 
+06458558 (Ethan  2024-10-04 19:24:39 -0400 133)                             type={showPassword ? 'text' : 'password'}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 134)                             placeholder="Create password" 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 135)                             value={password}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 136)                             onChange={(e) => setPassword(e.target.value)}
+06458558 (Ethan  2024-10-04 19:24:39 -0400 137)                         />
+06458558 (Ethan  2024-10-04 19:24:39 -0400 138)                         <button 
+06458558 (Ethan  2024-10-04 19:24:39 -0400 139)                             className={styles.togglePassword}
+06458558 (Ethan  2024-10-04 19:24:39 -0400 140)                             type="button"
+06458558 (Ethan  2024-10-04 19:24:39 -0400 141)                             onClick={() => setShowPassword((prev) => !prev)}
+06458558 (Ethan  2024-10-04 19:24:39 -0400 142)                         >
+06458558 (Ethan  2024-10-04 19:24:39 -0400 143)                             {showPassword ? 'Hide' : 'Show'}  
+06458558 (Ethan  2024-10-04 19:24:39 -0400 144)                         </button>
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 147)                         <input 
+06458558 (Ethan  2024-10-04 19:24:39 -0400 148)                             className={styles.passwordInput}
+e143b240 (Ethan  2024-10-10 00:20:55 -0400 149)                             type={showConfirmedPassword ? 'text' : 'password'}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 150)                             placeholder="Confirm password" 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 151)                             value={confirmedPassword}
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 152)                             onChange = {(e) => setConfirmedPassword(e.target.value)}
+06458558 (Ethan  2024-10-04 19:24:39 -0400 153)                         />
+06458558 (Ethan  2024-10-04 19:24:39 -0400 154)                         <button 
+06458558 (Ethan  2024-10-04 19:24:39 -0400 155)                             className={styles.togglePassword}
+06458558 (Ethan  2024-10-04 19:24:39 -0400 156)                             type="button"
+e143b240 (Ethan  2024-10-10 00:20:55 -0400 157)                             onClick={() => setShowConfirmedPassword((prev) => !prev)}
+06458558 (Ethan  2024-10-04 19:24:39 -0400 158)                         >
+e143b240 (Ethan  2024-10-10 00:20:55 -0400 159)                             {showConfirmedPassword ? 'Hide' : 'Show'}  
+06458558 (Ethan  2024-10-04 19:24:39 -0400 160)                         </button>
+
+06458558 (Ethan  2024-10-04 19:24:39 -0400  62) .inputBox {
+06458558 (Ethan  2024-10-04 19:24:39 -0400  63)     position: relative;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  64)     width: 100%;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  65) }
+06458558 (Ethan  2024-10-04 19:24:39 -0400  66) 
+06458558 (Ethan  2024-10-04 19:24:39 -0400  67) .passwordInput {
+06458558 (Ethan  2024-10-04 19:24:39 -0400  68)     width: 100%;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  69)     padding-right: 60px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  70)     padding-left: 10px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  71)     height: 40px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  72)     border-radius: 5px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  73)     border: 1px solid #ccc;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  74) }
+06458558 (Ethan  2024-10-04 19:24:39 -0400  75)   
+06458558 (Ethan  2024-10-04 19:24:39 -0400  76) .togglePassword {
+06458558 (Ethan  2024-10-04 19:24:39 -0400  77)     position: absolute;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  78)     background-color: transparent;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  79)     border: none;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  80)     color: var(--vol-orange);
+06458558 (Ethan  2024-10-04 19:24:39 -0400  81)     cursor: pointer;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  82)     margin-left: -60px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  83)     bottom: 17px;
+06458558 (Ethan  2024-10-04 19:24:39 -0400  84) }
+06458558 (Ethan  2024-10-04 19:24:39 -0400  85) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 132) }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 133) 
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 134) .hidden {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 135)     display: none;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 136) }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 137)   
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 138) .alert {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 139)     position: fixed;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 140)     top: 30px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 141)     right: 30px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 142)     padding: 20px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 143)     font-size: 17px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 144)     background-color: #fff;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 145)     border: 2px solid #f3dac1c5;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 146)     color: var(--vol-orange);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 147)     border-radius: 5px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 148)     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 149)     z-index: 1000;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 150) }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 151)   
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 152) .alert::before {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 153)     content: "";
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 154)     position: absolute;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 155)     top: 0;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 156)     left: 0;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 157)     right: 0;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 158)     bottom: 0;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 159)     background-color: #fff;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 160)     border-radius: 5px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 161)     z-index: -1;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 162) }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 163)   
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 164) .alert.hidden {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 165)     display: none;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 166) }
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 167)   
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 168) #alert-close {
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 169)     background: transparent;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 170)     border: none;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 171)     color: var(--vol-orange);
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 172)     font-size: 16px;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 173)     cursor: pointer;
+b876ad5f (Ethan  2024-10-04 18:18:47 -0400 174)     padding-right: 0px;
+
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   1) import { NextResponse } from 'next/server';
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   2) import nodemailer from 'nodemailer';
+06969ece gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 17:41:35 -0400   3) import { findUserByEmail, generateToken } from '../../../../utils/userModel'
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   4) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   5) export async function POST(req) {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   6)     const { email } = await req.json();
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   7) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400   8)     try {
+06969ece gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 17:41:35 -0400   9)         const foundUser = await findUserByEmail(email);
+e143b240 gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 00:20:55 -0400  10)         if(!foundUser.success) {
+e143b240 gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 00:20:55 -0400  11)             return NextResponse.json({ success: false });
+e143b240 gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 00:20:55 -0400  12)         }
+e143b240 gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 00:20:55 -0400  13) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  14)         const transporter = nodemailer.createTransport({
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  15)             service: 'gmail',
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  16)             auth: {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  17)                 user: process.env.EMAIL_USER,
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  18)                 pass: process.env.EMAIL_APP_PASS,
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  19)             },
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  20)         });
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  21) 
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  22)         const resetToken = await generateToken(email);
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  23) 
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  24)         if(!resetToken.success) {
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  25)             return NextResponse.json({ success: false, message: resetToken.message }, { status: 500 });
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  26)         }
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  27) 
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  28)         const resetLink = `http://localhost:3000/reset-password?token=${resetToken.token}`;
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  29) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  30)         const mailOptions = {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  31)             from: process.env.EMAIL_USER,
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  32)             to: email,
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  33)             subject: 'G&G Password Reset Request',
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  34)             html: `
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  35)                 <!DOCTYPE html>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  36)                 <html>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  37)                 <head>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  38)                 <meta charset="UTF-8">
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  39)                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  40)                 <title>Password Reset</title>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  41)                 <style>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  42)                     body {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  43)                     font-family: Arial, sans-serif;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  44)                     background-color: #f4f4f4;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  45)                     margin: 0;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  46)                     padding: 20px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  47)                     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  48)                     .email-container {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  49)                     background-color: #ffffff;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  50)                     padding: 20px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  51)                     margin: auto;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  52)                     max-width: 600px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  53)                     border-radius: 10px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  54)                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  55)                     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  56)                     h1 {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  57)                     color: #333333;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  58)                     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  59)                     p {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  60)                     color: #555555;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  61)                     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  62)                     .btn {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  63)                     display: inline-block;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  64)                     background-color: #FF8200;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  65)                     color: white;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  66)                     text-decoration: none;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  67)                     padding: 10px 20px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  68)                     border-radius: 5px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  69)                     font-weight: bold;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  70)                     margin-top: 10px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  71)                     margin-bottom: 10px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  72)                     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  73)                     .footer {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  74)                     text-align: center;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  75)                     margin-top: 20px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  76)                     font-size: 12px;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  77)                     color: #888888;
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  78)                     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  79)                 </style>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  80)                 </head>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  81)                 <body>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  82) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  83)                 <div class="email-container">
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  84)                     <h1>Password Reset Request</h1>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  85)                     <p>Hi,</p>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  86)                     <p>You recently requested to reset your password for your <strong>Gain & Grain</strong> account. Click the button below to reset it:</p>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  87) 
+d8ec14fc gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-08 13:33:50 -0400  88)                     <a href="${resetLink}" class="btn" style="color: white; text-decoration: none;">Reset Password</a>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  89) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  90)                     <p>If you did not request a password reset, please ignore this email or contact support if you have any questions.</p>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  91) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  92)                     <p>Thanks,<br>Gain & Grain Team</p>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  93)                 </div>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  94) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  95)                 </body>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  96)                 </html>
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  97)             `,
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  98)         };
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400  99) 
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 100)         await transporter.sendMail(mailOptions);
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 101) 
+e143b240 gain-grain/src/app/api/forgot-password/send-email/route.js (Ethan 2024-10-10 00:20:55 -0400 102)         return NextResponse.json({ success: true, message: 'Password reset email sent. If you don\'t receive it, check your spam.' }, { status: 200 });
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 103)     } catch (error) {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 104)         console.error('Error sending email: ', error);
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 105)         return NextResponse.json({ success: false, message: 'Failed to send email' }, { status: 500});
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 106)     }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 107) }
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 108)   
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 109)   export async function GET() {
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 110)     return NextResponse.json({ success: false, message: 'Method GET not allowed.' }, { status: 405 });
+d7c82aa1 gain-grain/src/app/api/send-email/route.js                 (Ethan 2024-10-06 19:38:52 -0400 111)   }
+
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400  1) import { NextResponse } from 'next/server';
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400  2) import { removeToken } from '../../../../utils/userModel';
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400  3) 
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400  4) export async function POST(req) {
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400  5)   try {
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400  6)     const body = await req.json();
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400  7)     const { reset_token } = body;
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400  8) 
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400  9)     const result = await removeToken(reset_token);
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 10) 
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 11)     return NextResponse.json(result);
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 12)   } catch (error) {
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400 13)     console.error('Error when removing token: ', error);
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400 14)     return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 15)   }
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 16) }
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400 17)   
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 18) export async function GET() {
+e143b240 gain-grain/src/app/api/reset-password/remove-token/route.js (Ethan 2024-10-10 00:20:55 -0400 19)   return NextResponse.json({ success: false, message: 'Method GET not allowed' }, { status: 405 });
+b876ad5f gain-grain/src/app/api/create-user/route.js                 (Ethan 2024-10-04 18:18:47 -0400 20) }
+
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  1) import { NextResponse } from 'next/server';
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  2) import { validateToken } from '../../../../utils/userModel';
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  3) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  4) export async function POST(req) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  5)   try {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  6)     const { token } = await req.json();
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  7) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  8)     if(!token) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  9)       return NextResponse.json({ success: false, message: 'Token missing '}, { status: 400 });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 10)     }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 11) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 12)     const result = await validateToken(token);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 13)     if(result.success) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 14)       return NextResponse.json({ success: true, token: result.token })
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 15)     } else {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 16)       return NextResponse.json(result, { status: 400 });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 17)     }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 18) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 19)   } catch (error) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 20)     console.error('Error when validating token:', error);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 21)     return NextResponse.json({ success: false, message: 'Error validating token.' }, { status: 500 });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 22)   }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 23) }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 24) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 25) export async function GET() {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 26)   return NextResponse.json({ success: false, message: 'Method GET not allowed.' }, { status: 405 });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 27) }
+
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400  1) import { NextResponse } from 'next/server';
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400  2) import { resetPassword } from '../../../../utils/userModel';
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400  3) 
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400  4) export async function POST(req) {
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400  5)   try {
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400  6)     const body = await req.json();
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400  7)     const { email, newPassword } = body;
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400  8) 
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400  9)     const result = await resetPassword(email, newPassword);
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 10) 
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 11)     return NextResponse.json(result);
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 12)   } catch (error) {
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400 13)     console.error('Error when resetting password: ', error);
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400 14)     return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 15)   }
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 16) }
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400 17)   
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 18) export async function GET() {
+e143b240 gain-grain/src/app/api/reset-password/reset-password-api/route.js (Ethan 2024-10-10 00:20:55 -0400 19)   return NextResponse.json({ success: false, message: 'Method GET not allowed' }, { status: 405 });
+b876ad5f gain-grain/src/app/api/create-user/route.js                       (Ethan 2024-10-04 18:18:47 -0400 20) }
+
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400  1) "use client";
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400  2) import React, { useState } from 'react';
+4ed4eaba gain-grain/src/app/login/forgot-password/page.js (Ethan  2024-10-10 20:51:29 -0400  4) import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+4ed4eaba gain-grain/src/app/login/forgot-password/page.js (Ethan  2024-10-10 20:51:29 -0400  5) import { faLock } from '@fortawesome/free-solid-svg-icons';
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400  8)     const [email, setEmail] = useState('');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400  9) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 10)     const handlePasswordReset = async(e) => {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 11)         e.preventDefault();
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 12) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 13)         if(!email) {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 14)             showAlert('Please enter your email.');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 15)             return;
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 16)         }
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 17) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 18)         if(!email.includes('@')) {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 19)             showAlert('Please enter a valid email.');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 20)             return;
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 21)         }
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 22) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 23)         try {
+e143b240 gain-grain/src/app/login/forgot-password/page.js (Ethan  2024-10-10 00:20:55 -0400 24)             const response = await fetch('/api/forgot-password/send-email', {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 25)                 method: 'POST',
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 26)                 headers: {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 27)                     'Content-Type': 'application/json',
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 28)                 },
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 29)                 body: JSON.stringify({ email }),
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 30)             });
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 31) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 32)             const data = await response.json();
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 33)             if (response.ok) {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 34)                 showAlert('Password reset email sent. If you don\'t see it, check your spam.');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 35)             } else {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 36)                 showAlert(data.message || 'Something went wrong');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 37)             }
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 38)         } catch (error) {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 39)             showAlert('Failed to send password reset email. Try again.');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 40)             console.error('Error:', error);
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 41)         }
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 42)     }
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 43) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 44)     const showAlert = (message) => {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 45)         const alertContainer = document.getElementById('alert-container');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 46)         const alertMessage = document.getElementById('alert-message');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 47)     
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 48)         alertMessage.textContent = message;
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 49)         alertContainer.classList.remove('hidden');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 50)     
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 51)         setTimeout(() => {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 52)           alertContainer.classList.add('hidden');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 53)         }, 10000);
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 54)     
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 55)         document.getElementById('alert-close').addEventListener('click', () => {
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 56)           alertContainer.classList.add('hidden');
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 57)         });
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 58)     };
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 59) 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 62)             <div id="alert-container" className={`${styles.alert} hidden`}>
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 63)                 <span id="alert-message"></span>
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 64)                 <button id="alert-close">
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 65)                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 66)                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 67)                     </svg>
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 68)                 </button> {}
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 69)             </div>
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 71)                 <form onSubmit={handlePasswordReset}>
+4ed4eaba gain-grain/src/app/login/forgot-password/page.js (Ethan  2024-10-10 20:51:29 -0400 73)                     <FontAwesomeIcon className={styles['lock-icon']} icon={faLock} style={{ width: '46px', }} />
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 82)                     <input 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 83)                         type="text" 
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 84)                         placeholder="Email"
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 85)                         value={email}
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 86)                         onChange={(e) => setEmail(e.target.value)}
+d7c82aa1 gain-grain/src/app/login/forgot/page.js          (Ethan  2024-10-06 19:38:52 -0400 87)                         />
+
+4ed4eaba gain-grain/src/app/login/forgot-password/forgot.module.css (Ethan  2024-10-10 20:51:29 -0400  48) .lock-icon {
+4ed4eaba gain-grain/src/app/login/forgot-password/forgot.module.css (Ethan  2024-10-10 20:51:29 -0400  49)     color: var(--smokey-gray);
+4ed4eaba gain-grain/src/app/login/forgot-password/forgot.module.css (Ethan  2024-10-10 20:51:29 -0400  50) }
+4ed4eaba gain-grain/src/app/login/forgot-password/forgot.module.css (Ethan  2024-10-10 20:51:29 -0400  51) 
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 119) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 120) 
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 121) .hidden {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 122)     display: none;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 123) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 124)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 125) .alert {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 126)     max-width: 400px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 127)     position: fixed;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 128)     top: 30px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 129)     right: 30px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 130)     padding: 20px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 131)     font-size: 17px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 132)     background-color: #fff;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 133)     border: 2px solid var(--smokey-gray);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 134)     color: var(--powder-blue);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 135)     border-radius: 5px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 136)     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 137)     z-index: 1000;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 138) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 139)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 140) .alert::before {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 141)     content: "";
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 142)     position: absolute;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 143)     top: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 144)     left: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 145)     right: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 146)     bottom: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 147)     background-color: #fff;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 148)     border-radius: 5px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 149)     z-index: -1;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 150) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 151)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 152) .alert.hidden {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 153)     display: none;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 154) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 155)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 156) #alert-close {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 157)     background: transparent;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 158)     border: none;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 159)     color: var(--vol-orange);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 160)     font-size: 16px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 161)     cursor: pointer;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css          (Ethan  2024-10-06 19:38:52 -0400 162)     padding-right: 0px;
+
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 1) import React from 'react';
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 2) 
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 3) export const LockClosedIcon = (props) => (
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 4)   <svg width="20" height="20" viewBox="0 0 20 20" fill="black" xmlns="http://www.w3.org/2000/svg">
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 5) 
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 6)     <path fill-rule="evenodd" clip-rule="evenodd" d="M5 9V7C5 4.23858 7.23858 2 10 2C12.7614 2 15 4.23858 15 7V9C16.1046 9 17 9.89543 17 11V16C17 17.1046 16.1046 18 15 18H5C3.89543 18 3 17.1046 3 16V11C3 9.89543 3.89543 9 5 9ZM13 7V9H7V7C7 5.34315 8.34315 4 10 4C11.6569 4 13 5.34315 13 7Z" fill="#4A5568"/>
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 7)   </svg>
+4ed4eaba (Ethan 2024-10-10 20:51:29 -0400 8) );
+
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   1) "use client";
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   2) import React, { useEffect, useState } from 'react';
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   3) import { useSearchParams } from 'next/navigation';
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   4) import styles from './reset.module.css'
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   5) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   6) export default function ResetPassword() {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   7)     const [newPassword, setNewPassword] = useState('');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   8)     const [confirmNewPassword, setConfirmNewPassword] = useState('');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400   9)     const [errorMessage, setErrorMessage] = useState('');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  10)     const [showPassword, setShowPassword] = useState(false);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  11)     const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  12)     const [isValidToken, setIsValidToken] = useState(false);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  13)     const [tokenData, setTokenData] = useState(null);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  14) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  15)     const searchParams = useSearchParams();
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  16) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  17)     useEffect(() => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  18)         const token = searchParams.get('token');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  19)       
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  20)         if (token) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  21)             fetch('/api/reset-password/validate-token', {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  22)                 method: 'POST',
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  23)                 headers: {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  24)                     'Content-Type': 'application/json',
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  25)                 },
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  26)                 body: JSON.stringify({ token }),
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  27)             })
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  28)             .then(response => response.json())
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  29)             .then(data => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  30)                 if (data.success) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  31)                     setIsValidToken(true);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  32)                     setTokenData(data.token);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  33)                 } else {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  34)                     setErrorMessage(data.message);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  35)                 }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  36)             })
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  37)             .catch(error => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  38)                 setErrorMessage('Error validating token.');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  39)                 console.log('Error: ', error)
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  40)             });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  41)         } else {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  42)             setErrorMessage('/reset-password cannot be accessed without a valid token.')
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  43)         }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  44)       }, [searchParams]);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  45) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  46)     const handlePasswordReset = async(e) => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  47)         e.preventDefault();
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  48) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  49)         if(!newPassword) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  50)             showAlert('Please enter a new password.');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  51)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  52)         } else if(newPassword.length < 12) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  53)             showAlert('New password must be at least 12 characters.');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  54)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  55)         } else if(!(/[a-z]/.test(newPassword) && /[A-Z]/.test(newPassword))) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  56)             showAlert('New password must contain uppercase and lowercase letters');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  57)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  58)         } else if(!(/\d/.test(newPassword))) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  59)             showAlert('New password must contain numbers');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  60)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  61)         } else if(!(/[^A-Za-z0-9]/.test(newPassword))) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  62)             showAlert('New password must contain a special character');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  63)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  64)         } else if(!confirmNewPassword) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  65)             showAlert('Please confirm your new password.');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  66)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  67)         }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  68) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  69)         if(newPassword !== confirmNewPassword) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  70)             showAlert('Passwords do not match');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  71)             return;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  72)         }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  73) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  74)         try {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  75)             const userEmail = tokenData.email;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  76) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  77)             const response = await fetch('/api/reset-password/reset-password-api', {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  78)                 method: 'POST',
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  79)                 headers: {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  80)                     'Content-Type': 'application/json',
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  81)                 },
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  82)                 body: JSON.stringify({ email: userEmail, newPassword }),
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  83)             });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  84) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  85)             const data = await response.json();
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  86)             if (response.ok && data.success) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  87)                 const reset_token = tokenData.reset_token;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  88) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  89)                 const response = await fetch('/api/reset-password/remove-token', {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  90)                     method: 'POST',
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  91)                     headers: {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  92)                         'Content-Type': 'application/json',
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  93)                     },
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  94)                     body: JSON.stringify({ reset_token }),
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  95)                 });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  96) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  97)                 showAlert('Password reset successfully. Redirecting to login page...');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  98)                 await new Promise(r => setTimeout(r, 3000));
+e143b240 (Ethan 2024-10-10 00:20:55 -0400  99)                 window.location.href = '/login';
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 100)             } else {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 101)                 showAlert(data.message || 'Something went wrong');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 102)             }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 103)         } catch (error) {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 104)             showAlert('Failed to reset password. Try again.');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 105)             console.error('Error: ', error);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 106)         }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 107)     }
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 108) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 109)     const showAlert = (message) => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 110)         const alertContainer = document.getElementById('alert-container');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 111)         const alertMessage = document.getElementById('alert-message');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 112)     
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 113)         alertMessage.textContent = message;
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 114)         alertContainer.classList.remove('hidden');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 115)     
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 116)         setTimeout(() => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 117)           alertContainer.classList.add('hidden');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 118)         }, 10000);
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 119)     
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 120)         document.getElementById('alert-close').addEventListener('click', () => {
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 121)           alertContainer.classList.add('hidden');
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 122)         });
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 123)     };
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 124) 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 125)     return(
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 126)         <div className={styles.body}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 127)             <div id="alert-container" className={`${styles.alert} hidden`}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 128)                 <span id="alert-message"></span>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 129)                 <button id="alert-close">
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 130)                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 131)                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 132)                     </svg>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 133)                 </button> {}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 134)             </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 135)             <div className={styles.wrapper}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 136)                 <form onSubmit={handlePasswordReset}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 137)                 {isValidToken ? (
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 138)                     <>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 139)                         <div className={styles['reset']}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 140)                             <p className={styles['reset-title']}>Reset Password</p>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 141)                             <p className={styles['reset-message']}>Enter a new password for your account</p>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 142)                         </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 143)                         <div className={styles['input-box']}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 144)                             <input 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 145)                                 type={showPassword ? 'text' : 'password'}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 146)                                 placeholder="New Password"
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 147)                                 value={newPassword}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 148)                                 onChange={(e) => setNewPassword(e.target.value)}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 149)                             />
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 150)                             <button 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 151)                                 className={styles.togglePassword}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 152)                                 type="button"
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 153)                                 onClick={() => setShowPassword((prev) => !prev)}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 154)                             >
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 155)                                 {showPassword ? 'Hide' : 'Show'}  
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 156)                             </button>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 157)                         </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 158)                         <div className={styles['input-box']}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 159)                             <input 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 160)                                 type={showConfirmedPassword ? 'text' : 'password'} 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 161)                                 placeholder="Confirm New Password"
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 162)                                 value={confirmNewPassword}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 163)                                 onChange={(e) => setConfirmNewPassword(e.target.value)}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 164)                             />
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 165)                             <button 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 166)                                 className={styles.togglePassword}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 167)                                 type="button"
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 168)                                 onClick={() => setShowConfirmedPassword((prev) => !prev)}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 169)                             >
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 170)                                 {showConfirmedPassword ? 'Hide' : 'Show'}  
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 171)                             </button>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 172)                         </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 173)                         <div className={styles.passwordRequirements}>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 174)                             <p className={styles.requirementsTitle}>Password must meet the following requirements:</p>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 175)                             <li className={styles.requirements}>At least 12 characters</li>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 176)                             <li className={styles.requirements}>Contain upper and lowercase letters</li> 
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 177)                             <li className={styles.requirements}>Must contain numbers</li>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 178)                             <li className={styles.requirements}>Must contain a special character</li>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 179)                         </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 180)                         <button type="submit" className={styles.btn}>Reset Password</button>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 181)                     </>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 182)                 ) : (
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 183)                     <p className={styles.error}>{errorMessage}</p>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 184)                 )}
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 185)                 </form>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 186)             </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 187)         </div>
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 188)     );
+e143b240 (Ethan 2024-10-10 00:20:55 -0400 189) }
+
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  20) .reset {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  25) .reset-title {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  26)     font-size: 28px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  27) }
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  28) 
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  29) .reset-message {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  38)     margin: 20px 0;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  62) .togglePassword {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  63)     position: absolute;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  64)     background-color: transparent;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  65)     border: none;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  66)     color: var(--smokey-gray);
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  67)     cursor: pointer;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  68)     margin-left: -60px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  69)     bottom: 14px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  70) }
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  71) 
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  72) .passwordRequirements {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  73)     margin-bottom: 20px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  74) }
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  75) 
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  76) .requirementsTitle {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  77)     font-size: 17px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  78)     margin-bottom: 5px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  79) }
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  80) 
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  81) .requirements {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  82)     font-size: 14px;
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  83) }
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400  84) 
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400 105) .error {
+e143b240 gain-grain/src/app/reset-password/reset.module.css (Ethan  2024-10-10 00:20:55 -0400 106)     font-size: 20px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 108) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 109) 
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 110) .hidden {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 111)     display: none;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 112) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 113)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 114) .alert {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 115)     max-width: 400px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 116)     position: fixed;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 117)     top: 30px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 118)     right: 30px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 119)     padding: 20px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 120)     font-size: 17px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 121)     background-color: #fff;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 122)     border: 2px solid var(--smokey-gray);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 123)     color: var(--powder-blue);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 124)     border-radius: 5px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 125)     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 126)     z-index: 1000;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 127) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 128)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 129) .alert::before {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 130)     content: "";
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 131)     position: absolute;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 132)     top: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 133)     left: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 134)     right: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 135)     bottom: 0;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 136)     background-color: #fff;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 137)     border-radius: 5px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 138)     z-index: -1;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 139) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 140)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 141) .alert.hidden {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 142)     display: none;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 143) }
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 144)   
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 145) #alert-close {
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 146)     background: transparent;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 147)     border: none;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 148)     color: var(--vol-orange);
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 149)     font-size: 16px;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 150)     cursor: pointer;
+d7c82aa1 gain-grain/src/app/login/forgot/forgot.module.css  (Ethan  2024-10-06 19:38:52 -0400 151)     padding-right: 0px;
+
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400   3) import crypto from 'crypto';
+9160dee2 (Ethan        2024-10-11 10:30:39 -0400   4) import clientPromise from './mongodb';
+eacf8643 (Ethan        2024-10-11 12:54:14 -0400   5) import { ObjectId } from 'mongodb';
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400   9)   email: { type: String, required: true},
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  11)   password: { type: String, required: true },
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  12)   numFollowers: {type: Number, required: true},
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  13)   numFollowing: {type: Number, required: true},
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400  18) const tokenSchema = new mongoose.Schema({
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400  19)   email: { type: String, required: true },
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400  20)   reset_token: { type: String, rerquired: true },
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400  21)   token_expiry: { type: Date, required: true }
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  22) });
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  23) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  24) const User = mongoose.models.User || mongoose.model("User", userSchema);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  25) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  26) const Token = mongoose.models.Token || mongoose.model("Token", tokenSchema);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  27) 
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  28) async function createTokenTTLIndex() {
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  29)   const client = await clientPromise;
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  30)   const db = client.db();
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  31)   await db.collection('tokens').createIndex({ token_expiry: 1 }, { expireAfterSeconds: 0 });
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400  32) }
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400  33) 
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  34) export const createAndSaveUser = async (name, email, username, password) => {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  35)   const client = await clientPromise;
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  36)   const db = client.db();
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  37) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  38)   try {
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  39)     const existingEmail = await db.collection('users').findOne({ email });
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  40)     if (existingEmail) {
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  41)       return { success: false, message: 'Email already in use.' };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  42)     }
+caa351af (Ethan        2024-10-04 14:51:27 -0400  43) 
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  44)     const existingUser = await db.collection('users').findOne({ username });
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  45)     if (existingUser) {
+6b75fdde (Ethan        2024-10-06 17:36:48 -0400  46)       return { success: false, message: 'Username already in use.' };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  47)     }
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  48) 
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  49)     const hashedPassword = await bcrypt.hash(password, 10);
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  50)   
+caa351af (Ethan        2024-10-04 14:51:27 -0400  51)     const newUser = new User({
+caa351af (Ethan        2024-10-04 14:51:27 -0400  52)       name: name,
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  53)       email: email,
+caa351af (Ethan        2024-10-04 14:51:27 -0400  54)       username: username,
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  55)       password: hashedPassword,
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  56)       numFollowers: 0,
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  57)       numFollowing: 0,
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400  58)       bio: "",
+caa351af (Ethan        2024-10-04 14:51:27 -0400  60)     });
+caa351af (Ethan        2024-10-04 14:51:27 -0400  61) 
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  62)     const result = await db.collection('users').insertOne(newUser);
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  63)   
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  64)     return {success: true, message: 'User registered successfully.', userId: result.insertedId };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  65)   } catch (error) {
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  66)     console.error('Error creating user: ', error);
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  67)     return { success: false, message: 'Error creating user.' };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  68)   }
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  72)   const client = await clientPromise;
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  73)   const db = client.db();
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  74) 
+caa351af (Ethan        2024-10-04 14:51:27 -0400  75)   try {
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  76)     const user = await db.collection('users').findOne({ username });
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  77) 
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  78)     if (!user) {
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  79)       return { success: false, message: 'Username or password is incorrect.' };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  80)     }
+caa351af (Ethan        2024-10-04 14:51:27 -0400  82)     const isMatch = await bcrypt.compare(password, user.password);
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  84)     if (!isMatch) {
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  85)       return { success: false, message: 'Username or password is incorrect.' };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  86)     }
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  88) 
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  89)     return { success: true, message: 'Login successful', user };
+b876ad5f (Ethan        2024-10-04 18:18:47 -0400  90)   } catch (error) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  91)     console.error('Error when finding user: ', error);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  92)     return { success: false, message: 'Error when finding user' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  93)   }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  94) };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  95) 
+06969ece (Ethan        2024-10-10 17:41:35 -0400  96) export const findUserByEmail = async (email) => {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  97)   const client = await clientPromise;
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  98)   const db = client.db();
+e143b240 (Ethan        2024-10-10 00:20:55 -0400  99) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 100)   try {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 101)     const user = await db.collection('users').findOne({ email });
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 102) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 103)     if (!user) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 104)       return { success: false, message: 'Could not find a user with that email.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 105)     }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 106) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 107)     return { success: true, message: 'Found user with that email.'};
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 108)   } catch (error) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 109)     console.error('Error when finding user: ', error);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 110)     return { success: false, message: 'Error when finding user' };
+caa351af (Ethan        2024-10-04 14:51:27 -0400 111)   }
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 112) };
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 113) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 114) export const resetPassword = async(email, newPassword) => {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 115)   const client = await clientPromise;
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 116)   const db = client.db();
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 117) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 118)   try {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 119)     const hashedPassword = await bcrypt.hash(newPassword, 10);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 120) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 121)     const updatedUser = await db.collection('users').updateOne(
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 122)       { email: email },
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 123)       { $set: { password: hashedPassword } },
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 124)     );
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 125) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 126)     if (updatedUser.matchedCount === 0) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 127)       return { success: false, message: 'No user found with the provided email.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 128)     } else if (updatedUser.modifiedCount === 0) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 129)       return { success: false, message: 'User found but password not changed.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 130)     }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 131) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 132)     return { success: true, message: 'Password updated successfully.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 133)   } catch(error) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 134)     console.error('Error updating password:', error);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 135)     return { success: false, message: 'Error resetting password.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 136)   }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 137) }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 138) 
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 139) export const generateToken = async (email) => {
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 140)   const client = await clientPromise;
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 141) 
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400 142)   await createTokenTTLIndex();
+94e32b98 (Ethan        2024-10-09 11:01:30 -0400 143) 
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 144)   try {
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 145)     const reset_token = crypto.randomBytes(32).toString('hex');
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 146)     const current_date = new Date();
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 147)     const expiration_time = new Date(current_date.getTime() + 60 * 60 * 1000);
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 148) 
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 149)     const newToken = new Token({
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 150)       email: email,
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 151)       reset_token: reset_token,
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 152)       token_expiry: expiration_time
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 153)     });
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 154) 
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400 155)     await newToken.save();
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 156) 
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 157)     return {
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 158)       success: true, 
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 159)       message: 'Reset token generated successfully.',
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 160)       token: reset_token
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 161)     };
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 162)   } catch (error) {
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 163)     console.error('Error generating reset token: ', error);
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 164)     return { success: false, message: 'Error generating reset token.' };
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 165)   }
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 166) };
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 167) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 168) export const validateToken = async (reset_token) => {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 169)   const client = await clientPromise;
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 170)   const db = client.db();
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 171) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 172)   try {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 173)     const token_db = await db.collection('tokens').findOne({ reset_token });
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 174) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 175)     if (!token_db) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 176)       return { success: false, message: 'Token not found or invalid.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 177)     }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 178) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 179)     const current_time = new Date();
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 180)     if (token_db.token_expiry < current_time) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 181)       return { success: false, message: 'Token has expired.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 182)     }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 183) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 184)     return { success: true, token: token_db }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 185)   } catch (error) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 186)     console.error('Error finding token: ', error);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 187)     return { success: false, message: 'Server error during token verification.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 188)   }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 189) };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 190) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 191) export const removeToken = async (reset_token) => {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 192)   const client = await clientPromise;
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 193)   const db = client.db();
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 194) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 195)   try {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 196)     const deletedToken = await db.collection('tokens').deleteOne({ reset_token });
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 197) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 198)     if(deletedToken.deletedCount === 0) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 199)       return { success: false, message: 'Token not found.' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 200)     }
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 201) 
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 202)     return { success: true, message: 'Token deleted successfully' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 203)   } catch(error) {
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 204)     console.error('Error deleting token: ', error);
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 205)     return { success: false, message: 'Error deleting token' };
+e143b240 (Ethan        2024-10-10 00:20:55 -0400 206)   }
+9160dee2 (Ethan        2024-10-11 10:30:39 -0400 213)   try {
+63254f77 (Ethan        2024-10-10 18:56:35 -0400 214)     const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+63254f77 (Ethan        2024-10-10 18:56:35 -0400 217)       return  {success: false, message: 'User not found.' };
+73bdb7ac (Ethan        2024-10-11 15:28:24 -0400 220)     return { success: true, user };
+d8ec14fc (Ethan        2024-10-08 13:33:50 -0400 226) }

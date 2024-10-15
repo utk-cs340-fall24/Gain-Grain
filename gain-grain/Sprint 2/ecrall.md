@@ -1,5 +1,4 @@
 # Sprint 2
-
 * Name: Ethan Crall
 * Github ID: ethancrall
 * Group Name: Gain & Grain
@@ -31,16 +30,17 @@ but I ultimately figured it out and successfully fulfilled the goals I set for t
     * gain-grain/src/app/register/page.js
     * gain-grain/src/app/register/register.module.css
 * Forgot password backend
-    * gain-grain/src/app/api/forgot-password/route.js
+    * gain-grain/src/app/api/forgot-password/send-email/route.js
     * gain-grain/src/app/api/reset-password/remove-token/route.js
     * gain-grain/src/app/api/reset-password/validate-token/route.js
     * gain-grain/src/app/api/reset-password/reset-password-api/route.js
-    * gain-grain/src/app/login/forgot/page.js
-    * gain-grain/src/app/login/forgot/
+    * gain-grain/src/app/login/forgot-password/page.js
+    * gain-grain/src/app/login/forgot-password/forgot.module.css
+    * gain-grain/src/app/login/forgot-password/LockClosedIcon/LockClosedIcon.js
+    * gain-grain/src/app/reset-password/page.js
+    * gain-grain/src/app/reset-password/reset.module.css
 * User Model for backend for all three pages (user schema and functions used in APIs)
     * gain-grain/src/utils/userModel.js
 
-
 ### What I accomplished
-
-In Sprint 2, 
+In Sprint 2, I created the backend for the login, register, and forgot password pages. For the login page, I authenticated user login info with database entries (if exists) to ensure the username and password were valid. For the register page, I posted user profile information (such as the user's name, mail, username, and password) to the database. For the forgot password page, I added an automatic email process that sends a forgot password link (with a valid token) to the user-inputted email. Then, I made the "reset password" page frontend and the backend that updated the user's profile in the database with their new password. After the password is reset, the token is deleted (or expires after an hour). 
