@@ -1,12 +1,8 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: var(--vol-orange);
+    background-color: white;
     width: 100vw;
     height: 100vh;
-    color: white;
+    color: var(--vol-orange);
 }
 
 .errorMessage {
@@ -14,3 +10,31 @@
     color: white;
 }
 
+.editButton {
+    background-color: var(--vol-orange);
+    border-radius: 100px;
+    color: white;
+    width: 120px;
+}
+
+.loginWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginButton {
+    margin-top: 70px;
+    background-color: var(--vol-orange);
+    border-radius: 100px;
+    color: white;
+    width: 400px;
+    font-size: 40px;
+}
+
+.savedPostsButton {
+    background-color: var(--vol-orange);
+    border-radius: 100px;
+    color: white;
+    width: 120px;
+}

@@ -9,7 +9,6 @@ import Link from "next/link";
 
 export default function profile() {
   const [user, setUser] = useState('');
-  const [error, setError] = useState(null);
   const [validId, setValidId] = useState(false);
 
   const searchParams = useSearchParams();
@@ -19,7 +18,6 @@ export default function profile() {
     const fetchUserData = async () => {
 
       if (!userId) {
-        setError('No User ID provided');
         return;
       }
       
@@ -39,11 +37,9 @@ export default function profile() {
         if (data.success) {
           setUser(data.user);
           setValidId(true);
-        } else {
-          setError(data.message || 'Failed to fetch user data');
         }
       } catch (error) {
-        setError(error.message);
+
       }
     };
 
@@ -66,8 +62,7 @@ export default function profile() {
                 </svg>
               )}
             </div>
-            <div>
-              
+            <div className={styles.profile}>
               <h1 className="text-2xl font-bold">{user.username} </h1>
               <ul>
                 <p>Followers: {user.numFollowers}</p>
@@ -78,7 +73,7 @@ export default function profile() {
               </p>
               <Link href="/EditProfile">
 
-              <button>Edit profile</button>
+              <button className={styles.editButton}>Edit profile</button>
               </Link>
 
 
@@ -87,17 +82,13 @@ export default function profile() {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Saved Workouts</h2>
-          </div>
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Saved Meals</h2>
+            <button className={styles.savedPostsButton}>Saved Posts</button>
           </div>
         </>
       ) : (
-        <div className={styles.wrapper}>
-          <p className={styles.errorMessage}>{error}</p>
+        <div className={styles.loginWrapper}>
           <Link href="/login">
-            <button className="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
+            <button className={styles.loginButton}>
             Login/Register
             </button>
           </Link>
