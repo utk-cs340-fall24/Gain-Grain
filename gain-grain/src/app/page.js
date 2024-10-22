@@ -1,34 +1,33 @@
-"use client";
+"use client"
 
 import { useState } from "react";
-import Link from "next/link"; // Import Link
 import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
-import Comments from "../components/Comments";
-import './homepage.css'
+import './homepage.css';
 
 export default function Home() {
-  // State for managing comments visibility
-  const [visibleComments, setVisibleComments] = useState(false);
+  // State for managing which post's comments are visible
+  const [visibleComments, setVisibleComments] = useState(null);
 
-  const toggleComments = () => {
-    setVisibleComments(!visibleComments);
+  // Toggle comments for the specific post
+  const toggleComments = (postId) => {
+    // If comments for this post are already visible, hide them. Otherwise, show the comments.
+    if (visibleComments === postId) {
+      setVisibleComments(null); // Close the comments if they are already open
+    } else {
+      setVisibleComments(postId); // Show comments for the specific post
+    }
   };
 
   return (
     <main className="homepage-main flex min-h-screen flex-col bg-gray-50">
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Main content */}
-      <div>
-        {/* Navbar */}
-        <Navbar />
+      {/* Feed Section */}
+      <Feed toggleComments={toggleComments} visibleComments={visibleComments} />
 
-        {/* Feed Section */}
-        <Feed toggleComments={toggleComments} visibleComments={visibleComments} />
-
-        {/* Comments Section */}
-        <Comments visibleComments={visibleComments} />
-      </div>
+      {/* Optionally, you can have a separate Comments component here */}
     </main>
   );
 }

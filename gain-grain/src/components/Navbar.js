@@ -112,6 +112,7 @@ export default function Navbar() {
                                 </button>
                             </Link>
                             <Link href="/profile" className="w-full flex justify-center">
+                                {/* profile button */}
                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Profile
                                 </button>
@@ -130,7 +131,7 @@ export default function Navbar() {
                                 </button>
                             </Link>
                             <Link href="/dashboard/notifications" className="w-full flex justify-center">
-                                {/* exercise button*/}
+                                {/* notifications button*/}
                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Notifications
                                 </button>

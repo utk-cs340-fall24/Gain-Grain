@@ -1,3 +1,24 @@
 .homepage-main {
     width: 100%;
 }
+
+/* homepage.css */
+
+.comments-section {
+    position: absolute;
+    top: 0;
+    right: -320px; /* Adjust this value based on your design */
+    width: 300px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    z-index: 10;
+}
+
+.slide-left {
+    transform: translateX(-150px); /* Adjust this value to control how much it slides */
+}
+
+.transition-all {
+    transition: all 0.3s ease; /* Smooth sliding effect */
+}
