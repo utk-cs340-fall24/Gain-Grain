@@ -196,7 +196,27 @@
 }
 
 .import-workout-item, .import-meal-item {
+    line-height: 200%;
     display: flex;
     gap: 8px;
     color: black;
+}
+
+.import-workout-name {
+    font-size: 1.5rem;
+    padding-right: 15%;
+    text-decoration: underline;
+    text-decoration-color: var(--powder-blue);
+}
+
+.import-workout-item button {
+    background-color: var(--smokey-gray);
+    border-radius: 10px;
+    color: var(--vol-orange);
+    padding: 0px 8px;
+    margin-bottom: 5px;
+}  
+
+.import-workout-item button:hover {
+    box-shadow: 0px 2px 4px var(--vol-orange);
 }

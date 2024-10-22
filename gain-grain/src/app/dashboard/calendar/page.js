@@ -36,6 +36,7 @@ const CustomCalendar = () => {
     const [loadingWorkouts, setLoadingWorkouts] = useState(false);
     const [savedMeals, setSavedMeals] = useState([]);
     const [loadingMeals, setLoadingMeals] = useState(false);
+    const [weight, setweight] = useState('');
     
     const months = [
         "January", "February", "March", "April", "May", "June",
@@ -570,7 +571,7 @@ const CustomCalendar = () => {
                                     ) : (
                                         savedWorkouts.map((workout) => (
                                             <div key={workout._id} className="import-workout-item">
-                                                <span>{workout.title}</span>
+                                                <span className='import-workout-name'>{workout.title}</span>
                                                 <button onClick={() => handleSelectWorkout(workout)}>Add to Day</button>
                                             </div>
                                         ))
