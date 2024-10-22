@@ -1,25 +1,48 @@
 'use client';
-
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
-// Dynamically import ReactQuill to prevent SSR issues
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateBlogPost = () => {
     const [postContent, setPostContent] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState('');
+    const [error, setError] = useState('');
+    const userId = 'some-user-id'; // Replace with actual user ID logic later
 
     const handleChange = (value) => {
         setPostContent(value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle the form submission, e.g., send the postContent to the server
-        console.log('Blog post content:', postContent);
-        // Reset the editor after submission
-        setPostContent('');
+        setLoading(true);
+        setSuccess('');
+        setError('');
+
+        try {
+            const response = await fetch('/api/blogs', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, content: postContent }), 
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Blog post submitted:', result);
+                setSuccess('Blog post submitted successfully!');
+                setPostContent(''); 
+            } else {
+                throw new Error('Failed to submit blog post');
+            }
+        } catch (error) {
+            console.error('Error submitting blog post:', error);
+            setError('Error submitting blog post. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -33,10 +56,10 @@ const CreateBlogPost = () => {
                     modules={{
                         toolbar: [
                             [{ 'header': [1, 2, false] }],
-                            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                            ['bold', 'italic', 'underline', 'strike'],
                             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                             ['link', 'image'],
-                            ['clean']                                         // remove formatting button
+                            ['clean']
                         ],
                     }}
                     formats={[
@@ -47,11 +70,15 @@ const CreateBlogPost = () => {
                 />
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    className={`bg-blue-500 text-white px-4 py-2 rounded-lg ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={loading} 
                 >
-                    Submit Post
+                    {loading ? 'Submitting...' : 'Submit Post'}
                 </button>
             </form>
+
+            {success && <p className="text-green-500 mt-4">{success}</p>}
+            {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
     );
 };
