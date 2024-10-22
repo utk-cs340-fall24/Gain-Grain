@@ -154,6 +154,7 @@ const CustomCalendar = () => {
             name: exercise.name,
             sets: exercise.sets,
             reps: exercise.reps,
+            weight: exercise.weight || null,
         }
 
         setSelectedExercises(prev => [...prev, newExercise]); // Add selected exercise
@@ -454,7 +455,8 @@ const CustomCalendar = () => {
                                                     if (!isNaN(weightValue)) {
                                                         const updatedExercises = [...selectedExercises];
                                                         updatedExercises[index].Weight = weightValue; // Set weight
-                                                        setSelectedExercises(updatedExercises); // Update state
+                                                        setSelectedExercises(updatedExercises);
+                                                        saveExercisesToLocalStorage(updatedExercises); // Update localStorage
                                                     }
                                                     e.target.value = ''; // Clear input after setting
                                                 }
