@@ -154,7 +154,6 @@ const CustomCalendar = () => {
             name: exercise.name,
             sets: exercise.sets,
             reps: exercise.reps,
-            weight: null,
         }
 
         setSelectedExercises(prev => [...prev, newExercise]); // Add selected exercise
