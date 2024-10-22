@@ -35,11 +35,11 @@
 /* Other existing styles */
 .page-title {
     text-align: center;
-    border-bottom: 2px solid orange;
+    border-bottom: 2px solid var(--vol-orange);
     padding-bottom: 10px;
     margin-bottom: 20px;
     font-size: 2.5rem;
-    color: orange;
+    color: var(--vol-orange);
 }
 
 .meal-card h3 {
@@ -51,6 +51,7 @@
 .meal-card p {
     font-size: 1.1rem;
     margin: 5px 0;
+    color: #333;
 }
 
 .meal-buttons {
@@ -60,16 +61,22 @@
 }
 
 .meal-action-button {
-    background-color: orange;
+    position: relative; /* To position pseudo-element */
+    background-color: rgb(255, 166, 1);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    width: 48%;
+    width: 48%;;
     text-align: center;
+    padding: 4px 2px;
+    margin-right: 15px;
 }
 
 .meal-action-button:hover {
-    background-color: darkorange;
+    background-color: var(--vol-orange);
+}
+
+.meal-action-button:last-child {
+    width: 20%;
 }

@@ -60,29 +60,30 @@
 .workout-buttons {
     display: flex;
     justify-content: space-between;
+    flex-wrap: nowrap;
     margin-top: 10px;
 }
 
 .workout-action-button {
+    position: relative; /* To position pseudo-element */
     background-color: rgb(255, 166, 1);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    width: 48%;
+    width: 48%;;
     text-align: center;
+    padding: 4px 2px;
+    margin-right: 15px;
 }
 
 .workout-action-button:hover {
     background-color: var(--vol-orange);
 }
 
-.exercise-details {
-    margin-top: 10px; /* Add space between title and details */
-    padding: 10px;
-    background-color: #f9f9f9; /* Optional: a light background for details */
-    border-radius: 5px; /* Optional: rounded corners */
+.workout-action-button:last-child {
+    flex: 0 0 auto;
+    width: 20%;
 }
 
 .exercise-details {
