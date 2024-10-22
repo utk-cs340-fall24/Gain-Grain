@@ -36,8 +36,7 @@ const CustomCalendar = () => {
     const [loadingWorkouts, setLoadingWorkouts] = useState(false);
     const [savedMeals, setSavedMeals] = useState([]);
     const [loadingMeals, setLoadingMeals] = useState(false);
-    const [weight, setweight] = useState('');
-    
+    const [tempweight, setTempWeight] = useState({});    
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -155,6 +154,7 @@ const CustomCalendar = () => {
             name: exercise.name,
             sets: exercise.sets,
             reps: exercise.reps,
+            weight: null,
         }
 
         setSelectedExercises(prev => [...prev, newExercise]); // Add selected exercise
@@ -432,21 +432,47 @@ const CustomCalendar = () => {
                             title={workoutTitle}
                             setTitle={setWorkoutTitle} // Pass the state setter
                         />
-                        <ul className="exercise-list">
-                            {selectedExercises.map((exercise, index) => (
-                                <li key={index}>
+                    <ul className="exercise-list">
+                        {selectedExercises.map((exercise, index) => (
+                            <li key={index}>
                                 <div>
-                                    <span>{exercise.name}</span>
+                                    <span className='exercise-name'>{exercise.name}</span>
                                     <div className="exercise-details">
                                         {exercise.sets} sets x {exercise.reps} reps
                                     </div>
+
+                                    {/* Display weight if set; otherwise show input */}
+                                    {exercise.Weight ? (
+                                        <span>{exercise.Weight} lbs</span> // Show weight if already set
+                                    ) : (
+                                        <input
+                                        className='weight-input'
+                                            type="number"
+                                            placeholder="Weight (lbs)"
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    const weightValue = parseFloat(e.target.value); // Get weight value from input
+                                                    if (!isNaN(weightValue)) {
+                                                        const updatedExercises = [...selectedExercises];
+                                                        updatedExercises[index].Weight = weightValue; // Set weight
+                                                        setSelectedExercises(updatedExercises); // Update state
+                                                    }
+                                                    e.target.value = ''; // Clear input after setting
+                                                }
+                                            }}
+                                            onBlur={(e) => {
+                                                // Optionally handle blur, if you want to clear the input
+                                                e.target.value = ''; // Clear input on blur
+                                            }}
+                                        />
+                                    )}
                                 </div>
                                 <button className="remove-btn" onClick={() => handleRemoveExercise(index)}>Remove</button>
                             </li>
-                            ))}
-                        </ul>
+                        ))}
+                    </ul>
                     </div>
-                    
+
                     <div className="meal-section">
                         <h3>Meals</h3>
                         <ul className="meal-list">
