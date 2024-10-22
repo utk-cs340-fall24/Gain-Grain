@@ -1,0 +1,75 @@
+/* Ensure navbar spans full width */
+.navbar {
+    width: 100%;
+    /* Add any other necessary navbar styling */
+}
+
+/* Grid layout for meal cards */
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted the min width */
+    gap: 20px;
+    width: 100%; /* Ensure the grid takes up the full width */
+    max-width: 1200px; /* Optional: Set a max-width to control spread */
+    margin: 0 auto; /* Center the grid */
+    padding: 20px;
+}
+
+/* Each meal is displayed in its own card */
+.meal-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    transition: transform 0.2s;
+    max-width: 100%;
+    /* Optional: Max height to maintain uniformity */
+}
+
+/* Hover effect on meal card */
+.meal-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Other existing styles */
+.page-title {
+    text-align: center;
+    border-bottom: 2px solid orange;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: orange;
+}
+
+.meal-card h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.meal-card p {
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+.meal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.meal-action-button {
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 48%;
+    text-align: center;
+}
+
+.meal-action-button:hover {
+    background-color: darkorange;
+}
