@@ -6,13 +6,15 @@ import { ObjectId } from 'mongodb';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true},
+  email: { type: String, required: true },
   username: { type: String, required: true },
   password: { type: String, required: true },
-  numFollowers: {type: Number, required: true},
-  numFollowing: {type: Number, required: true},
+  numFollowers: { type: Number, required: true },
+  numFollowing: { type: Number, required: true },
+  followers: { type: [String], required: true },
+  following: { type: [String], required: true },
   bio: { type: String, default: "" },
-  profilePic: {type: String, default: ""}
+  profilePic: { type: String, default: "" } 
 });
 
 const tokenSchema = new mongoose.Schema({
