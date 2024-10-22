@@ -1,9 +1,12 @@
 "use client";
 import { useState } from 'react';
+
 export default function PostWorkouts() {
     const [exercises, setExercises] = useState([
         { id: 1, name: '', repetitions: '', set: '' },
     ]);
+    const [title, setTitle] = useState(''); 
+
     const handleChange = (id, field, value) => {
         setExercises((prev) =>
             prev.map((exercise) =>
@@ -11,16 +14,44 @@ export default function PostWorkouts() {
             )
         );
     };
+
     const addExercise = () => {
         setExercises((prev) => [
             ...prev,
             { id: prev.length + 1, name: '', repetitions: '', set: '' },
         ]);
     };
+
+    const handleSubmit = async () => {
+        const userId = 'some-user-id'; // replace this with actual user ID logic later
+        try {
+            const response = await fetch('/api/workouts/postWorkouts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, title, exercises }),
+            });
+
+            if (response.ok) {
+                alert('Workout submitted successfully!');
+            } else {
+                alert('Failed to submit workout');
+            }
+        } catch (error) {
+            console.error('Error submitting workout:', error);
+        }
+    };
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
             <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-4xl">
                 <h1 className="text-3xl font-bold mb-6 text-center">Post Workouts</h1>
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="border w-full px-2 py-1 mb-4 rounded"
+                    placeholder="Enter workout title"
+                />
                 <table className="min-w-full bg-white border border-gray-300">
                     <thead>
                         <tr>
@@ -63,12 +94,20 @@ export default function PostWorkouts() {
                         ))}
                     </tbody>
                 </table>
+                <div className="flex justify-between mt-4">
                 <button
                     onClick={addExercise}
                     className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
                 >
                     Add Exercise
                 </button>
+                <button
+                    onClick={handleSubmit}
+                    className="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                >
+                    Submit Workout
+                </button>
+                </div>
             </div>
         </div>
     );
