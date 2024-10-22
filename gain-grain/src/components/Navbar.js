@@ -1,16 +1,16 @@
-// navbar.js
 "use client";
 
 import Link from "next/link";
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import styles from './navbar.module.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function Navbar() {
-
     const [showDropdown, setShowDropdown] = useState(false)
     const [isVisible, setIsVisible] = useState(false);
+    const [searchText, setSearchText] = useState('')
+    const [searchResults, setSearchResults] = useState([]);
 
     function toggleHamburgerDropdown(){
         setShowDropdown(!showDropdown)
@@ -29,6 +29,26 @@ export default function Navbar() {
         }
     }
 
+    useEffect(() => {
+        if (searchText.length > 0) {
+            fetch(`/api/search-accounts?query=${searchText}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    if(data.success) {
+                        setSearchResults(data.accounts);
+                    } else {
+                        setSearchResults([]);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching search results:', error);
+                    setSearchResults([]);
+                }); 
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchText]);
+
     return (
         <nav className={styles.bigBar}>
             {/* gain & grain logo top left */}
@@ -44,9 +64,26 @@ export default function Navbar() {
             <div className={styles.centerContainer}>
                 <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder="Search for accounts..."
                     className={styles.searchBar}
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    aria-label="Search for accounts"
                 />
+                
+                {searchResults.length > 0 && (
+                    <div class={styles.searchDropdownContainer}>
+                        <ul className={styles.searchDropdown}>
+                            {searchResults.map((result) => (
+                                <li key={result._id}>
+                                    <Link href={`/search/profile?userId=${result._id}`}>
+                                        {result.username}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
             <div className={styles.buttonContainer}>
                 {/* calendar button */}

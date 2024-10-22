@@ -4,9 +4,9 @@
     align-items: center;
     top: 0;
     justify-content: space-between;
-    height: 4rem; /* or 64px */
+    height: 4rem;
     background-color: var(--vol-orange);
-    padding: 1rem; /* or 16px */
+    padding: 1rem;
 }
 
 .logo {
@@ -37,12 +37,43 @@
     width: 30rem;
 }
 
-/* Centering the search bar container */
 .centerContainer {
-    flex: 1; /* Make it take available space */
+    flex: 1;
     display: flex;
-    justify-content: center; /* Center the search bar */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.searchDropdownContainer {
+    position: absolute;
+    top: 100%;
+    z-index: 10;
+    width: 3rem;
+}
+
+.searchDropdown {
+    border-radius: 10px;
+    position: absolute;
+    top: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--smokey-gray);
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 15rem;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.searchDropdown li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.searchDropdown li:hover {
+    background-color: #f1f1f1;
 }
 
 .buttonContainer {
@@ -89,6 +120,10 @@
     .searchBar:focus {
         width: 10rem;
     }   
+
+    .searchDropdown {
+        width: 10rem;
+    }
 }
 
 @media screen and (max-width: 650px) {

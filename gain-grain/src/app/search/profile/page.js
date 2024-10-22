@@ -63,7 +63,7 @@ export default function profile() {
               )}
             </div>
             <div className={styles.profile}>
-              <h1 className="text-2xl font-bold">{user.username} </h1>
+              <h1 className={styles.username}>{user.username} </h1>
               <ul>
                 <p>Followers: {user.numFollowers}</p>
                 <p>Following: {user.numFollowing}</p>
@@ -71,26 +71,13 @@ export default function profile() {
               <p className="text-white-600">User's Bio:
                 <p>{user.bio}</p>
               </p>
-              <Link href="/EditProfile">
-
-              <button className={styles.editButton}>Edit profile</button>
-              </Link>
+              <button className={styles.followButton}>Follow</button>
             </div>
-
-          </div>
-
-          <div className="mt-8">
-            <button className={styles.savedPostsButton}>Saved Posts</button>
           </div>
         </>
       ) : (
-        <div className={styles.loginWrapper}>
-          <Link href="/login">
-            <button className={styles.loginButton}>
-            Login/Register
-            </button>
-          </Link>
-        </div>
+        <>
+        </>
       )}
     </div>
   );

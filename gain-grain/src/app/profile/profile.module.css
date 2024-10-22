@@ -5,11 +5,6 @@
     color: var(--vol-orange);
 }
 
-.errorMessage {
-    font-size: 30px;
-    color: white;
-}
-
 .editButton {
     background-color: var(--vol-orange);
     border-radius: 100px;

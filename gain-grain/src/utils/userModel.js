@@ -224,3 +224,21 @@ export const getUserById = async (userId) => {
     return { success: false, message: 'Error retrieving user.' };
   }
 }
+
+export const searchAccounts = async(searchQuery) => {
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+
+    const accounts = await db
+      .collection('users')
+      .find({ username: { $regex: searchQuery, $options: 'i' } })
+      .project({ username: 1 })
+      .toArray();
+
+    return { success: true, accounts};
+  } catch (error) {
+    console.error('Error fetching accounts:', error);
+    return { success: false, message: 'Error fetching accounts' };
+  }
+}

@@ -1,0 +1,17 @@
+.wrapper {
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    color: var(--vol-orange);
+}
+
+.followButton {
+    background-color: var(--vol-orange);
+    border-radius: 100px;
+    color: white;
+    width: 120px;
+}
+
+.username {
+    font-size: 35px;
+}
