@@ -64,7 +64,7 @@ export default function profile() {
               )}
             </div>
             <div className={styles.profile}>
-              <h1 className="text-2xl text-center font-bold">{user.username} </h1>
+              <h1 className={styles.username}>{user.username} </h1>
               <div className="flex justify-between space-x-4 mt-2">
               <p>Followers: <strong>{user.numFollowers}</strong></p>
               <p>Following: <strong>{user.numFollowing}</strong></p>
