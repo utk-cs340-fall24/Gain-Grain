@@ -68,7 +68,7 @@ export default function EditProfile() {
           return;
         }
   
-        profilePicPath = '/images/' + uploadResult.fileName;
+        profilePicPath = '/uploads/' + uploadResult.fileName;
       }
 
       const updateResponse = await fetch('/api/profile/update-user', {

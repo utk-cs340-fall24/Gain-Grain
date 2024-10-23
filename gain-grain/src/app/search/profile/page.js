@@ -4,7 +4,7 @@ import React, { useEffect, useState} from "react";
 import styles from './profile.module.css'
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
-import Link from "next/link";
+import Image from 'next/image';
 
 
 export default function profile() {
@@ -54,7 +54,7 @@ export default function profile() {
           <div className="flex items-center space-x-6">
             <div className="w-24 h-24">
               {user.profilePic ? (
-                <img src={user.profilePicture} alt="Profile" className="rounded-full w-full h-full object-cover"/>
+                <Image src={user.profilePic} width={150} height={150} className="rounded-full w-full h-full object-cover"/>
               ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
