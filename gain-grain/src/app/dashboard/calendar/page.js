@@ -135,7 +135,7 @@ const CustomCalendar = () => {
 
     const handleAddMeal = () => {
         if (mealName && mealCalories && mealIngredients) {
-            const newMeal = { name: mealName, calories: mealCalories, ingredients: mealIngredients };
+            const newMeal = { name: mealName, calories: mealCalories, ingredients: mealIngredients, link:mealUrl, };
             const updatedMeals = [...selectedMeals, newMeal];
             setSelectedMeals(updatedMeals);
             saveMealsToLocalStorage(updatedMeals);
@@ -251,6 +251,7 @@ const CustomCalendar = () => {
                 name: meal.name,
                 ingredients: meal.ingredients,
                 calories: meal.calories,
+                link: meal.link,
             };
     
             const response = await fetch('/api/meals/saveToProfile', {

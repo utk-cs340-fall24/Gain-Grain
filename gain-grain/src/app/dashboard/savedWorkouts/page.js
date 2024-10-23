@@ -7,8 +7,6 @@ import Navbar from "../../../components/Navbar";
 const SavedWorkoutsPage = () => {
     const [savedWorkouts, setSavedWorkouts] = useState([]);
     const [loadingWorkouts, setLoadingWorkouts] = useState(true);
-    const [selectedWorkout, setSelectedWorkout] = useState(null); // State to hold the selected workout
-    const [showDetails, setShowDetails] = useState(false); // State to control modal visibility
 
     useEffect(() => {
         const fetchUserWorkouts = async () => {

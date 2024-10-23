@@ -49,6 +49,14 @@ const SavedMealsPage = () => {
         fetchUserMeals();
     }, []);
 
+    const toggleDetails = (mealId) => {
+        setSavedMeals((prevMeals) => 
+            prevMeals.map((meal) =>
+                meal._id === mealId ? {...meal, showDetails: !meal.showDetails } : meal
+            )
+        )    
+    }
+
     return (
       <div className='navbar'>
         <Navbar/>
@@ -71,8 +79,23 @@ const SavedMealsPage = () => {
                                 ))}
                             </ul>*/}
                             {/* You can add interactive buttons here */}
-                            <button className="meal-action-button">View Details</button>
+                            <button className="meal-action-button" onClick={() => toggleDetails(meal._id)}>
+                                {meal.showDetails ? 'Hide Details' : 'View Details'}
+                            </button>
                             <button className="meal-action-button">Edit</button>
+
+                            {meal.showDetails && (
+                                <div className="meal-details">
+                                    {/* Conditionally render the link if it's not an empty string */}
+                                    {meal.meal.link && meal.meal.link.trim() !== '' && (
+                                        <p>
+                                            <a href={meal.meal.link} target="_blank" rel="noopener noreferrer">
+                                                View Full Recipe
+                                            </a>
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

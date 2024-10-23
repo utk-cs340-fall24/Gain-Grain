@@ -8,6 +8,16 @@ const mealSchema = new mongoose.Schema({
       name: { type: String, required: true },
       ingredients: { type: [String], required: true },
       calories: { type: Number, required: true },
+      link: {
+        type: String,
+        required: false,
+        validate: {
+          validator: function(v) {
+            return /^(ftp|http|https):\/\/[^ "]+$/.test(v);
+          },
+          message: props => '${props.value} is not a valid URL.'
+        }
+      }
     }
   ]
 });

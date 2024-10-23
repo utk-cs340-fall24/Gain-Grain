@@ -19,6 +19,7 @@ export async function POST(req) {
                 name: meal.name,
                 ingredients: meal.ingredients,
                 calories: meal.calories,
+                link: meal.link,
             },
             date: new Date(date),
         });
