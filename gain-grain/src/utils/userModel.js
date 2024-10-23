@@ -113,6 +113,24 @@ export const findUserByEmail = async (email) => {
   }
 };
 
+export const findUserByUsername = async (username) => {
+  const client = await clientPromise;
+  const db = client.db();
+
+  try {
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+      return { success: false, message: 'Could not find a user with that username.' };
+    }
+
+    return { success: true, message: 'Found user with that username.'};
+  } catch (error) {
+    console.error('Error when finding user: ', error);
+    return { success: false, message: 'Error when finding user' };
+  }
+};
+
 export const resetPassword = async(email, newPassword) => {
   const client = await clientPromise;
   const db = client.db();

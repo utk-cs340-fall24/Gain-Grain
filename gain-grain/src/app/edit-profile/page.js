@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 
 export default function EditProfile() {
   const [user, setUser] = useState('');
-  const [username,setUsername] = useState('');
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [profilePic, setProfilePic] = useState('');
@@ -51,6 +51,25 @@ export default function EditProfile() {
     e.preventDefault();
 
     try {
+      const findUserResponse = await fetch('/api/profile/get-user-by-username', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username }),
+      });
+
+      const findUserResult = await findUserResponse.json();
+      if ((user.username != username) && findUserResult.success) {
+        setError('Username already exists.');
+        return;
+      }
+    } catch (err) {
+      setError(err.message);
+      return;
+    }
+
+    let updatedProfilePicPath = profilePicPath;
+
+    try {
       if(profilePic) {
         const formData = new FormData();
         formData.append('profilePic', profilePic);
@@ -65,14 +84,14 @@ export default function EditProfile() {
           setError(uploadResult.message);
           return;
         }
-  
-        setProfilePicPath('/uploads/' + uploadResult.fileName);
+
+        updatedProfilePicPath = '/uploads/' + uploadResult.fileName;
       }
 
       const updateResponse = await fetch('/api/profile/update-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, username, name, bio, profilePicPath }),
+        body: JSON.stringify({ userId, username, name, bio, profilePicPath: updatedProfilePicPath }),
       });
 
       const updateResult = await updateResponse.json();
