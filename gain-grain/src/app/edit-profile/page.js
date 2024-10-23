@@ -10,6 +10,7 @@ export default function EditProfile() {
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [profilePic, setProfilePic] = useState('');
+  const [profilePicPath, setProfilePicPath] = useState('');
   const [error, setError] = useState(null);
   
   const searchParams = useSearchParams();
@@ -31,8 +32,8 @@ export default function EditProfile() {
           setUser(data.user);
           setUsername(data.user.username);
           setName(data.user.name);
-          setBio(data.user.bio || '');
-          setProfilePic(data.user.profilePic || '');
+          setBio(data.user.bio);
+          setProfilePicPath(data.user.profilePic);
         } else {
           setError(data.message || 'Failed to fetch user data');
         }
@@ -49,20 +50,11 @@ export default function EditProfile() {
   const handleProfileSave = async (e) => {
     e.preventDefault();
 
-    if(!bio && !profilePic) {
-      setError('No new info entered.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('bio', bio);
-    if(profilePic) {
-      formData.append('profilePic', profilePic);
-    }
-
     try {
-      let profilePicPath = "";
       if(profilePic) {
+        const formData = new FormData();
+        formData.append('profilePic', profilePic);
+
         const uploadResponse = await fetch('/api/profile/upload-profilePic', {
           method: 'POST',
           body: formData,
@@ -74,17 +66,20 @@ export default function EditProfile() {
           return;
         }
   
-        profilePicPath = '/uploads/' + uploadResult.fileName;
+        setProfilePicPath('/uploads/' + uploadResult.fileName);
       }
 
       const updateResponse = await fetch('/api/profile/update-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, bio, profilePicPath }),
+        body: JSON.stringify({ userId, username, name, bio, profilePicPath }),
       });
 
       const updateResult = await updateResponse.json();
-      if (!updateResult.success) setError(updateResult.message);
+      if (!updateResult.success) {
+        setError(updateResult.message);
+        return;
+      }
 
       window.location.href = `/profile/?userId=${userId}`;
     } catch (err) {
@@ -102,19 +97,8 @@ export default function EditProfile() {
         <form onSubmit={handleProfileSave}>
           <div className="mt-4">
             <div className="flex flex-col">
-            {/* change your username */}
-              <label className="text-lg">Update your Username</label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="border p-2 rounded-md"
-              />
-          </div>
-          <div className="mt-4">
-            <div className="flex flex-col">
               {/* change your name */}
-              <label className="text-lg">Change your name</label>
+              <label className="text-lg">Name:</label>
               <input
                 type="text"
                 value={name}
@@ -123,11 +107,21 @@ export default function EditProfile() {
               />
               </div>
           </div>
-
+          <div className="mt-4">
+            <div className="flex flex-col">
+            {/* change your username */}
+              <label className="text-lg">Username:</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="border p-2 rounded-md"
+              />
+          </div>
           <div className="mt-4">
             {/* change your bio */}
             <div className="flex flex-col">
-              <label className="text-lg">Update Bio</label>
+              <label className="text-lg">Bio:</label>
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
@@ -138,7 +132,7 @@ export default function EditProfile() {
 
             <div className="flex flex-col mt-4">
               {/* add a profile picture */}
-              <label className="text-lg">Update Profile Picture: </label>
+              <label className="text-lg">Profile Picture:</label>
               <input
                   type="file"
                   accept="image/*"

@@ -4,9 +4,9 @@ import { updateProfile } from '../../../../utils/userModel';
 export async function POST(req) {
     try {
       const body = await req.json();
-      const { userId, bio, profilePicPath } = body;
+      const { userId, username, name, bio, profilePicPath } = body;
 
-      const updatedProfile = await updateProfile(userId, bio, profilePicPath);
+      const updatedProfile = await updateProfile(userId, username, name, bio, profilePicPath);
 
       if (updatedProfile.success) {
         return NextResponse.json({ success: true, updatedProfile });

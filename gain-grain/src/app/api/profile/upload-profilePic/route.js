@@ -5,21 +5,26 @@ import fs from "fs";
 const UPLOAD_DIR = "public/uploads";
 
 export async function POST(req) {
-    const formData = await req.formData();
-    const body = Object.fromEntries(formData);
-    const file = body.profilePic;
+    try {
+        const formData = await req.formData();
+        const body = Object.fromEntries(formData);
+        const file = body.profilePic;
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    if(!fs.existsSync(UPLOAD_DIR)) {
-        fs.mkdirSync(UPLOAD_DIR);
-    }
+        const buffer = Buffer.from(await file.arrayBuffer());
+        if(!fs.existsSync(UPLOAD_DIR)) {
+            fs.mkdirSync(UPLOAD_DIR);
+        }
 
-    fs.writeFileSync(
-        path.resolve(UPLOAD_DIR, file.name),
-        buffer
-    );
+        fs.writeFileSync(
+            path.resolve(UPLOAD_DIR, file.name),
+            buffer
+        );
 
-    return NextResponse.json({ success: true, fileName: file.name });
+        return NextResponse.json({ success: true, fileName: file.name });
+    } catch (error) {
+        console.error('Error in update-profilePic API:', error);
+        return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+      }
 }
 
 export async function GET() {

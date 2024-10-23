@@ -66,19 +66,14 @@ export default function profile() {
             <div className={styles.profile}>
               <h1 className="text-2xl text-center font-bold">{user.username} </h1>
               <div className="flex justify-between space-x-4 mt-2">
-              <p><strong>{user.numFollowers}</strong> Followers</p>
-              <p><strong>{user.numFollowing}</strong> Following</p>
+              <p>Followers: <strong>{user.numFollowers}</strong></p>
+              <p>Following: <strong>{user.numFollowing}</strong></p>
             </div>
-              <p className="mt-4 text-center">User's Bio:
+              <p className="mt-4 text-center">
                 <p>{user.bio}</p>
               </p>
-<<<<<<< HEAD
-              <Link href="/edit-profile">
-=======
               <div className="flex flex-col items-center w-full mt-6">
-              <Link href="/EditProfile">
->>>>>>> 0611cebb7c653686c82029c1c7ce7a375d996473
-
+              <Link href="/edit-profile">
               <button className={styles.editButton}>Edit profile</button>
               </Link>
               </div>

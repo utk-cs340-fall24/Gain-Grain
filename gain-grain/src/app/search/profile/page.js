@@ -4,8 +4,8 @@ import React, { useEffect, useState} from "react";
 import styles from './profile.module.css'
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 import Image from 'next/image';
-
 
 export default function profile() {
   const [user, setUser] = useState('');
@@ -66,17 +66,20 @@ export default function profile() {
             <div className={styles.profile}>
               <h1 className="text-2xl text-center font-bold">{user.username} </h1>
               <div className="flex justify-between space-x-4 mt-2">
-                <p><strong>{user.numFollowers}</strong> Followers</p>
-                <p><strong>{user.numFollowing}</strong> Following</p>
-              </div>
-              <p className="mt-4 text-center">User's Bio:
+              <p>Followers: <strong>{user.numFollowers}</strong></p>
+              <p>Following: <strong>{user.numFollowing}</strong></p>
+            </div>
+              <p className="mt-4 text-center">
                 <p>{user.bio}</p>
               </p>
               <div className="flex flex-col items-center w-full mt-6">
               <button className={styles.followButton}>Follow</button>
               </div>
             </div>
+
           </div>
+
+          {/* Navigation Bar for Switching Tabs */}
           <div className="mt-4">
             <div className="flex justify-around border-b">
               <button
@@ -106,7 +109,7 @@ export default function profile() {
             </div>
           </div>
 
-          {/* Tab Content */}
+          {/* Posts Grid or No Posts Message */}
           <div className="mt-8">
             {activeTab === 'posts' && user.posts && user.posts.length > 0 ? (
               <div className="grid grid-cols-3 gap-2">
@@ -131,9 +134,14 @@ export default function profile() {
           </div>
         </>
       ) : (
-        <>
-        </>
+        <div className={styles.loginWrapper}>
+          <Link href="/login">
+            <button className={styles.loginButton}>
+            Login/Register
+            </button>
+          </Link>
+        </div>
       )}
     </div>
-  );
+  )
 };

@@ -245,7 +245,7 @@ export const searchAccounts = async(searchQuery) => {
   }
 }
 
-export const updateProfile = async(userId, bio, profilePicPath) => {
+export const updateProfile = async(userId, username, name, bio, profilePicPath) => {
   try {
     const client = await clientPromise;
     const db = client.db();
@@ -254,6 +254,8 @@ export const updateProfile = async(userId, bio, profilePicPath) => {
       { _id: new ObjectId(userId) },
       { 
         $set: { 
+          username: username,
+          name: name,
           bio: bio,
           profilePic: profilePicPath,
         }
