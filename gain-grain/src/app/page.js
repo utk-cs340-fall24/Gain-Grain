@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <main className="homepage-main flex min-h-screen flex-col bg-gray-50">
       {/* Navbar */}
-      <Navbar />
+      <Navbar></Navbar>
 
       {/* Feed Section */}
       <Feed toggleComments={toggleComments} visibleComments={visibleComments} />

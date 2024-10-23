@@ -39,7 +39,7 @@ export default function ResetPassword() {
                 console.log('Error: ', error)
             });
         } else {
-            setErrorMessage('/reset-password cannot be accessed without a valid token.')
+            setErrorMessage('Please use the correct link sent in the reset password email.')
         }
       }, [searchParams]);
 

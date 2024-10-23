@@ -10,7 +10,7 @@ import Image from 'next/image';
 export default function profile() {
   const [user, setUser] = useState('');
   const [validId, setValidId] = useState(false);
-  const [activeTab, setActiveTab] = useState('posts'); // New state for the active tab
+  const [activeTab, setActiveTab] = useState('posts');
 
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
