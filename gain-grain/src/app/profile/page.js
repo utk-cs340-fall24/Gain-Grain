@@ -5,7 +5,7 @@ import styles from './profile.module.css'
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-
+import Image from 'next/image';
 
 export default function profile() {
   const [user, setUser] = useState('');
@@ -55,7 +55,7 @@ export default function profile() {
           <div className="flex flex-col items-center p-4">
             <div className="w-24 h-24">
               {user.profilePic ? (
-                <img src={user.profilePicture} alt="Profile" className="rounded-full w-full h-full object-cover"/>
+                <Image src={user.profilePic} width={150} height={150} className="rounded-full w-full h-full object-cover"/>
               ) : (
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -72,8 +72,12 @@ export default function profile() {
               <p className="mt-4 text-center">User's Bio:
                 <p>{user.bio}</p>
               </p>
+<<<<<<< HEAD
+              <Link href="/edit-profile">
+=======
               <div className="flex flex-col items-center w-full mt-6">
               <Link href="/EditProfile">
+>>>>>>> 0611cebb7c653686c82029c1c7ce7a375d996473
 
               <button className={styles.editButton}>Edit profile</button>
               </Link>

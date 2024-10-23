@@ -244,3 +244,25 @@ export const searchAccounts = async(searchQuery) => {
     return { success: false, message: 'Error fetching accounts' };
   }
 }
+
+export const updateProfile = async(userId, bio, profilePicPath) => {
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+
+    const updatedProfile = await db.collection('users').updateOne(
+      { _id: new ObjectId(userId) },
+      { 
+        $set: { 
+          bio: bio,
+          profilePic: profilePicPath,
+        }
+      }
+    );
+
+    return { success: true, updatedProfile};
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    return { success: false, message: 'Error updating profile' };
+  }
+}
