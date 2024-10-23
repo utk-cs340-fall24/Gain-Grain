@@ -5,6 +5,12 @@ import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
 
 export default function EditProfile() {
+<<<<<<< HEAD:gain-grain/src/app/edit-profile/page.js
+=======
+  const [user, setUser] = useState('');
+  const [username,setUsername] = useState('');
+  const [name, setName] = useState('');
+>>>>>>> 0611cebb7c653686c82029c1c7ce7a375d996473:gain-grain/src/app/EditProfile/page.js
   const [bio, setBio] = useState('');
   const [profilePic, setProfilePic] = useState('');
   const [error, setError] = useState(null);
@@ -25,8 +31,16 @@ export default function EditProfile() {
         const data = await response.json();
 
         if (data.success) {
+<<<<<<< HEAD:gain-grain/src/app/edit-profile/page.js
           // setBio(data.user.bio || '');
           // setProfilePic(data.user.profilePic || '');
+=======
+          setUser(data.user);
+          setUsername(data.user.username);
+          setName(data.user.name);
+          setBio(data.user.bio || '');
+          setProfilePic(data.user.profilePic || '');
+>>>>>>> 0611cebb7c653686c82029c1c7ce7a375d996473:gain-grain/src/app/EditProfile/page.js
         } else {
           setError(data.message || 'Failed to fetch user data');
         }
@@ -96,16 +110,43 @@ export default function EditProfile() {
         <form onSubmit={handleProfileSave}>
           <div className="mt-4">
             <div className="flex flex-col">
-              <label className="text-lg">Bio</label>
+            {/* change your username */}
+              <label className="text-lg">Update your Username</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="border p-2 rounded-md"
+              />
+          </div>
+          <div className="mt-4">
+            <div className="flex flex-col">
+              {/* change your name */}
+              <label className="text-lg">Change your name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="border p-2 rounded-md"
+              />
+              </div>
+          </div>
+
+          <div className="mt-4">
+            {/* change your bio */}
+            <div className="flex flex-col">
+              <label className="text-lg">Update Bio</label>
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 className="border p-2 rounded-md"
               />
+              </div>
             </div>
 
             <div className="flex flex-col mt-4">
-              <label className="text-lg">Profile Picture: </label>
+              {/* add a profile picture */}
+              <label className="text-lg">Update Profile Picture: </label>
               <input
                   type="file"
                   accept="image/*"
