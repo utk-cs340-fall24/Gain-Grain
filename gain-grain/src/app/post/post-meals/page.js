@@ -1,10 +1,34 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PostMeals() {
     const [meals, setMeals] = useState([
         { id: 1, name: '', calories: '', proteins: '', carbs: '', fats: '' },
     ]);
+    const [user, setUser] = useState('');
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const response = await fetch('/api/profile/get-user-from-session', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+            });
+    
+            const data = await response.json();
+    
+            if (data.success) {
+              setUser(data.user);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+    
+        fetchUserData();
+      }, []);
 
     const handleChange = (id, field, value) => {
         setMeals((prev) =>
@@ -20,6 +44,7 @@ export default function PostMeals() {
         console.log("Meal submitted:", meal);
         // Placeholder: Add backend submission logic here in the future
         alert('Meal submitted (placeholder)!');
+        window.location.href = '/post';
     };
 
     return (

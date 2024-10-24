@@ -1,16 +1,39 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateBlogPost = () => {
+    const [userId, setUserId] = useState('');
     const [postContent, setPostContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
-    const userId = 'some-user-id'; // Replace with actual user ID logic later
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const response = await fetch('/api/profile/get-user-from-session', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+            });
+    
+            const data = await response.json();
+    
+            if (data.success) {
+              setUserId(data.user._id);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+    
+        fetchUserData();
+      }, []);
 
     const handleChange = (value) => {
         setPostContent(value);
@@ -34,6 +57,8 @@ const CreateBlogPost = () => {
                 console.log('Blog post submitted:', result);
                 setSuccess('Blog post submitted successfully!');
                 setPostContent(''); 
+                await new Promise(r => setTimeout(r, 2000));
+                window.location.href = '/post';
             } else {
                 throw new Error('Failed to submit blog post');
             }
@@ -52,7 +77,7 @@ const CreateBlogPost = () => {
                 <ReactQuill
                     value={postContent}
                     onChange={handleChange}
-                    placeholder="Write your blog post here..."
+                    placeholder="Write your blog post..."
                     modules={{
                         toolbar: [
                             [{ 'header': [1, 2, false] }],
