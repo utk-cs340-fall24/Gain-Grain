@@ -87,7 +87,7 @@ export default function Navbar() {
             </div>
             <div className={styles.buttonContainer}>
                 {/* calendar button */}
-                <Link href="/dashboard/calendar">
+                <Link href="/calendar">
                     <button className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 transition-all">
                         Calendar
                     </button>
@@ -117,20 +117,20 @@ export default function Navbar() {
                                     Profile
                                 </button>
                             </Link>
-                            <Link href="/dashboard/savedMeals" className="w-full flex justify-center">
+                            <Link href="/savedMeals" className="w-full flex justify-center">
                                 {/* nutrition button */}
                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Nutrition
                                 </button>
                             </Link>
                             
-                            <Link href="/dashboard/savedWorkouts" className="w-full flex justify-center">
+                            <Link href="/savedWorkouts" className="w-full flex justify-center">
                                 {/* exercise button*/}
                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Exercise
                                 </button>
                             </Link>
-                            <Link href="/dashboard/notifications" className="w-full flex justify-center">
+                            <Link href="/notifications" className="w-full flex justify-center">
                                 {/* notifications button*/}
                                 <button className="w-[95%] bg-orange-500 text-white font- semibold py-2 px-4 rounded-lg hover:bg-orange-600 hover:text-white transition-all">
                                     Notifications

@@ -6,46 +6,41 @@ import Navbar from "@/components/Navbar";
 
 export default function EditProfile() {
   const [user, setUser] = useState('');
+  const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [profilePic, setProfilePic] = useState('');
   const [profilePicPath, setProfilePicPath] = useState('');
   const [error, setError] = useState(null);
-  
-  const searchParams = useSearchParams();
-  const userId = searchParams.get('userId');
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/profile/get-user-by-id', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId }),
+        const response = await fetch('/api/profile/get-user-from-session', {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+          },
         });
 
-        if (!response.ok) throw new Error('Failed to fetch user data');
         const data = await response.json();
 
-        if (data.success) {
+        if(data.success) {
           setUser(data.user);
+          setUserId(data.user._id)
           setUsername(data.user.username);
           setName(data.user.name);
           setBio(data.user.bio);
           setProfilePicPath(data.user.profilePic);
-        } else {
-          setError(data.message || 'Failed to fetch user data');
         }
-      } catch (err) {
-        setError(err);
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId]);
+    fetchUserData();
+  }, []);
 
   const handleProfileSave = async (e) => {
     e.preventDefault();

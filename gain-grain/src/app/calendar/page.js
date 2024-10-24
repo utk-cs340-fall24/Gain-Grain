@@ -8,7 +8,7 @@ import './style.css';
 import ExerciseSearch from './exerciseSearch';
 import Modal from './modal';
 import TitleModal from './titleModal';
-import Navbar from "../../../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 const CustomCalendar = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());

@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import './savedMeals.css'; // Import the custom CSS file
-import Navbar from "../../../components/Navbar";
+import './savedMeals.css';
+import Navbar from "../../components/Navbar";
 
 
 const SavedMealsPage = () => {
@@ -11,11 +10,22 @@ const SavedMealsPage = () => {
 
     useEffect(() => {
         const fetchUserMeals = async () => {
-            const userId = localStorage.getItem('userId'); // Retrieve userId from local storage
+            let userId = "";
+            try {
+                const response = await fetch('/api/profile/get-user-from-session', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
         
-            if (!userId) {
-                console.error('User ID not found in local storage');
-                return [];
+                const data = await response.json();
+        
+                if (data.success) {
+                    userId = data.user._id;
+                }
+            } catch (error) {
+                console.error(error);
             }
         
             try {
@@ -24,7 +34,7 @@ const SavedMealsPage = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ userId }), // Send userId in the body
+                    body: JSON.stringify({ userId }),
                 });
         
                 if (response.ok) {

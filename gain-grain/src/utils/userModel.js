@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
   followers: { type: [String], required: true },
   following: { type: [String], required: true },
   bio: { type: String, default: "" },
-  profilePic: { type: String, default: "" } 
+  profilePic: { type: String, default: "" },
+  notifications: { type: [String] },
 });
 
 const tokenSchema = new mongoose.Schema({

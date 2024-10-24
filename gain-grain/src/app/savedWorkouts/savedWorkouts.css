@@ -1,3 +1,7 @@
+html, body {
+    background-color: var(--smokey-gray);
+}
+
 /* Ensure navbar spans full width */
 .navbar {
     width: 100%;
@@ -6,6 +10,10 @@
 
 .saved-workouts-container {
     padding-top: 10px;
+}
+
+.body {
+    background-color: var(--smokey-gray);
 }
 
 /* Grid layout for meal cards */
