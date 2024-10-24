@@ -7,7 +7,7 @@ const blogSchema = new mongoose.Schema({
     date: { type: Date, required: true },
 });
 
-const Blog = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
 
 // Function to create a new blog post
 export async function createBlogPost(userId, content) {
