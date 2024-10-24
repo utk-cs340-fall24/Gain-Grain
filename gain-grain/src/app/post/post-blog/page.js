@@ -53,8 +53,7 @@ const CreateBlogPost = () => {
             });
 
             if (response.ok) {
-                const result = await response.json();
-                console.log('Blog post submitted:', result);
+                console.log('Blog post submitted');
                 setSuccess('Blog post submitted successfully!');
                 setPostContent(''); 
                 await new Promise(r => setTimeout(r, 2000));
