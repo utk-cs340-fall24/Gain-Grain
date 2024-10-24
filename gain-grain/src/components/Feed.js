@@ -6,9 +6,16 @@ export default function Feed({ toggleComments, visibleComments }) {
   // Fetch posts from the API
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('/api/posts');
-      const data = await res.json();
-      setPosts(data.data); // Set the fetched posts into state
+      try {
+        const res = await fetch('/api/posts');
+        if (!res.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await res.json();
+        setPosts(data.data || []); // Ensure that data is an array
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     };
     fetchPosts();
   }, []);
