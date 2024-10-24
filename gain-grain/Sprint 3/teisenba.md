@@ -19,5 +19,8 @@ Gain-Grain
 * gain-grain/src/app/api/posts/route.js
 * gain-grain/src/components/Feed.js
 * gain-grain/src/utils/postModel.js
+* gain-grain/src/app/post/post-blog/page.js
+* gain-grain/src/app/post/post-meals/page.js
+* gain-grain/src/app/post/post-workouts/page.js
 
 ### What you accomplished
