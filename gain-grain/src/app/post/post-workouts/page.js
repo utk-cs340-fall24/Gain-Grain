@@ -1,11 +1,35 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PostWorkouts() {
     const [exercises, setExercises] = useState([
         { id: 1, name: '', repetitions: '', set: '' },
     ]);
     const [title, setTitle] = useState(''); 
+    const [userId, setUserId] = useState('');
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const response = await fetch('/api/profile/get-user-from-session', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+            });
+    
+            const data = await response.json();
+    
+            if (data.success) {
+              setUserId(data.user._id);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+    
+        fetchUserData();
+      }, []);
 
     const handleChange = (id, field, value) => {
         setExercises((prev) =>
@@ -23,7 +47,6 @@ export default function PostWorkouts() {
     };
 
     const handleSubmit = async () => {
-        const userId = 'some-user-id'; // replace this with actual user ID logic later
         try {
             const response = await fetch('/api/workouts/postWorkouts', {
                 method: 'POST',
@@ -33,6 +56,7 @@ export default function PostWorkouts() {
 
             if (response.ok) {
                 alert('Workout submitted successfully!');
+                window.location.href = '/post';
             } else {
                 alert('Failed to submit workout');
             }
