@@ -31,7 +31,7 @@ Whether you're trying to gain muscle, lose weight, or simply eat healthier, this
 
 # How to use the product
 
-1. Create an account or ur our default email user and pass in that .env file
+1. Create an account
 2. After that, you can mess around with all functionality of app like any other social media app:
 * Interact with our calendar. Add and Save exercises and meals and view your weekly grocery list
 * View posts from other users
