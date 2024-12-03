@@ -37,3 +37,5 @@ Whether you're trying to gain muscle, lose weight, or simply eat healthier, this
 * View posts from other users
 * Interact with your profile to add a picture, bio, and view your own posts
 * Post your own blog, progress picture, workouts, or meals for others to view
+
+[License Information](https://github.com/utk-cs340-fall24/Gain-Grain/blob/main/license.txt)
